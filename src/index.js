@@ -9,25 +9,23 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { Router, Route, Link, browserHistory } from 'react-router';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux'
-import mainReducer from './reducers/index'
-// Components
-import VisibleContentCards from './components/visibleContentCards';
+import Cards from './components/cards';
 require('./styles/general.css');
 
 
 
-let store = createStore(mainReducer);
+//let store = createStore(mainReducer);
 
 
 
 class App extends React.Component {
     render() {
         return (
-            <Provider store={store}>
+            //<Provider store={store}>
                 <MuiThemeProvider muiTheme={getMuiTheme()}>
-                    <VisibleContentCards/>
+                    <Cards/>
                 </MuiThemeProvider>
-            </Provider>
+            //</Provider>
         )
     }
 }
@@ -43,5 +41,3 @@ class Routing extends React.Component {
 }
 
 ReactDOM.render(<Routing/>, document.getElementById('main'));
-
-//<ContentCards/>

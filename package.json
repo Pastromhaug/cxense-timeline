@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "./launch.sh"
+    "start": "webpack-dev-server --hot --inline --progress --colors --port 8000"
   },
   "repository": {
     "type": "git",
@@ -38,7 +38,6 @@
     "react-tap-event-plugin": "^1.0.0",
     "redux": "^3.5.2",
     "redux-devtools": "^3.3.1",
-    "socket.io": "^1.4.6",
     "style-loader": "^0.13.1",
     "tick-tock": "^1.0.0",
     "webpack": "^1.13.0",

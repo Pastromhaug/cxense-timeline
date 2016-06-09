@@ -1,12 +1,7 @@
 /**
- * Created by perandre on 6/7/16.
+ * Created by perandre on 6/9/16.
  */
 
-export const cardHeaderStyles = {
-    container: {
-        backgroundColor: 'rgb(232,232,232)'
-    }
-};
 
 export const cardStyles = {
     container: {
@@ -17,7 +12,7 @@ export const cardStyles = {
 
 export const appbarStyles = {
     container: {
-        marginBottom: '48px',
+        marginBottom: '32px',
         textAlign: 'center',
         backgroundColor: '#a3c1a3'
     }

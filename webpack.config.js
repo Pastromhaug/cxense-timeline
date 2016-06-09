@@ -8,7 +8,7 @@ module.exports = {
         html: "./src/index.html"
     },
     output: {
-        path: "./src/public",
+        path: "./dist",
         filename: "./bundle.js"
     },
     module: {
