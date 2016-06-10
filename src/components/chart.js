@@ -39,6 +39,9 @@ var timeEnd = 2000;
 class Chart extends React.Component {
     constructor() {
         super();
+        fetch('https://jira.cxense.com/rest/api/2/issue/CXOPS-732').then((data) => {
+            console.log(data);
+        });
     }
 
     componentDidMount() {

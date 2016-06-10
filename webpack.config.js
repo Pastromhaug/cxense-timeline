@@ -8,8 +8,8 @@ module.exports = {
         html: "./src/index.html"
     },
     output: {
-        path: "./dist",
-        filename: "./bundle.js"
+        publicPath: "http://localhost:8000/assets/",
+        filename: "bundle.js"
     },
     module: {
         loaders: [
