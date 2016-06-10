@@ -3,7 +3,9 @@
  */
 
 import React from 'react';
-import {svg} from '../styles/chartStyles';
+var d3 = require('d3');
+require('../styles/chartStyles.css');
+
 
 var lanes = ["Chinese","Japanese","Korean"],
     laneLength = lanes.length,
@@ -37,6 +39,9 @@ var timeEnd = 2000;
 class Chart extends React.Component {
     constructor() {
         super();
+    }
+
+    componentDidMount() {
         var m = [20, 15, 15, 120], //top right bottom left
             w = 960 - m[1] - m[3],
             h = 500 - m[0] - m[2],
@@ -56,7 +61,7 @@ class Chart extends React.Component {
             .domain([0, laneLength])
             .range([0, miniHeight]);
 
-        var chart = this
+        var chart = d3.select("#chart")
             .append("svg")
             .attr("width", w + m[1] + m[3])
             .attr("height", h + m[0] + m[2])
@@ -85,17 +90,25 @@ class Chart extends React.Component {
             .data(items)
             .enter().append("line")
             .attr("x1", m[1])
-            .attr("y1", function(d) {return y1(d.lane);})
+            .attr("y1", function (d) {
+                return y1(d.lane);
+            })
             .attr("x2", w)
-            .attr("y2", function(d) {return y1(d.lane);})
+            .attr("y2", function (d) {
+                return y1(d.lane);
+            })
             .attr("stroke", "lightgray")
 
         main.append("g").selectAll(".laneText")
             .data(lanes)
             .enter().append("text")
-            .text(function(d) {return d;})
+            .text(function (d) {
+                return d;
+            })
             .attr("x", -m[1])
-            .attr("y", function(d, i) {return y1(i + .5);})
+            .attr("y", function (d, i) {
+                return y1(i + .5);
+            })
             .attr("dy", ".5ex")
             .attr("text-anchor", "end")
             .attr("class", "laneText");
@@ -105,17 +118,25 @@ class Chart extends React.Component {
             .data(items)
             .enter().append("line")
             .attr("x1", m[1])
-            .attr("y1", function(d) {return y2(d.lane);})
+            .attr("y1", function (d) {
+                return y2(d.lane);
+            })
             .attr("x2", w)
-            .attr("y2", function(d) {return y2(d.lane);})
+            .attr("y2", function (d) {
+                return y2(d.lane);
+            })
             .attr("stroke", "lightgray");
 
         mini.append("g").selectAll(".laneText")
             .data(lanes)
             .enter().append("text")
-            .text(function(d) {return d;})
+            .text(function (d) {
+                return d;
+            })
             .attr("x", -m[1])
-            .attr("y", function(d, i) {return y2(i + .5);})
+            .attr("y", function (d, i) {
+                return y2(i + .5);
+            })
             .attr("dy", ".5ex")
             .attr("text-anchor", "end")
             .attr("class", "laneText");
@@ -127,19 +148,33 @@ class Chart extends React.Component {
         mini.append("g").selectAll("miniItems")
             .data(items)
             .enter().append("rect")
-            .attr("class", function(d) {return "miniItem" + d.lane;})
-            .attr("x", function(d) {return x(d.start);})
-            .attr("y", function(d) {return y2(d.lane + .5) - 5;})
-            .attr("width", function(d) {return x(d.end - d.start);})
+            .attr("class", function (d) {
+                return "miniItem" + d.lane;
+            })
+            .attr("x", function (d) {
+                return x(d.start);
+            })
+            .attr("y", function (d) {
+                return y2(d.lane + .5) - 5;
+            })
+            .attr("width", function (d) {
+                return x(d.end - d.start);
+            })
             .attr("height", 10);
 
         //mini labels
         mini.append("g").selectAll(".miniLabels")
             .data(items)
             .enter().append("text")
-            .text(function(d) {return d.id;})
-            .attr("x", function(d) {return x(d.start);})
-            .attr("y", function(d) {return y2(d.lane + .5);})
+            .text(function (d) {
+                return d.id;
+            })
+            .attr("x", function (d) {
+                return x(d.start);
+            })
+            .attr("y", function (d) {
+                return y2(d.lane + .5);
+            })
             .attr("dy", ".5ex");
 
         //brush
@@ -154,7 +189,7 @@ class Chart extends React.Component {
             .attr("y", 1)
             .attr("height", miniHeight - 1);
 
-        display();
+        //display();
 
         function display() {
             var rects, labels,
@@ -222,14 +257,13 @@ class Chart extends React.Component {
                 .attr("text-anchor", "start");
 
             labels.exit().remove();
+
         }
     }
 
     render() {
         return(
-            <svg style={svg}>
-
-            </svg>
+            <div id="chart"></div>
         )
     }
 }

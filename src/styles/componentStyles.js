@@ -6,7 +6,8 @@
 export const cardStyles = {
     container: {
         margin: '16px',
-        marginBottom: '32px'
+        marginBottom: '32px',
+        padding: '16px'
     }
 };
 
