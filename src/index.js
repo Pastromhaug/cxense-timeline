@@ -10,6 +10,10 @@ import { Router, Route, Link, browserHistory } from 'react-router';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux'
 import Cards from './components/cards';
+import Query from './components/query';
+import AppBar from 'material-ui/AppBar';
+import {appbarStyles, headerButton} from './styles/componentStyles';
+import FlatButton from 'material-ui/FlatButton';
 require('./styles/general.css');
 
 
@@ -23,7 +27,27 @@ class App extends React.Component {
         return (
             //<Provider store={store}>
                 <MuiThemeProvider muiTheme={getMuiTheme()}>
-                    {this.props.children}
+                    <div>
+                        <AppBar
+                            showMenuIconButton={false}
+                            style={appbarStyles.container}>
+
+                            <Link className="MyLink" to="/timeline">
+                                <FlatButton style={headerButton.container}>Timeline</FlatButton>
+                            </Link>
+
+                            <Link className="MyLink" to="/query">
+                                <FlatButton style={headerButton.container}>Edit Query</FlatButton>
+                            </Link>
+
+                            <Link className="MyLink" to="/columns">
+                                <FlatButton style={headerButton.container}>Configure Columns</FlatButton>
+                            </Link>
+
+                        </AppBar>
+
+                        {this.props.children || <Cards/>}
+                    </div>
                 </MuiThemeProvider>
             //</Provider>
         )
@@ -36,6 +60,7 @@ class Routing extends React.Component {
             <Router history = {browserHistory}>
                 <Route path="/" component = {App}>
                     <Route path="/timeline" component={Cards}/>
+                    <Route path="/query" component={Query}/>
                 </Route>
             </Router>
         )

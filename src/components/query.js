@@ -1,27 +1,31 @@
 /**
+ * Created by perandre on 6/13/16.
+ */
+
+
+/**
  * Created by perandre on 6/9/16.
  */
 
 import React from 'react';
 import {cardStyles} from '../styles/componentStyles';
 import {Card} from 'material-ui/Card';
-import Chart from './chart';
 
-class Cards extends React.Component {
+class Query extends React.Component {
     constructor() {
         super();
-        console.log('cards');
+        console.log('query');
     }
 
     render() {
         return(
             <div>
                 <Card style={cardStyles.container}>
-                    <Chart/>
+                    blablabla
                 </Card>
             </div>
         )
     }
 }
 
-export default Cards
+export default Query
