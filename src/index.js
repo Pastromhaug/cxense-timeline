@@ -6,7 +6,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import { Router, Route, Link, browserHistory } from 'react-router';
+import { Router, Route, Link, browserHistory, IndexRoute } from 'react-router';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux'
 import Cards from './components/cards';
@@ -29,10 +29,11 @@ class App extends React.Component {
                 <MuiThemeProvider muiTheme={getMuiTheme()}>
                     <div>
                         <AppBar
+                            title = "Cxense Timeline"
                             showMenuIconButton={false}
                             style={appbarStyles.container}>
 
-                            <Link className="MyLink" to="/timeline">
+                            <Link className="MyLink" to="/timeline" style={{marginLeft: '50px'}}>
                                 <FlatButton style={headerButton.container}>Timeline</FlatButton>
                             </Link>
 
@@ -40,13 +41,13 @@ class App extends React.Component {
                                 <FlatButton style={headerButton.container}>Edit Query</FlatButton>
                             </Link>
 
-                            <Link className="MyLink" to="/columns">
+                            <Link className="MyLink" to="/columns" style={{marginRight: '45%'}}>
                                 <FlatButton style={headerButton.container}>Configure Columns</FlatButton>
                             </Link>
 
                         </AppBar>
 
-                        {this.props.children || <Cards/>}
+                        {this.props.children}
                     </div>
                 </MuiThemeProvider>
             //</Provider>
@@ -59,6 +60,7 @@ class Routing extends React.Component {
         return (
             <Router history = {browserHistory}>
                 <Route path="/" component = {App}>
+                    <IndexRoute component={Cards}/>
                     <Route path="/timeline" component={Cards}/>
                     <Route path="/query" component={Query}/>
                 </Route>

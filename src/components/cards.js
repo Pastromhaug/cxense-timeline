@@ -6,6 +6,7 @@ import React from 'react';
 import {cardStyles} from '../styles/componentStyles';
 import {Card} from 'material-ui/Card';
 import Chart from './chart';
+import TimelineTable from './timelineTable';
 
 class Cards extends React.Component {
     constructor() {
@@ -18,6 +19,9 @@ class Cards extends React.Component {
             <div>
                 <Card style={cardStyles.container}>
                     <Chart/>
+                </Card>
+                <Card style={cardStyles.container}>
+                    <TimelineTable/>
                 </Card>
             </div>
         )
