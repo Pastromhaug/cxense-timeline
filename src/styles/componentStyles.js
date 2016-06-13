@@ -8,7 +8,7 @@ export const cardStyles = {
         margin: '16px',
         marginBottom: '32px',
         padding: '16px',
-        maxWidth: '1170px',
+        maxWidth: '1500px',
         marginLeft: 'auto',
         marginRight: 'auto'
     }

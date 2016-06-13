@@ -10,6 +10,9 @@
 import React from 'react';
 import {cardStyles} from '../styles/componentStyles';
 import {Card} from 'material-ui/Card';
+import RangedDatePicker from './rangedDatePicker';
+import TextField from 'material-ui/TextField';
+
 
 class Query extends React.Component {
     constructor() {
@@ -21,7 +24,13 @@ class Query extends React.Component {
         return(
             <div>
                 <Card style={cardStyles.container}>
-                    blablabla
+                    <TextField
+                        hintText="Query"
+                        floatingLabelText="Query"
+                        floatingLabelFixed={false}
+                        fullWidth={true}
+                    /><br />
+                    <RangedDatePicker/>
                 </Card>
             </div>
         )

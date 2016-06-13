@@ -46,8 +46,9 @@ class App extends React.Component {
                             </Link>
 
                         </AppBar>
-
-                        {this.props.children}
+                        <div style={{padding: '16px'}}>
+                            {this.props.children}
+                        </div>
                     </div>
                 </MuiThemeProvider>
             //</Provider>
