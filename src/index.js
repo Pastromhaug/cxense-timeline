@@ -23,7 +23,7 @@ class App extends React.Component {
         return (
             //<Provider store={store}>
                 <MuiThemeProvider muiTheme={getMuiTheme()}>
-                    <Cards/>
+                    {this.props.children}
                 </MuiThemeProvider>
             //</Provider>
         )
@@ -34,7 +34,9 @@ class Routing extends React.Component {
     render() {
         return (
             <Router history = {browserHistory}>
-                <Route path="/" component = {App}/>
+                <Route path="/" component = {App}>
+                    <Route path="/timeline" component={Cards}/>
+                </Route>
             </Router>
         )
     };

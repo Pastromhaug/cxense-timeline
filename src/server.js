@@ -4,13 +4,23 @@
 
 var express = require('express');
 var app = express();
-var server = require('http').Server(app);
 var bodyParser = require('body-parser');
+var server = require('http').Server(app);
 var fetch = require('node-fetch');
 
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 app.get('/', function (req, res) {
     res.sendFile(__dirname + '/index.html');
+});
+
+app.get('/test', function (req, res) {
+    fetch('https://jira.cxense.com/rest/api/2/issue/CXOPS-732')
+        .then( function(data) {
+            console.log(data);
+            res.send(data);
+        })
 });
 
 server.listen(8001, function () {

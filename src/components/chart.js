@@ -4,6 +4,7 @@
 
 import React from 'react';
 var d3 = require('d3');
+var $ = require('jquery');
 require('../styles/chartStyles.css');
 
 
@@ -39,14 +40,22 @@ var timeEnd = 2000;
 class Chart extends React.Component {
     constructor() {
         super();
-        fetch('https://jira.cxense.com/rest/api/2/issue/CXOPS-732').then((data) => {
-            console.log(data);
-        });
+        //fetch('http://localhost:8001/test').then((data) => {
+        //    console.log(data);
+        //});
+        //$.ajax({
+        //    url: 'https://jira.cxense.com/rest/api/2/issue/CXOPS-732',
+        //    dataType: 'jsonp',
+        //    jsonp: 'jsonp-callback',
+        //    success: (data) => console.log(data)
+        //});
+
     }
 
     componentDidMount() {
-        var m = [20, 15, 15, 120], //top right bottom left
-            w = 960 - m[1] - m[3],
+        var m = [20, 15, 15, 20], //top right bottom left
+            chartWidth = document.getElementById('chart').offsetWidth,
+            w = chartWidth - m[1] - m[3],
             h = 500 - m[0] - m[2],
             miniHeight = laneLength * 12 + 50,
             mainHeight = h - miniHeight - 50;
@@ -64,8 +73,7 @@ class Chart extends React.Component {
             .domain([0, laneLength])
             .range([0, miniHeight]);
 
-        var chart = d3.select("#chart")
-            .append("svg")
+        var chart = d3.select("#svg")
             .attr("width", w + m[1] + m[3])
             .attr("height", h + m[0] + m[2])
             .attr("class", "chart");
@@ -87,62 +95,6 @@ class Chart extends React.Component {
             .attr("width", w)
             .attr("height", miniHeight)
             .attr("class", "mini");
-
-        //main lanes and texts
-        main.append("g").selectAll(".laneLines")
-            .data(items)
-            .enter().append("line")
-            .attr("x1", m[1])
-            .attr("y1", function (d) {
-                return y1(d.lane);
-            })
-            .attr("x2", w)
-            .attr("y2", function (d) {
-                return y1(d.lane);
-            })
-            .attr("stroke", "lightgray")
-
-        main.append("g").selectAll(".laneText")
-            .data(lanes)
-            .enter().append("text")
-            .text(function (d) {
-                return d;
-            })
-            .attr("x", -m[1])
-            .attr("y", function (d, i) {
-                return y1(i + .5);
-            })
-            .attr("dy", ".5ex")
-            .attr("text-anchor", "end")
-            .attr("class", "laneText");
-
-        //mini lanes and texts
-        mini.append("g").selectAll(".laneLines")
-            .data(items)
-            .enter().append("line")
-            .attr("x1", m[1])
-            .attr("y1", function (d) {
-                return y2(d.lane);
-            })
-            .attr("x2", w)
-            .attr("y2", function (d) {
-                return y2(d.lane);
-            })
-            .attr("stroke", "lightgray");
-
-        mini.append("g").selectAll(".laneText")
-            .data(lanes)
-            .enter().append("text")
-            .text(function (d) {
-                return d;
-            })
-            .attr("x", -m[1])
-            .attr("y", function (d, i) {
-                return y2(i + .5);
-            })
-            .attr("dy", ".5ex")
-            .attr("text-anchor", "end")
-            .attr("class", "laneText");
 
         var itemRects = main.append("g")
             .attr("clip-path", "url(#clip)");
@@ -266,7 +218,9 @@ class Chart extends React.Component {
 
     render() {
         return(
-            <div id="chart"></div>
+            <div id="chart" style={{width:'100%'}}>
+                <svg id="svg" > </svg>
+            </div>
         )
     }
 }
