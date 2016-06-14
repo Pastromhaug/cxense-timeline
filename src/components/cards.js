@@ -6,7 +6,7 @@ import React from 'react';
 import {cardStyles} from '../styles/componentStyles';
 import {Card} from 'material-ui/Card';
 import Chart from './chart';
-import TimelineTable from './timelineTable';
+import TimelineTable from './presentation/timelineTable';
 
 class Cards extends React.Component {
     constructor() {

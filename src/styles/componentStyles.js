@@ -29,3 +29,28 @@ export const headerButton = {
         height: 'inherit'
     }
 };
+
+export const button = {
+    margin: '16px'
+};
+
+export const datePicker = {
+    margin: '16px',
+    marginTop: '-21px'
+};
+
+export const queryField = {
+    margin: '16px',
+    marginBottom: '100px'
+};
+
+export const radioButton = {
+    margin: '16px',
+    marginBottom: '100px',
+    maxWidth: '300px'
+};
+
+export const radioButtonGroup = {
+    marginRight: '48px',
+    float: 'left'
+};

@@ -10,22 +10,23 @@ import { Router, Route, Link, browserHistory, IndexRoute } from 'react-router';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux'
 import Cards from './components/cards';
-import Query from './components/query';
+import VisibleQuery from './components/logic/visibleQuery';
 import AppBar from 'material-ui/AppBar';
 import {appbarStyles, headerButton} from './styles/componentStyles';
 import FlatButton from 'material-ui/FlatButton';
+import mainReducer from './reducers/main'
 require('./styles/general.css');
 
 
 
-//let store = createStore(mainReducer);
+let store = createStore(mainReducer);
 
 
 
 class App extends React.Component {
     render() {
         return (
-            //<Provider store={store}>
+            <Provider store={store}>
                 <MuiThemeProvider muiTheme={getMuiTheme()}>
                     <div>
                         <AppBar
@@ -51,7 +52,7 @@ class App extends React.Component {
                         </div>
                     </div>
                 </MuiThemeProvider>
-            //</Provider>
+            </Provider>
         )
     }
 }
@@ -63,7 +64,7 @@ class Routing extends React.Component {
                 <Route path="/" component = {App}>
                     <IndexRoute component={Cards}/>
                     <Route path="/timeline" component={Cards}/>
-                    <Route path="/query" component={Query}/>
+                    <Route path="/query" component={VisibleQuery}/>
                 </Route>
             </Router>
         )
