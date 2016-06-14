@@ -13,7 +13,7 @@ import {Card} from 'material-ui/Card';
 import VisibleRangedDatePicker from '../logic/visibleRangedDatePicker';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
-import {button, queryField, radioButton, radioButtonGroup} from '../../styles/componentStyles';
+import {button, queryField, radioButton, radioButtonGroup, daysTextField} from '../../styles/componentStyles';
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 import ActionFavorite from 'material-ui/svg-icons/action/favorite';
 import ActionFavoriteBorder from 'material-ui/svg-icons/action/favorite-border';
@@ -50,17 +50,23 @@ class Query extends React.Component {
                                 style={radioButton}
                             />
                         </RadioButtonGroup>
-                        <VisibleRangedDatePicker style={{float:'left'}}/>
-                        <TextField
-                            hintText = "start days ago"
-                            floatingLabelText="start days ago"
-                            floatingLabelFixed={false}
-                        /><br/>
-                        <TextField
-                            hintText = "end days ago"
-                            floatingLabelText="end days ago"
-                            floatingLabelFixed={false}
-                        /><br/>
+                        <div style={{display: 'inline'}}>
+                            <VisibleRangedDatePicker/>
+                            <div>
+                                <TextField
+                                    style={daysTextField}
+                                    hintText = "start days ago"
+                                    floatingLabelText="start days ago"
+                                    floatingLabelFixed={false}
+                                /><br/>
+                                <TextField
+                                    style={daysTextField}
+                                    hintText = "end days ago"
+                                    floatingLabelText="end days ago"
+                                    floatingLabelFixed={false}
+                                /><br/>
+                            </div>
+                        </div>
                     </div>
                     <div style={{display:'block'}}>
                         <RaisedButton style={button} label="Test Query"/>

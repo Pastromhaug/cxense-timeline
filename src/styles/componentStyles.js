@@ -54,3 +54,9 @@ export const radioButtonGroup = {
     marginRight: '48px',
     float: 'left'
 };
+
+export const daysTextField = {
+    margin: '16px',
+    float: 'left',
+    marginTop: '35px'
+};
