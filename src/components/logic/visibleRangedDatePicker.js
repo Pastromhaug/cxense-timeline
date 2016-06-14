@@ -5,7 +5,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import RangedDatePicker from '../presentation/rangedDatePicker';
-import {actionChangeTempEndDate, actionChangeTempStartDate} from '../../actions/query';
+import {actionTempEndDate, actionTempStartDate} from '../../actions/queryTemp';
 
 const mapStateToProps = (state) => {
     return {
@@ -16,12 +16,12 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToPRops = (dispatch) => {
     return {
-        dispatchChangeTempStartDate: (start_date) => {
-            dispatch(actionChangeTempStartDate(start_date))
+        dispatchTempStartDate: (start_date) => {
+            dispatch(actionTempStartDate(start_date))
         },
 
-        dispatchChangeTempEndDate: (end_date) => {
-            dispatch(actionChangeTempEndDate(end_date))
+        dispatchTempEndDate: (end_date) => {
+            dispatch(actionTempEndDate(end_date))
         }
     }
 };

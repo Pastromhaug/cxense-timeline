@@ -2,7 +2,7 @@
  * Created by perandre on 6/14/16.
  */
 
-import {CHANGE_END_DATE, CHANGE_START_DATE} from '../actions/query';
+import {END_DATE, START_DATE} from '../actions/query';
 
 const start_date = new Date();
 const end_date = new Date();
@@ -13,16 +13,19 @@ end_date.setHours(0, 0, 0, 0);
 
 const initial_state = {
     start_date : start_date,
-    end_date : end_date
+    end_date : end_date,
+    is_fixed: true,
+    start_day: 30,
+    end_day: 0
 };
 
 const query = (state = initial_state, action ) => {
 
     switch( action.type ) {
 
-        case CHANGE_START_DATE:
+        case START_DATE:
             return Object.assign({}, state, {start_date: action.start_date});
-        case CHANGE_END_DATE:
+        case END_DATE:
             return Object.assign({}, state, {end_date: action.end_date});
         default:
             return state

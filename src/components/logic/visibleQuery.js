@@ -5,7 +5,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Query from '../presentation/query';
-import {actionChangeEndDate, actionChangeStartDate} from '../../actions/query';
+import {actionTempEndDay, actionTempStartDay,
+    actionTempFixedOrRelative, actionTempQuery} from '../../actions/queryTemp';
 
 const mapStateToProps = (state) => {
     return {
@@ -16,12 +17,20 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToPRops = (dispatch) => {
     return {
-        dispatchChangeStartDate: (start_date) => {
-            dispatch(actionChangeStartDate(start_date))
+        dispatchTempFixedOrRelative (is_fixed) {
+            dispatch(actionTempFixedOrRelative(is_fixed))
         },
 
-        dispatchChangeEndDate: (end_date) => {
-            dispatch(actionChangeEndDate(end_date))
+        dispatchTempStartDay(start_day) {
+            dispatch(actionTempStartDay(start_day))
+        },
+
+        dispatchTempEndDay(end_day) {
+            dispatch(actionTempEndDay(end_day))
+        },
+
+        dispatchTempQuery(temp_query) {
+            dispatch(actionTempQuery(temp_query))
         }
     }
 };

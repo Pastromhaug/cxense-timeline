@@ -10,7 +10,8 @@ export const cardStyles = {
         padding: '16px',
         maxWidth: '1500px',
         marginLeft: 'auto',
-        marginRight: 'auto'
+        marginRight: 'auto',
+        textAlign: 'center'
     }
 };
 
@@ -41,7 +42,8 @@ export const datePicker = {
 
 export const queryField = {
     margin: '16px',
-    marginBottom: '100px'
+    marginBottom: '100px',
+    maxWidth: '1200px'
 };
 
 export const radioButton = {

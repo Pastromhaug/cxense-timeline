@@ -16,12 +16,12 @@ const optionsStyle = {
 
 
 const RangedDatePicker = ({start_date, end_date,
-    dispatchChangeTempStartDate, dispatchChangeTempEndDate}) => (
+    dispatchTempStartDate, dispatchTempEndDate}) => (
 
         <div style={optionsStyle}>
             <DatePicker style={datePicker}
                 onChange={ (event, data) => {
-                    dispatchChangeTempStartDate(data);
+                    dispatchTempStartDate(data);
                 } }
                 floatingLabelText="Min Date"
                 defaultDate={start_date}
@@ -30,7 +30,7 @@ const RangedDatePicker = ({start_date, end_date,
             />
             <DatePicker style={datePicker}
                 onChange={ (event, data) => {
-                    dispatchChangeTempEndDate(data);
+                    dispatchTempEndDate(data);
                 }}
                 floatingLabelText="Max Date"
                 defaultDate={end_date}
