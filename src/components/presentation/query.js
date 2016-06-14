@@ -33,12 +33,15 @@ const Query = ({query, query_temp, dispatchTempFixedOrRelative,
                 onChange={(event, data) => dispatchTempQuery(data)}
             /><br />
             <div style={{display: 'inline-block', marginLeft:'auto', marginRight:'auto'}}>
-                <RadioButtonGroup name="shipSpeed" defaultSelected="not_light"  style={radioButtonGroup}>
+                <RadioButtonGroup
+                    name="shipSpeed"
+                    defaultSelected="light"
+                    style={radioButtonGroup}
+                    onChange={(event, data) => dispatchTempFixedOrRelative(data)}>
                     <RadioButton
                         value="light"
                         label="Fixed Dates"
                         style={radioButton}
-                        onChange={(event, data) => dispatchTempFixedOrRelative(data)}
                     />
                     <RadioButton
                         value="not_light"

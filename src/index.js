@@ -11,6 +11,7 @@ import { Provider } from 'react-redux';
 import { createStore } from 'redux'
 import Cards from './components/cards';
 import VisibleQuery from './components/logic/visibleQuery';
+import Columns from './components/presentation/columns'
 import AppBar from 'material-ui/AppBar';
 import {appbarStyles, headerButton} from './styles/componentStyles';
 import FlatButton from 'material-ui/FlatButton';
@@ -65,6 +66,7 @@ class Routing extends React.Component {
                     <IndexRoute component={Cards}/>
                     <Route path="/timeline" component={Cards}/>
                     <Route path="/query" component={VisibleQuery}/>
+                    <Route path="/columns" component={Columns}/>
                 </Route>
             </Router>
         )

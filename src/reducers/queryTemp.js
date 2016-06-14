@@ -29,14 +29,21 @@ const query_temp = (state = initial_state, action ) => {
             console.log(action.start_date);
             return Object.assign({}, state, {start_date: action.start_date});
         case TEMP_END_DATE:
+            console.log(action.end_date);
             return Object.assign({}, state, {end_date: action.end_date});
         case TEMP_FIXED_OR_RELATIVE:
-            return Object.assign({}, state, {is_fixed: action.is_fixed});
+            let is_fixed = true;
+            if (action.is_fixed == 'not_light') is_fixed = false;
+            console.log(is_fixed);
+            return Object.assign({}, state, {is_fixed: is_fixed});
         case TEMP_START_DAY:
+            console.log(action.start_day);
             return Object.assign({}, state, {start_day: action.start_day});
         case TEMP_END_DAY:
+            console.log(action.end_day);
             return Object.assign({}, state, {end_day: action.end_day});
         case TEMP_QUERY:
+            console.log(action.temp_query);
             return Object.assign({}, state, {temp_query: action.temp_query});
         default:
             return state

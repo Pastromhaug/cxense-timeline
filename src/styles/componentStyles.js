@@ -62,3 +62,18 @@ export const daysTextField = {
     float: 'left',
     marginTop: '35px'
 };
+
+export const colTable1 = {
+    width: '250px',
+    float: 'left'
+};
+
+export const colTable2 = {
+    width: '250px',
+    float: 'right'
+};
+
+export const colButton = {
+    margin: '32px',
+    display: 'block'
+};
