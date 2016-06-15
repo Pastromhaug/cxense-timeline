@@ -9,6 +9,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import {colTable, colButton, applyColButton} from '../../styles/componentStyles';
 import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
 import {COLUMNS} from '../../constants/constants';
+import {Link} from 'react-router'
 
 const Columns = ({columns_temp, to_add, to_remove, dispatchAddAllColumns,
         dispatchAddColumns, dispatchRemoveColumns, dispatchRemoveAllColumns,
@@ -52,8 +53,10 @@ const Columns = ({columns_temp, to_add, to_remove, dispatchAddAllColumns,
                               onClick={ () => dispatchRemoveColumns()}/>
                 <RaisedButton style={colButton} label="Remove All"
                               onClick={ () => dispatchRemoveAllColumns()}/>
-                <RaisedButton style={applyColButton} label="Apply"
-                              onClick={ () => dispatchApplyColumns()}/>
+                <Link to="/timeline">
+                    <RaisedButton style={colButton} label="Apply"
+                                  onClick={ () => dispatchApplyColumns()}/>
+                </Link>
             </div>
             <Card style={colTable}>
                 <div>

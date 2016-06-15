@@ -17,6 +17,7 @@ import {button, queryField, radioButton, radioButtonGroup, daysTextField} from '
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 import ActionFavorite from 'material-ui/svg-icons/action/favorite';
 import ActionFavoriteBorder from 'material-ui/svg-icons/action/favorite-border';
+import {Link} from 'react-router'
 
 
 const Query = ({query_temp, start_day, end_day, dispatchTempFixedOrRelative,
@@ -77,8 +78,10 @@ const Query = ({query_temp, start_day, end_day, dispatchTempFixedOrRelative,
                 <RaisedButton style={button} label="Test Query"/>
             </div>
             <RaisedButton style={button} lassName="MyButton" label="Cancel"/>
-            <RaisedButton style={button} label="Apply"
-                onClick={() => dispatchApplyQuery()}/>
+            <Link to='/timeline'>
+                <RaisedButton style={button} label="Apply"
+                    onClick={() => dispatchApplyQuery()}/>
+            </Link>
         </Card>
     </div>
 );
