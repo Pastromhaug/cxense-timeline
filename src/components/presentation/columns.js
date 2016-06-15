@@ -6,7 +6,7 @@ import React from 'react';
 import {cardStyles} from '../../styles/componentStyles';
 import {Card} from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
-import {colTable, colTable2, colButton} from '../../styles/componentStyles';
+import {colTable, colButton} from '../../styles/componentStyles';
 import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
 import {COLUMNS} from '../../constants/constants';
 
@@ -22,7 +22,7 @@ const Columns = ({columns_temp, dispatchAddAllColumns,
                     </TableRow>
                 </TableHeader>
                 <TableBody >
-                    {COLUMNS.filter( (col) => columns_temp.indexOf(col.name == -1))
+                    {COLUMNS.filter( (col) => columns_temp.indexOf(col.name) == -1)
                         .map( (col) => (
                             <TableRow key={col.name}>
                                 <TableRowColumn>{col.name}</TableRowColumn>
@@ -34,10 +34,14 @@ const Columns = ({columns_temp, dispatchAddAllColumns,
             </Table>
         </Card>
         <div style={{ width: '250px', float: 'left', textAlign:'center'}}>
-            <RaisedButton style={colButton} label="Add All"/>
+            <RaisedButton style={colButton} label="Add All"
+                onClick={ () => dispatchAddAllColumns()}
+            />
             <RaisedButton style={colButton} label="Add"/>
             <RaisedButton style={colButton} label="Remove"/>
-            <RaisedButton style={colButton} label="Remove All"/>
+            <RaisedButton style={colButton} label="Remove All"
+                onClick={ () => dispatchRemoveAllColumns()}
+            />
         </div>
         <Card style={cardStyles.container} style={colTable} >
             <Table multiSelectable={true}>
