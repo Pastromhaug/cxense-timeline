@@ -65,7 +65,8 @@ export const daysTextField = {
 
 export const colTable = {
     width: '250px',
-    float: 'left'
+    float: 'left',
+    height: '-webkit-fit-content'
 };
 
 export const colButton = {

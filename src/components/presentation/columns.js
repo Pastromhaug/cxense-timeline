@@ -14,24 +14,26 @@ const Columns = ({columns_temp, dispatchAddAllColumns,
     dispatchAddColumn, dispatchRemoveColumn, dispatchRemoveAllColumns}) => (
 
     <div style={{display: 'flex', justifyContent: 'center', marginLeft: 'auto', marginRight: 'auto', alignText: 'center'}}>
-        <Card style={cardStyles.container} style={colTable} >
-            <Table multiSelectable={true}>
-                <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
-                    <TableRow>
-                        <TableHeaderColumn>Available</TableHeaderColumn>
-                    </TableRow>
-                </TableHeader>
-                <TableBody >
-                    {COLUMNS.filter( (col) => columns_temp.indexOf(col.name) == -1)
-                        .map( (col) => (
-                            <TableRow key={col.name}>
-                                <TableRowColumn>{col.name}</TableRowColumn>
-                            </TableRow>
+        <Card  style={colTable} >
+            <div>
+                <Table multiSelectable={true}>
+                    <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
+                        <TableRow>
+                            <TableHeaderColumn>Available</TableHeaderColumn>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody >
+                        {COLUMNS.filter( (col) => columns_temp.indexOf(col.name) == -1)
+                            .map( (col) => (
+                                <TableRow key={col.name}>
+                                    <TableRowColumn>{col.name}</TableRowColumn>
+                                </TableRow>
+                                )
                             )
-                        )
-                    }
-                </TableBody>
-            </Table>
+                        }
+                    </TableBody>
+                </Table>
+            </div>
         </Card>
         <div style={{ width: '250px', float: 'left', textAlign:'center'}}>
             <RaisedButton style={colButton} label="Add All"
@@ -43,21 +45,23 @@ const Columns = ({columns_temp, dispatchAddAllColumns,
                 onClick={ () => dispatchRemoveAllColumns()}
             />
         </div>
-        <Card style={cardStyles.container} style={colTable} >
-            <Table multiSelectable={true}>
-                <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
-                    <TableRow>
-                        <TableHeaderColumn>Chosen</TableHeaderColumn>
-                    </TableRow>
-                </TableHeader>
-                <TableBody >
-                    {columns_temp.map( (col) => (
-                        <TableRow key={col}>
-                            <TableRowColumn>{col}</TableRowColumn>
+        <Card  style={colTable} >
+            <div>
+                <Table multiSelectable={true}>
+                    <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
+                        <TableRow>
+                            <TableHeaderColumn>Chosen</TableHeaderColumn>
                         </TableRow>
-                    ))}
-                </TableBody>
-            </Table>
+                    </TableHeader>
+                    <TableBody >
+                        {columns_temp.map( (col) => (
+                            <TableRow key={col}>
+                                <TableRowColumn>{col}</TableRowColumn>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </div>
         </Card>
     </div>
 );
