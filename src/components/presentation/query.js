@@ -19,8 +19,9 @@ import ActionFavorite from 'material-ui/svg-icons/action/favorite';
 import ActionFavoriteBorder from 'material-ui/svg-icons/action/favorite-border';
 
 
-const Query = ({query, query_temp, dispatchTempFixedOrRelative,
-    dispatchTempStartDay, dispatchTempEndDay, dispatchTempQuery }) => (
+const Query = ({query_temp, start_day, end_day, dispatchTempFixedOrRelative,
+    dispatchTempStartDay, dispatchTempEndDay, dispatchTempQuery,
+    dispatchApplyQuery}) => (
 
     <div>
         <Card style={cardStyles.container} >
@@ -31,6 +32,7 @@ const Query = ({query, query_temp, dispatchTempFixedOrRelative,
                 floatingLabelFixed={false}
                 fullWidth={true}
                 onChange={(event, data) => dispatchTempQuery(data)}
+                value={query_temp}
             /><br />
             <div style={{display: 'inline-block', marginLeft:'auto', marginRight:'auto'}}>
                 <RadioButtonGroup
@@ -58,6 +60,7 @@ const Query = ({query, query_temp, dispatchTempFixedOrRelative,
                             floatingLabelText="start days ago"
                             floatingLabelFixed={false}
                             onChange={ (event, data) => dispatchTempStartDay(data)}
+                            value={start_day}
                         /><br/>
                         <TextField
                             style={daysTextField}
@@ -65,6 +68,7 @@ const Query = ({query, query_temp, dispatchTempFixedOrRelative,
                             floatingLabelText="end days ago"
                             floatingLabelFixed={false}
                             onChange={ (event, data) => dispatchTempEndDay(data)}
+                            value={end_day}
                         /><br/>
                     </div>
                 </div>
@@ -73,7 +77,8 @@ const Query = ({query, query_temp, dispatchTempFixedOrRelative,
                 <RaisedButton style={button} label="Test Query"/>
             </div>
             <RaisedButton style={button} lassName="MyButton" label="Cancel"/>
-            <RaisedButton style={button} label="Launch Query"/>
+            <RaisedButton style={button} label="Apply"
+                onClick={() => dispatchApplyQuery()}/>
         </Card>
     </div>
 );

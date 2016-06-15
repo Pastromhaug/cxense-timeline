@@ -2,34 +2,87 @@
  * Created by perandre on 6/14/16.
  */
 
-import {END_DATE, START_DATE} from '../actions/query';
+import {TEMP_END_DATE, TEMP_START_DATE,
+        TEMP_END_DAY, TEMP_START_DAY,
+        TEMP_FIXED_OR_RELATIVE, TEMP_QUERY,
+        APPLY_QUERY} from '../actions/query';
 
 const start_date = new Date();
 const end_date = new Date();
 start_date.setFullYear(start_date.getFullYear() - 1);
 start_date.setHours(0, 0, 0, 0);
-end_date.setFullYear(end_date.getFullYear() + 1);
+end_date.setFullYear(end_date.getFullYear());
 end_date.setHours(0, 0, 0, 0);
 
 const initial_state = {
-    start_date : start_date,
-    end_date : end_date,
-    is_fixed: true,
-    start_day: 30,
-    end_day: 0
+    query_temp: {
+        start_date: start_date,
+        end_date: end_date,
+        is_fixed: true,
+        start_day: 30,
+        end_day: 0,
+        query: ""
+    },
+    query: {
+        start_date: start_date,
+        end_date: end_date,
+        is_fixed: true,
+        start_day: 30,
+        end_day: 0,
+        query: ""
+    }
 };
 
-const query = (state = initial_state, action ) => {
+const query_temp = (state = initial_state, action ) => {
 
     switch( action.type ) {
 
-        case START_DATE:
-            return Object.assign({}, state, {start_date: action.start_date});
-        case END_DATE:
-            return Object.assign({}, state, {end_date: action.end_date});
+        case TEMP_START_DATE:
+            console.log(action.start_date);
+            return Object.assign({}, state, {
+                query_temp: Object.assign({}, state.query_temp, {start_date: action.start_date})
+            });
+
+        case TEMP_END_DATE:
+            console.log(action.end_date);
+            return Object.assign({}, state, {
+                query_temp: Object.assign({}, state.query_temp, {end_date: action.end_date})
+            });
+
+        case TEMP_FIXED_OR_RELATIVE:
+            let is_fixed = true;
+            if (action.is_fixed == 'not_light') is_fixed = false;
+            console.log(is_fixed);
+            return Object.assign({}, state, {
+                query_temp: Object.assign({}, state.query_temp, {is_fixed: is_fixed})
+            });
+
+        case TEMP_START_DAY:
+            console.log(action.start_day);
+            return Object.assign({}, state, {
+                query_temp: Object.assign({}, state.query_temp, {start_day: action.start_day})
+            });
+
+        case TEMP_END_DAY:
+            console.log(action.end_day);
+            return Object.assign({}, state, {
+                query_temp: Object.assign({}, state.query_temp, {end_day: action.end_day})
+            });
+
+        case TEMP_QUERY:
+            console.log(action.temp_query);
+            return Object.assign({}, state, {
+                query_temp: Object.assign({}, state.query_temp, {query: action.temp_query})
+            });
+
+        case APPLY_QUERY:
+            console.log('APPLY QUERY');
+            console.log(state.query_temp);
+            return Object.assign({}, state, {query: state.query_temp});
+
         default:
             return state
     }
 };
 
-export default query
+export default query_temp

@@ -4,13 +4,11 @@
 
 import { combineReducers } from 'redux';
 import query from './query';
-import query_temp from './queryTemp';
-import columns_temp from './columnsTemp';
+import columns from './columns';
 
 const mainReducer = combineReducers({
     query,
-    query_temp,
-    columns_temp
+    columns
 });
 
 export default mainReducer

@@ -7,13 +7,13 @@ import { connect } from 'react-redux';
 import Columns from '../presentation/columns'
 import {actionAddAllColumns, actionAddColumns,
         actionRemoveAllColumns, actionRemoveColumns,
-        actionAddGroup, actionRemoveGroup} from '../../actions/columnsTemp';
+        actionAddGroup, actionRemoveGroup, actionApplyColumns} from '../../actions/columns';
 
 const mapStateToProps = (state) => {
     return {
-        columns_temp: state.columns_temp.columns_temp,
-        to_add: state.columns_temp.to_add,
-        to_remove: state.columns_temp.to_remove
+        columns_temp: state.columns.columns_temp,
+        to_add: state.columns.to_add,
+        to_remove: state.columns.to_remove
     }
 };
 
@@ -41,8 +41,12 @@ const mapDispatchToProps = (dispatch) => {
 
         dispatchRemoveGroup: (col_name) => {
             dispatch(actionRemoveGroup(col_name));
+        },
+
+        dispatchApplyColumns: () => {
+            dispatch(actionApplyColumns())
         }
-    }
+}
 };
 
 const VisibleColumns = connect (

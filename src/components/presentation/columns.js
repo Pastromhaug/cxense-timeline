@@ -6,13 +6,13 @@ import React from 'react';
 import {cardStyles} from '../../styles/componentStyles';
 import {Card} from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
-import {colTable, colButton} from '../../styles/componentStyles';
+import {colTable, colButton, applyColButton} from '../../styles/componentStyles';
 import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
 import {COLUMNS} from '../../constants/constants';
 
 const Columns = ({columns_temp, to_add, to_remove, dispatchAddAllColumns,
         dispatchAddColumns, dispatchRemoveColumns, dispatchRemoveAllColumns,
-        dispatchAddGroup, dispatchRemoveGroup}) => {
+        dispatchAddGroup, dispatchRemoveGroup, dispatchApplyColumns}) => {
 
     var available_cols = COLUMNS.filter( (col) => columns_temp.indexOf(col.name) == -1)
                                 .map( (col) => col.name);
@@ -52,6 +52,8 @@ const Columns = ({columns_temp, to_add, to_remove, dispatchAddAllColumns,
                               onClick={ () => dispatchRemoveColumns()}/>
                 <RaisedButton style={colButton} label="Remove All"
                               onClick={ () => dispatchRemoveAllColumns()}/>
+                <RaisedButton style={applyColButton} label="Apply"
+                              onClick={ () => dispatchApplyColumns()}/>
             </div>
             <Card style={colTable}>
                 <div>

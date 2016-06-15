@@ -6,12 +6,14 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Query from '../presentation/query';
 import {actionTempEndDay, actionTempStartDay,
-    actionTempFixedOrRelative, actionTempQuery} from '../../actions/queryTemp';
+    actionTempFixedOrRelative, actionTempQuery,
+    actionApplyQuery} from '../../actions/query';
 
 const mapStateToProps = (state) => {
     return {
-        query: state.query,
-        query_temp : state.query_temp
+        query_temp : state.query.query_temp.query,
+        start_day : state.query.query_temp.start_day,
+        end_day : state.query.query_temp.end_day
     }
 };
 
@@ -31,6 +33,10 @@ const mapDispatchToPRops = (dispatch) => {
 
         dispatchTempQuery(temp_query) {
             dispatch(actionTempQuery(temp_query))
+        },
+
+        dispatchApplyQuery() {
+            dispatch(actionApplyQuery())
         }
     }
 };

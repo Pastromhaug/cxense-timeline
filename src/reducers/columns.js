@@ -5,7 +5,7 @@
 import {COLUMNS, DEFAULT_COLUMNS} from '../constants/constants';
 import {REMOVE_ALL_COLUMNS, ADD_ALL_COLUMNS,
         ADD_COLUMNS, REMOVE_COLUMNS,
-        ADD_GROUP, REMOVE_GROUP} from '../actions/columnsTemp';
+        ADD_GROUP, REMOVE_GROUP, APPLY_COLUMNS} from '../actions/columns';
 
 
 const initial_state = {
@@ -18,11 +18,12 @@ const columns_temp = (state = initial_state, action) => {
     switch(action.type) {
 
         case REMOVE_ALL_COLUMNS:
-            return {
+            return Object.assign({}, state, {
                 columns_temp: [],
                 to_add: [],
-                to_remove: []
-            };
+                to_remove: [],
+                columns: []
+            });
 
         case REMOVE_COLUMNS:
             return Object.assign({}, state,
@@ -35,8 +36,6 @@ const columns_temp = (state = initial_state, action) => {
             );
 
         case ADD_COLUMNS:
-            //console.log('ADD_COLUMNS');
-            //console.log(state.to_add);
             return Object.assign({}, state,
                 {
                     columns_temp : state.columns_temp.concat(state.to_add),
@@ -44,15 +43,13 @@ const columns_temp = (state = initial_state, action) => {
                 });
 
         case ADD_ALL_COLUMNS:
-            return {
+            return Object.assign({}, state, {
                 columns_temp: COLUMNS.map( (col) => col.name),
                 to_add: [],
                 to_remove: []
-            };
+            });
 
         case ADD_GROUP:
-            //console.log('ADD_GROUP');
-            //console.log(action.col_names);
             var to_add;
             if (state.to_add.indexOf(action.col_name) == -1) {
                 to_add = state.to_add.concat([action.col_name])
@@ -67,8 +64,6 @@ const columns_temp = (state = initial_state, action) => {
             );
 
         case REMOVE_GROUP:
-            //console.log('REMOVE_GROUP');
-            //console.log(action.col_names);
             var to_remove;
             if (state.to_remove.indexOf(action.col_name) == -1) {
                 to_remove = state.to_remove.concat([action.col_name])
@@ -81,6 +76,14 @@ const columns_temp = (state = initial_state, action) => {
                     to_remove: to_remove
                 }
             );
+
+        case APPLY_COLUMNS:
+            console.log('APPLY COLUMNS');
+            console.log(state.columns_temp);
+            return Object.assign({}, state,
+                {
+                    columns : state.columns_temp
+                });
 
         default:
             return state;

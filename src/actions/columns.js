@@ -31,3 +31,8 @@ export const REMOVE_GROUP = 'REMOVE_GROUP';
 export function actionRemoveGroup(col_name) {
     return( {type: REMOVE_GROUP, col_name: col_name})
 }
+
+export const APPLY_COLUMNS = 'APPLY_COLUMNS';
+export function actionApplyColumns() {
+    return( {type: APPLY_COLUMNS})
+}

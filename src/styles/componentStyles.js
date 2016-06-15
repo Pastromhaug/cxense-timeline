@@ -73,3 +73,9 @@ export const colButton = {
     margin: '32px',
     display: 'block'
 };
+
+export const applyColButton = {
+    margin: '32px',
+    display: 'block',
+    marginTop: '256px'
+};

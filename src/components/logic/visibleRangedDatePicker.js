@@ -5,12 +5,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import RangedDatePicker from '../presentation/rangedDatePicker';
-import {actionTempEndDate, actionTempStartDate} from '../../actions/queryTemp';
+import {actionTempEndDate, actionTempStartDate} from '../../actions/query';
 
 const mapStateToProps = (state) => {
     return {
-        start_date: state.query_temp.start_date,
-        end_date: state.query_temp.end_date
+        start_date: state.query.query_temp.start_date,
+        end_date: state.query.query_temp.end_date
     }
 };
 
