@@ -5,7 +5,7 @@
 import { combineReducers } from 'redux';
 import query from './query';
 import query_temp from './queryTemp';
-import columns_temp from './columns_temp';
+import columns_temp from './columnsTemp';
 
 const mainReducer = combineReducers({
     query,

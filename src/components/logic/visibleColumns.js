@@ -38,3 +38,5 @@ const VisibleColumns = connect (
     mapStateToProps,
     mapDispatchToProps
 )(Columns);
+
+export default VisibleColumns

@@ -37,17 +37,8 @@ export const COLUMNS = [
 ];
 
 export const DEFAULT_COLUMNS = [
-    {
-        name: 'fdafsd',
-        jire_name: 'fdka;fad'
-    },{
-        name: 'Per Andre',
-        jire_name: 'fdka;fad'
-    },{
-        name: 'oh yeah',
-        jire_name: 'fdka;fad'
-    },{
-        name: 'pew pwe',
-        jire_name: 'fdka;fad'
-    }
+    'fdafsd',
+    'Per Andre',
+    'oh yeah',
+    'pew pwe'
 ];

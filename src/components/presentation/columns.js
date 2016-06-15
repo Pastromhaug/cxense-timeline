@@ -6,7 +6,7 @@ import React from 'react';
 import {cardStyles} from '../../styles/componentStyles';
 import {Card} from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
-import {colTable1, colTable2, colButton} from '../../styles/componentStyles';
+import {colTable, colTable2, colButton} from '../../styles/componentStyles';
 import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
 import {COLUMNS} from '../../constants/constants';
 
@@ -14,7 +14,7 @@ const Columns = ({columns_temp, dispatchAddAllColumns,
     dispatchAddColumn, dispatchRemoveColumn, dispatchRemoveAllColumns}) => (
 
     <div style={{display: 'flex', justifyContent: 'center', marginLeft: 'auto', marginRight: 'auto', alignText: 'center'}}>
-        <Card style={cardStyles.container} style={colTable1} >
+        <Card style={cardStyles.container} style={colTable} >
             <Table multiSelectable={true}>
                 <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
                     <TableRow>
@@ -22,21 +22,14 @@ const Columns = ({columns_temp, dispatchAddAllColumns,
                     </TableRow>
                 </TableHeader>
                 <TableBody >
-                    <TableRow hoverable={true}>
-                        <TableRowColumn>fsda</TableRowColumn>
-                    </TableRow>
-                    <TableRow >
-                        <TableRowColumn>fsda</TableRowColumn>
-                    </TableRow>
-                    <TableRow >
-                        <TableRowColumn>fsda</TableRowColumn>
-                    </TableRow>
-                    <TableRow >
-                        <TableRowColumn>fsda</TableRowColumn>
-                    </TableRow>
-                    <TableRow >
-                        <TableRowColumn>fsda</TableRowColumn>
-                    </TableRow>
+                    {COLUMNS.filter( (col) => columns_temp.indexOf(col.name == -1))
+                        .map( (col) => (
+                            <TableRow key={col.name}>
+                                <TableRowColumn>{col.name}</TableRowColumn>
+                            </TableRow>
+                            )
+                        )
+                    }
                 </TableBody>
             </Table>
         </Card>
@@ -46,7 +39,7 @@ const Columns = ({columns_temp, dispatchAddAllColumns,
             <RaisedButton style={colButton} label="Remove"/>
             <RaisedButton style={colButton} label="Remove All"/>
         </div>
-        <Card style={cardStyles.container} style={colTable1} >
+        <Card style={cardStyles.container} style={colTable} >
             <Table multiSelectable={true}>
                 <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
                     <TableRow>
@@ -54,28 +47,16 @@ const Columns = ({columns_temp, dispatchAddAllColumns,
                     </TableRow>
                 </TableHeader>
                 <TableBody >
-                    <TableRow >
-                        <TableRowColumn>fsda</TableRowColumn>
-                    </TableRow>
-                    <TableRow >
-                        <TableRowColumn>fsda</TableRowColumn>
-                    </TableRow>
-                    <TableRow >
-                        <TableRowColumn>fsda</TableRowColumn>
-                    </TableRow>
-                    <TableRow >
-                        <TableRowColumn>fsda</TableRowColumn>
-                    </TableRow>
-                    <TableRow >
-                        <TableRowColumn>fsda</TableRowColumn>
-                    </TableRow>
+                    {columns_temp.map( (col) => (
+                        <TableRow key={col}>
+                            <TableRowColumn>{col}</TableRowColumn>
+                        </TableRow>
+                    ))}
                 </TableBody>
             </Table>
         </Card>
     </div>
 );
-
-
 
 
 export default Columns;

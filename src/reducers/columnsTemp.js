@@ -4,7 +4,7 @@
 
 import {COLUMNS, DEFAULT_COLUMNS} from '../constants/constants';
 import {REMOVE_ALL_COLUMNS, ADD_ALL_COLUMNS,
-            ADD_COLUMN REMOVE_COLUMN} from '../actions/columnsTemp';
+            ADD_COLUMN, REMOVE_COLUMN} from '../actions/columnsTemp';
 
 
 const columns_temp = (state = DEFAULT_COLUMNS, action) => {
@@ -15,9 +15,9 @@ const columns_temp = (state = DEFAULT_COLUMNS, action) => {
             return state.filter( (col) => col.name !== action.col_name);
         case ADD_COLUMN:
             let new_col = COLUMNS.filter( (col) => col.name === action.col_name)[0];
-            return state.concat(new_col);
+            return state.concat(new_col.name);
         case ADD_ALL_COLUMNS:
-            return COLUMNS;
+            return COLUMNS.map( (col) => col.name);
         default:
             return state;
     }
