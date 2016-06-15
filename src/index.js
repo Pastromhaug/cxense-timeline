@@ -13,7 +13,7 @@ import Cards from './components/cards';
 import VisibleQuery from './components/logic/visibleQuery';
 import VisibleColumns from './components/logic/visibleColumns'
 import AppBar from 'material-ui/AppBar';
-import {appbarStyles, headerButton} from './styles/componentStyles';
+import {appbarStyles, headerButton, headerTitle} from './styles/componentStyles';
 import FlatButton from 'material-ui/FlatButton';
 import mainReducer from './reducers/main'
 require('./styles/general.css');
@@ -31,11 +31,10 @@ class App extends React.Component {
                 <MuiThemeProvider muiTheme={getMuiTheme()}>
                     <div>
                         <AppBar
-                            title = "Cxense Timeline"
                             showMenuIconButton={false}
                             style={appbarStyles.container}>
 
-                            <Link className="MyLink" to="/timeline" style={{marginLeft: '50px'}}>
+                            <Link className="MyLink" to="/timeline" >
                                 <FlatButton style={headerButton.container}>Timeline</FlatButton>
                             </Link>
 
@@ -43,7 +42,7 @@ class App extends React.Component {
                                 <FlatButton style={headerButton.container}>Edit Query</FlatButton>
                             </Link>
 
-                            <Link className="MyLink" to="/columns" style={{marginRight: '45%'}}>
+                            <Link className="MyLink" to="/columns" >
                                 <FlatButton style={headerButton.container}>Configure Columns</FlatButton>
                             </Link>
 

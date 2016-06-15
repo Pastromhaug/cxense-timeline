@@ -27,8 +27,17 @@ export const headerButton = {
     container: {
         color: 'white',
         padding: '14px',
-        height: 'inherit'
+        height: 'inherit',
+        float: 'left',
+        width: 'inherit'
     }
+};
+
+export const headerTitle = {
+    float: 'left',
+    color: 'white',
+    paddingRight: '200px',
+    height: 'inherit'
 };
 
 export const button = {

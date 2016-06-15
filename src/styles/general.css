@@ -1,9 +1,10 @@
 
 body {
     margin: 0px;
-    background-color:rgb(253,253,253);
+    background-color:rgb(243,243,243);
 }
 
 .MyLink {
     height:inherit;
+    width: 200px
 }
