@@ -7,17 +7,27 @@ export function actionRemoveAllColumns() {
     return( {type: REMOVE_ALL_COLUMNS})
 }
 
-export const REMOVE_COLUMN = 'REMOVE COLUMN';
-export function actionRemoveColumn(col_name) {
-    return( {type: REMOVE_COLUMN, col_name: col_name})
+export const REMOVE_COLUMNS = 'REMOVE COLUMNS';
+export function actionRemoveColumns() {
+    return( {type: REMOVE_COLUMNS})
 }
 
-export const ADD_COLUMN = 'ADD_COLUMN';
-export function actionAddColumn(col_name) {
-    return( {type: ADD_COLUMN, col_name: col_name})
+export const ADD_COLUMNS = 'ADD_COLUMNS';
+export function actionAddColumns() {
+    return( {type: ADD_COLUMNS})
 }
 
 export const ADD_ALL_COLUMNS = 'ADD_ALL_COLUMNS';
 export function actionAddAllColumns() {
     return( {type: ADD_ALL_COLUMNS})
+}
+
+export const ADD_GROUP = 'ADD_GROUP';
+export function actionAddGroup(col_name) {
+    return( {type: ADD_GROUP, col_name: col_name})
+}
+
+export const REMOVE_GROUP = 'REMOVE_GROUP';
+export function actionRemoveGroup(col_name) {
+    return( {type: REMOVE_GROUP, col_name: col_name})
 }
