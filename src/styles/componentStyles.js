@@ -18,18 +18,19 @@ export const cardStyles = {
 export const appbarStyles = {
     container: {
         marginBottom: '32px',
-        backgroundColor: '#a3c1a3',
+        backgroundColor: 'rgb(70,77,91)',
         textAlign: 'right'
     }
 };
 
 export const headerButton = {
     container: {
-        color: 'white',
+        color: 'rgb(243,243,243)',
         padding: '14px',
         height: 'inherit',
         float: 'left',
-        width: 'inherit'
+        width: 'inherit',
+        fontSize: 'larger'
     }
 };
 

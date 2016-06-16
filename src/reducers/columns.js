@@ -11,7 +11,8 @@ import {REMOVE_ALL_COLUMNS, ADD_ALL_COLUMNS,
 const initial_state = {
     columns_temp: DEFAULT_COLUMNS,
     to_add: [],
-    to_remove: []
+    to_remove: [],
+    columns: DEFAULT_COLUMNS
 };
 
 const columns_temp = (state = initial_state, action) => {
