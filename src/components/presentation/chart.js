@@ -9,7 +9,7 @@ var moment = require('moment');
 require('../../styles/chartStyles.css');
 
 
-var lanes = ["Chinese","Japanese","Korean"],
+var lanes = ["Chinese","Japanese","Korean","yee"],
     laneLength = lanes.length,
     items = [{"lane": 0, "id": "Qin", "start": 5, "end": 205},
         {"lane": 0, "id": "Jin", "start": 265, "end": 420},
@@ -33,7 +33,7 @@ var lanes = ["Chinese","Japanese","Korean"],
         {"lane": 2, "id": "Three Kingdoms", "start": 10, "end": 670},
         {"lane": 2, "id": "North and South States", "start": 690, "end": 900},
         {"lane": 2, "id": "Goryeo", "start": 920, "end": 1380},
-        {"lane": 2, "id": "Joseon", "start": 1390, "end": 1890},
+        {"lane": 3, "id": "Joseon", "start": 1390, "end": 1890},
         {"lane": 2, "id": "Korean Empire", "start": 1900, "end": 1945}];
 var timeBegin = 0;
 var timeEnd = 2000;
@@ -58,21 +58,50 @@ class Chart extends React.Component {
                     && d.fields.customfield_10652 != null && typeof d.fields.customfield_10652 !== 'undefined'
                 )
             });
-            console.log(data);
-            //data.map( (d) => {
-            //    console.log(moment.utc(d.fields.customfield_10651).valueOf())
-            //});
-            items = data.map( (d, i) => {
+
+
+            items = data.map( (d) => {
+                let start = moment.utc(d.fields.customfield_10651).valueOf();
+                let end = moment.utc(d.fields.customfield_10652).valueOf();
+
                 return {
-                    lane: i % 3,
+                    lane: 0,
                     id: d.fields.summary,
-                    start: moment.utc(d.fields.customfield_10651).valueOf(),
-                    end: moment.utc(d.fields.customfield_10652).valueOf()
+                    start: start,
+                    end: end
+                };
+            });
+
+            items = items.sort( (a,b) => d3.ascending(a.start, b.start));
+            items = items.sort( (a,b) => d3.ascending(a.end, b.end));
+
+            var laneData = [];
+            items = items.map( (new_item) => {
+                var laneDataLength = laneData.length;
+                for (let i = 0; i <= laneDataLength; i++){
+                    if (i == laneData.length) {
+                        new_item.lane = i;
+                        laneData = laneData.concat([[new_item]]);
+                        return new_item;
+                    }
+                    else {
+                        let overlaps = laneData[i].filter( (item) => (
+                            item.start >= new_item.start && item.start <= new_item.end
+                            || item.end >= new_item.start && item.end <= new_item.end
+                            || item.start <= new_item.start && item.end >= new_item.end
+                        ));
+                        if (overlaps.length == 0) {
+                            new_item.lane = i;
+                            laneData[i] = laneData[i].concat([new_item]);
+                            return new_item;
+                        }
+                    }
                 }
             });
+
             timeBegin = d3.min(items, (item) => item.start);
             timeEnd = d3.max(items, (item) => item.end);
-            //console.log(items);
+
         }).then( () => {
 
         console.log(items);
@@ -84,11 +113,6 @@ class Chart extends React.Component {
             mainHeight = h - miniHeight - 50;
 
         //scales
-        console.log('scale x');
-        console.log(timeBegin);
-        console.log(timeEnd);
-        console.log(timeEnd - timeBegin);
-        console.log('w: ' + w);
         var x = d3.scale.linear()
             .domain([timeBegin, timeEnd])
             .range([0, w]);
@@ -141,11 +165,6 @@ class Chart extends React.Component {
                 return y2(d.lane + .5) - 5;
             })
             .attr("width", function (d) {
-                console.log(d);
-                console.log(d.end);
-                console.log(d.start);
-                console.log(d.end - d.start);
-                console.log(x(d.end) - x(d.start));
                 return x(d.end) - x(d.start);
             })
             .attr("height", 10);

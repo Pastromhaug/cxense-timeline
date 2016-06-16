@@ -27,6 +27,18 @@
     stroke-width: 6;
 }
 
+.miniItem3 {
+    fill: orange;
+    fill-opacity: .7;
+    stroke-width: 6;
+}
+
+.miniItem4 {
+    fill: gray;
+    fill-opacity: .7;
+    stroke-width: 6;
+}
+
 .brush .extent {
     stroke: #fff;
     fill-opacity: .125;
