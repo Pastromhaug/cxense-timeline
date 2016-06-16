@@ -9,7 +9,7 @@ var moment = require('moment');
 require('../../styles/chartStyles.css');
 
 
-var lanes = ["Chinese","Japanese","Korean","yee"],
+var lanes = ["Chinese","Japanese","Korean","yee", "woot"],
     laneLength = lanes.length,
     items = [{"lane": 0, "id": "Qin", "start": 5, "end": 205},
         {"lane": 0, "id": "Jin", "start": 265, "end": 420},
