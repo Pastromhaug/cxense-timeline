@@ -13,7 +13,7 @@ const TimelineTable = ({columns}) => {
             <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
                 <TableRow>
                     {columns.map( (col_name) => (
-                        <TableHeaderColumn>{col_name}</TableHeaderColumn>
+                        <TableHeaderColumn key={col_name}>{col_name}</TableHeaderColumn>
                     ))}
                 </TableRow>
             </TableHeader>

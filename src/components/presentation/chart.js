@@ -4,7 +4,8 @@
 
 import React from 'react';
 var d3 = require('d3');
-var $ = require('jquery');
+var _ = require('lodash');
+var moment = require('moment');
 require('../../styles/chartStyles.css');
 
 
@@ -40,19 +41,41 @@ var timeEnd = 2000;
 class Chart extends React.Component {
     constructor() {
         super();
-        //fetch('http://localhost:8001/test').then((data) => {
-        //    console.log(data);
-        //});
-        //$.ajax({
-        //    url: 'https://jira.cxense.com/rest/api/2/issue/CXOPS-732',
-        //    dataType: 'jsonp',
-        //    jsonp: 'jsonp-callback',
-        //    success: (data) => console.log(data)
-        //});
-
     }
 
     componentDidMount() {
+        fetch('http://localhost:8001/sample').then((data) => data.json())
+            .then( (data) => {
+                //console.log(data);
+                return data;
+            }).then( (data) => {
+            data =data.issues.filter( (d) => {
+                return _.has(d.fields, 'customfield_10651') && _.has(d.fields, 'customfield_10652');
+            });
+            data = data.filter( (d) => {
+                return (
+                    d.fields.customfield_10651 != null && typeof d.fields.customfield_10651 !== 'undefined'
+                    && d.fields.customfield_10652 != null && typeof d.fields.customfield_10652 !== 'undefined'
+                )
+            });
+            console.log(data);
+            //data.map( (d) => {
+            //    console.log(moment.utc(d.fields.customfield_10651).valueOf())
+            //});
+            items = data.map( (d, i) => {
+                return {
+                    lane: i % 3,
+                    id: d.fields.summary,
+                    start: moment.utc(d.fields.customfield_10651).valueOf(),
+                    end: moment.utc(d.fields.customfield_10652).valueOf()
+                }
+            });
+            timeBegin = d3.min(items, (item) => item.start);
+            timeEnd = d3.max(items, (item) => item.end);
+            //console.log(items);
+        }).then( () => {
+
+        console.log(items);
         var m = [20, 15, 15, 20], //top right bottom left
             chartWidth = document.getElementById('chart').offsetWidth,
             w = chartWidth - m[1] - m[3],
@@ -61,6 +84,11 @@ class Chart extends React.Component {
             mainHeight = h - miniHeight - 50;
 
         //scales
+        console.log('scale x');
+        console.log(timeBegin);
+        console.log(timeEnd);
+        console.log(timeEnd - timeBegin);
+        console.log('w: ' + w);
         var x = d3.scale.linear()
             .domain([timeBegin, timeEnd])
             .range([0, w]);
@@ -113,7 +141,12 @@ class Chart extends React.Component {
                 return y2(d.lane + .5) - 5;
             })
             .attr("width", function (d) {
-                return x(d.end - d.start);
+                console.log(d);
+                console.log(d.end);
+                console.log(d.start);
+                console.log(d.end - d.start);
+                console.log(x(d.end) - x(d.start));
+                return x(d.end) - x(d.start);
             })
             .attr("height", 10);
 
@@ -214,6 +247,7 @@ class Chart extends React.Component {
             labels.exit().remove();
 
         }
+        })
     }
 
     render() {
