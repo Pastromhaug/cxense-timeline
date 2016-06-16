@@ -3,18 +3,12 @@
  */
 
 import React from 'react';
-import {cardStyles} from '../styles/componentStyles';
+import {cardStyles} from '../../styles/componentStyles';
 import {Card} from 'material-ui/Card';
 import Chart from './chart';
-import VisibleTimelineTable from './logic/visibleTimelineTable';
+import VisibleTimelineTable from './../logic/visibleTimelineTable';
 
-class Cards extends React.Component {
-    constructor() {
-        super();
-        console.log('cards');
-    }
-
-    render() {
+const  Cards = () => {
         return(
             <div>
                 <Card style={cardStyles.container}>
@@ -25,7 +19,6 @@ class Cards extends React.Component {
                 </Card>
             </div>
         )
-    }
-}
+};
 
 export default Cards

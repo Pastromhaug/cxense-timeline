@@ -9,7 +9,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { Router, Route, Link, browserHistory, IndexRoute } from 'react-router';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux'
-import Cards from './components/cards';
+import Cards from './components/presentation/cards';
 import VisibleQuery from './components/logic/visibleQuery';
 import VisibleColumns from './components/logic/visibleColumns'
 import AppBar from 'material-ui/AppBar';

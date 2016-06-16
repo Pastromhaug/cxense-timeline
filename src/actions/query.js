@@ -38,5 +38,10 @@ export function actionApplyQuery() {
     return {type: APPLY_QUERY}
 }
 
+export const CANCEL_QUERY = 'CANCEL_QUERY';
+export function actionCancelQuery() {
+    return {type: CANCEL_QUERY}
+}
+
 
 

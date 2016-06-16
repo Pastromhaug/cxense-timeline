@@ -22,7 +22,7 @@ import {Link} from 'react-router'
 
 const Query = ({query_temp, start_day, end_day, dispatchTempFixedOrRelative,
     dispatchTempStartDay, dispatchTempEndDay, dispatchTempQuery,
-    dispatchApplyQuery}) => (
+    dispatchApplyQuery, dispatchCancelQuery}) => (
 
     <div>
         <Card style={cardStyles.container} >
@@ -77,10 +77,11 @@ const Query = ({query_temp, start_day, end_day, dispatchTempFixedOrRelative,
             <div style={{display:'block'}}>
                 <RaisedButton style={button} label="Test Query"/>
             </div>
-            <RaisedButton style={button} lassName="MyButton" label="Cancel"/>
+            <RaisedButton style={button} lassName="MyButton" label="Cancel"
+                onClick={ () => dispatchCancelQuery()}/>
             <Link to='/timeline'>
                 <RaisedButton style={button} label="Apply"
-                    onClick={() => dispatchApplyQuery()}/>
+                    onClick={ () => dispatchApplyQuery()}/>
             </Link>
         </Card>
     </div>

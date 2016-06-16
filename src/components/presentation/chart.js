@@ -5,7 +5,7 @@
 import React from 'react';
 var d3 = require('d3');
 var $ = require('jquery');
-require('../styles/chartStyles.css');
+require('../../styles/chartStyles.css');
 
 
 var lanes = ["Chinese","Japanese","Korean"],

@@ -5,7 +5,7 @@
 import {TEMP_END_DATE, TEMP_START_DATE,
         TEMP_END_DAY, TEMP_START_DAY,
         TEMP_FIXED_OR_RELATIVE, TEMP_QUERY,
-        APPLY_QUERY} from '../actions/query';
+        APPLY_QUERY, CANCEL_QUERY} from '../actions/query';
 
 const start_date = new Date();
 const end_date = new Date();
@@ -21,7 +21,7 @@ const initial_state = {
         is_fixed: true,
         start_day: 30,
         end_day: 0,
-        query: ""
+        query: "https://jira.cxense.com/rest/api/2/search?jql=project=CXANA"
     },
     query: {
         start_date: start_date,
@@ -29,7 +29,7 @@ const initial_state = {
         is_fixed: true,
         start_day: 30,
         end_day: 0,
-        query: ""
+        query: "https://jira.cxense.com/rest/api/2/search?jql=project=CXANA"
     }
 };
 
@@ -79,6 +79,10 @@ const query_temp = (state = initial_state, action ) => {
             console.log('APPLY QUERY');
             console.log(state.query_temp);
             return Object.assign({}, state, {query: state.query_temp});
+
+        case CANCEL_QUERY:
+            console.log('CANCEL_QUERY');
+            return Object.assign({}, state, {query_temp: state.query});
 
         default:
             return state

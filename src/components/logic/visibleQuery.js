@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import Query from '../presentation/query';
 import {actionTempEndDay, actionTempStartDay,
     actionTempFixedOrRelative, actionTempQuery,
-    actionApplyQuery} from '../../actions/query';
+    actionApplyQuery, actionCancelQuery} from '../../actions/query';
 
 const mapStateToProps = (state) => {
     return {
@@ -37,6 +37,10 @@ const mapDispatchToPRops = (dispatch) => {
 
         dispatchApplyQuery() {
             dispatch(actionApplyQuery())
+        },
+
+        dispatchCancelQuery() {
+            dispatch(actionCancelQuery())
         }
     }
 };
