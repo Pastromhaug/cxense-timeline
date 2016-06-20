@@ -16,7 +16,206 @@ class Chart extends React.Component {
 
         this.formatIssues.bind(this);
         this.createChartStructure.bind(this);
+        this.updateChartIssues.bind(this);
+        this._displayFromBrush.bind(this);
+        this._timeBegin.bind(this);
+        this._timeEnd.bind(this);
+        this._w.bind(this);
+        this._h.bind(this);
+        this._lane_num.bind(this);
+        this._mini_h.bind(this);
+        this._main_h.bind(this);
+        this._x0.bind(this);
+        this._x1.bind(this);
+        this._y1.bind(this);
+        this._y2.bind(this);
+        this._mini.bind(this);
+        this._itemRects.bind(this);
+
+        this._brush = null;
+
+        // var m = [20, 15, 15, 20], //top right bottom left
+        this._left_pad = 20;
+        this._right_pad = 20;
+        this._top_pad = 15;
+        this._bot_pad = 15;
+
+        this.chartWidth = 0;
+
     }
+
+    _main_h() { return  this._h() - this._mini_h() - 50 }
+    _mini_h() { return  this._lane_num() * 12 + 50 }
+    _lane_num() { return  d3.max(this.props.issues, (issue) => issue.lane) }
+    _h() { return  500 - this._top_pad - this._bot_pad }
+    _w() { return  this.chartWidth - this._right_pad - this._left_pad }
+    _x0() {
+        // console.log('_x(): this._timeBegin(): ' + this._timeBegin())
+        // console.log('_x(): this._timeEnd(): ' + this._timeEnd())
+        // console.log('_x(): this._w(): ' + this._w())
+        return (
+            d3.scale.linear()
+              .domain([this._timeBegin(), this._timeEnd()])
+              .range( [0, this._w() ] )
+        )}
+    _x1() {
+        return (
+            d3.scale.linear()
+              .range( [0, this._w() ] )
+        )}
+    _y1() {
+        return (
+            d3.scale.linear()
+              .domain([0, this._lane_num() ])
+              .range([0, this._main_h() ])
+        )}
+    _y2() {
+        return (
+            d3.scale.linear()
+              .domain( [0, this._lane_num() ] )
+              .range( [0, this._mini_h() ] )
+        )}
+    _timeBegin() {
+        return d3.min(this.props.issues, (issue) => issue.start) }
+
+    _timeEnd() {
+        return d3.max(this.props.issues, (issue) => issue.end) }
+    _mini() { return  d3.select('#mini')}
+    _itemRects() { return  d3.select('#itemRects')}
+
+
+    componentDidUpdate() {
+        var chart = ReactDOM.findDOMNode(this);
+        this.updateChartIssues(chart);
+    }
+
+    componentDidMount() {
+        this.chartWidth = document.getElementById('chart').offsetWidth
+        var chart = ReactDOM.findDOMNode(this);
+        this.createChartStructure(chart);
+    }
+
+    updateChartIssues(elem) {
+        var chart = d3.select(elem);
+
+    }
+
+
+    createChartStructure(elem) {
+        fetch('http://localhost:8001/sample').then((data) => data.json())
+            .then( (data) => {
+
+                var items = this.formatIssues(data);
+                this.props.dispatchAddIssues(items);
+                var items = this.props.issues;
+
+                var chart = d3.select(elem)
+                        .append("svg")
+                        .attr("width", this._w() + this._left_pad + this._right_pad)
+                        .attr("height", this._h() + this._top_pad + this._bot_pad)
+                        .attr("class", "chart");
+
+                chart.append("defs").append("clipPath")
+                    .attr("id", "clip")
+                    .append("rect")
+                    .attr("width", this._w() )
+                    .attr("height", this._main_h() );
+
+                var main = chart.append("g")
+                    .attr("transform", "translate(" + this._left_pad + "," + this._top_pad + ")")
+                    .attr("width", this._w() )
+                    .attr("height", this._main_h() )
+                    .attr("class", "main");
+
+                var mini = chart.append("g")
+                    .attr("transform", "translate(" + this._left_pad + "," + (this._main_h() + this._top_pad) + ")")
+                    .attr("width", this._w() )
+                    .attr("height", this._mini_h() )
+                    .attr("class", "mini")
+                    .attr("id","mini");
+
+                var itemRects = main.append("g")
+                    .attr("clip-path", "url(#clip)")
+                    .attr("id", "itemRects");
+
+                //mini item rects
+                mini.append("g").selectAll("miniItems")
+                    .data(items)
+                    .enter().append("rect")
+                    .attr("class", (d) => "miniItem" + d.lane)
+                    .attr("x", (d) => this._x0()(d.start))
+                    .attr("y", (d) => this._y2()(d.lane + .5) - 5)
+                    .attr("width", (d) => this._x0()(d.end) - this._x0()(d.start))
+                    .attr("height", 10);
+
+                //mini labels
+                mini.append("g").selectAll(".miniLabels")
+                    .data(items)
+                    .enter().append("text")
+                    .text( (d) => d.id)
+                    .attr("x", (d) => this._x0()(d.start))
+                    .attr("y", (d) => this._y2()(d.lane + .5))
+                    .attr("dy", ".5ex");
+
+                this._brush = d3.svg.brush()
+                              .x(this._x0())
+                              .on("brush", this._displayFromBrush.bind(this ));
+
+                mini.append("g")
+                    .attr("class", "x brush")
+                    .call(this._brush)
+                    .selectAll("rect")
+                    .attr("y", 1)
+                    .attr("height", this._mini_h() - 1);
+        })
+    }
+
+    _displayFromBrush() {
+        var rects, labels,
+            minExtent = this._brush.extent()[0],
+            maxExtent = this._brush.extent()[1],
+            visItems = this.props.issues.filter(  (d) =>  d.start < maxExtent && d.end > minExtent);
+
+        this._mini().select(".brush")
+            .call(this._brush.extent([minExtent, maxExtent]));
+
+        this._x1().domain([minExtent, maxExtent]);
+
+        //update main item rects
+        console.log('this._itemRects()')
+        console.log(this._itemRects())
+        console.log('this._itemRects().selectAll("rect")')
+        console.log(this._itemRects().selectAll("rect"))
+
+        rects = this._itemRects().selectAll("rect")
+            .data(visItems, (d) => d.id)
+            .attr("x", (d) => this._x1()(d.start))
+            .attr("width", (d) =>  this._x1()(d.end) - this._x1()(d.start));
+
+        rects.enter().append("rect")
+            .attr("class", (d) => "miniItem" + d.lane)
+            .attr("x", (d) => this._x1()(d.start))
+            .attr("y", (d) => this._y1()(d.lane) + 10)
+            .attr("width", (d) => this._x1()(d.end) - this._x1()(d.start))
+            .attr("height", (d) => .8 * this._y1()(1))
+
+        rects.exit().remove();
+
+        //update the item labels
+        labels = this._itemRects().selectAll("text")
+            .data(visItems, (d) => d.id)
+            .attr("x", (d) => this._x1()(Math.max(d.start, minExtent) + 2))
+
+        labels.enter().append("text")
+            .text( (d) => d.id)
+            .attr("x", (d) => this._x1()(Math.max(d.start, minExtent)))
+            .attr("y", (d) => this._y1()(d.lane + .5))
+            .attr("text-anchor", "start");
+
+        labels.exit().remove();
+
+    }
+
 
     formatIssues(data) {
         data = data.issues.filter( (d) => {
@@ -64,189 +263,6 @@ class Chart extends React.Component {
         return items;
     }
 
-    componentDidUpdate() {
-
-    }
-
-    componentDidMount() {
-      var chart = ReactDOM.findDOMNode(this);
-      this.createChartStructure(chart);
-    }
-
-    createChartStructure(elem) {
-        fetch('http://localhost:8001/sample').then((data) => data.json())
-            .then( (data) => {
-
-                var items = this.formatIssues(data);
-                this.props.dispatchAddIssues(items);
-                var items = this.props.issues;
-                var timeBegin = d3.min(items, (item) => item.start);
-                var timeEnd = d3.max(items, (item) => item.end);
-                var laneLength = d3.max(items, (item) => item.lane);
-                if (typeof laneLength === 'undefined') laneLength = 0;
-
-                var m = [20, 15, 15, 20], //top right bottom left
-                    chartWidth = document.getElementById('chart').offsetWidth,
-                    w = chartWidth - m[1] - m[3],
-                    h = 500 - m[0] - m[2],
-                    miniHeight = laneLength * 12 + 50,
-                    mainHeight = h - miniHeight - 50;
-
-                //scales
-                var x = d3.scale.linear()
-                    .domain([timeBegin, timeEnd])
-                    .range([0, w]);
-                var x1 = d3.scale.linear()
-                    .range([0, w]);
-                var y1 = d3.scale.linear()
-                    .domain([0, laneLength])
-                    .range([0, mainHeight]);
-                var y2 = d3.scale.linear()
-                    .domain([0, laneLength])
-                    .range([0, miniHeight]);
-
-                var chart = d3.select(elem)
-                        .append("svg")
-                        .attr("width", w + m[1] + m[3])
-                        .attr("height", h + m[0] + m[2])
-                        .attr("class", "chart");
-
-                chart.append("defs").append("clipPath")
-                    .attr("id", "clip")
-                    .append("rect")
-                    .attr("width", w)
-                    .attr("height", mainHeight);
-
-                var main = chart.append("g")
-                    .attr("transform", "translate(" + m[3] + "," + m[0] + ")")
-                    .attr("width", w)
-                    .attr("height", mainHeight)
-                    .attr("class", "main");
-
-                var mini = chart.append("g")
-                    .attr("transform", "translate(" + m[3] + "," + (mainHeight + m[0]) + ")")
-                    .attr("width", w)
-                    .attr("height", miniHeight)
-                    .attr("class", "mini");
-
-                var itemRects = main.append("g")
-                    .attr("clip-path", "url(#clip)");
-
-                //mini item rects
-                mini.append("g").selectAll("miniItems")
-                    .data(items)
-                    .enter().append("rect")
-                    .attr("class", function (d) {
-                        return "miniItem" + d.lane;
-                    })
-                    .attr("x", function (d) {
-                        return x(d.start);
-                    })
-                    .attr("y", function (d) {
-                        return y2(d.lane + .5) - 5;
-                    })
-                    .attr("width", function (d) {
-                        return x(d.end) - x(d.start);
-                    })
-                    .attr("height", 10);
-
-                //mini labels
-                mini.append("g").selectAll(".miniLabels")
-                    .data(items)
-                    .enter().append("text")
-                    .text(function (d) {
-                        return d.id;
-                    })
-                    .attr("x", function (d) {
-                        return x(d.start);
-                    })
-                    .attr("y", function (d) {
-                        return y2(d.lane + .5);
-                    })
-                    .attr("dy", ".5ex");
-
-                //brush
-                var brush = d3.svg.brush()
-                    .x(x)
-                    .on("brush", display);
-
-                mini.append("g")
-                    .attr("class", "x brush")
-                    .call(brush)
-                    .selectAll("rect")
-                    .attr("y", 1)
-                    .attr("height", miniHeight - 1);
-
-                function display() {
-                    var rects, labels,
-                        minExtent = brush.extent()[0],
-                        maxExtent = brush.extent()[1],
-                        visItems = items.filter(function (d) {
-                            return d.start < maxExtent && d.end > minExtent;
-                        });
-
-                    mini.select(".brush")
-                        .call(brush.extent([minExtent, maxExtent]));
-
-                    x1.domain([minExtent, maxExtent]);
-
-                    //update main item rects
-                    rects = itemRects.selectAll("rect")
-                        .data(visItems, function (d) {
-                            return d.id;
-                        })
-                        .attr("x", function (d) {
-                            return x1(d.start);
-                        })
-                        .attr("width", function (d) {
-                            return x1(d.end) - x1(d.start);
-                        });
-
-                    rects.enter().append("rect")
-                        .attr("class", function (d) {
-                            return "miniItem" + d.lane;
-                        })
-                        .attr("x", function (d) {
-                            return x1(d.start);
-                        })
-                        .attr("y", function (d) {
-                            return y1(d.lane) + 10;
-                        })
-                        .attr("width", function (d) {
-                            return x1(d.end) - x1(d.start);
-                        })
-                        .attr("height", function (d) {
-                            return .8 * y1(1);
-                        });
-
-                    rects.exit().remove();
-
-                    //update the item labels
-                    labels = itemRects.selectAll("text")
-                        .data(visItems, function (d) {
-                            return d.id;
-                        })
-                        .attr("x", function (d) {
-                            return x1(Math.max(d.start, minExtent) + 2);
-                        });
-
-                    labels.enter().append("text")
-                        .text(function (d) {
-                            return d.id;
-                        })
-                        .attr("x", function (d) {
-                            return x1(Math.max(d.start, minExtent));
-                        })
-                        .attr("y", function (d) {
-                            return y1(d.lane + .5);
-                        })
-                        .attr("text-anchor", "start");
-
-                    labels.exit().remove();
-
-                }
-        })
-    }
 
     render() {
         return(

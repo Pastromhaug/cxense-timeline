@@ -9,7 +9,8 @@ module.exports = {
     },
     output: {
         publicPath: "http://localhost:8000/assets/",
-        filename: "bundle.js"
+        filename: "bundle.js",
+        devtool: 'eval'
     },
     module: {
         loaders: [
