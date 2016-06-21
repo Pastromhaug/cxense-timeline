@@ -145,19 +145,19 @@ class Chart extends React.Component {
             .data(items)
             .enter().append("rect")
             .attr("class", (d) => "miniItem" + d.lane)
-    .attr("x", (d) => this._x0()(d.start))
-    .attr("y", (d) => this._y2()(d.lane + .5) - 5)
-    .attr("width", (d) => this._x0()(d.end) - this._x0()(d.start))
-    .attr("height", 10);
+            .attr("x", (d) => this._x0()(d.start))
+            .attr("y", (d) => this._y2()(d.lane + .5) - 5)
+            .attr("width", (d) => this._x0()(d.end) - this._x0()(d.start))
+            .attr("height", 10);
 
-        //mini labels
+            //mini labels
         mini.append("g").selectAll(".miniLabels")
             .data(items)
             .enter().append("text")
             .text( (d) => d.name)
-    .attr("x", (d) => this._x0()(d.start))
-    .attr("y", (d) => this._y2()(d.lane + .5))
-    .attr("dy", ".5ex");
+            .attr("x", (d) => this._x0()(d.start))
+            .attr("y", (d) => this._y2()(d.lane + .5))
+            .attr("dy", ".5ex");
 
         this._brush = d3.svg.brush()
             .x(this._x0())
