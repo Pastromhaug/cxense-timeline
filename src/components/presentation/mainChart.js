@@ -47,7 +47,7 @@ class MainChart extends React.Component {
         if (typeof max === 'undefined') max = 0;
         return max  }
     _h() { return  500 - this._top_pad - this._bot_pad }
-    _w() { return  this.chartWidth - this._right_pad - this._left_pad }
+    _w() { return  Math.max(this.chartWidth - this._right_pad - this._left_pad,0) }
     _x0() { return (
                 d3.scale.linear()
                     .domain([this._timeBegin(), this._timeEnd()])
@@ -77,28 +77,59 @@ class MainChart extends React.Component {
     _itemRects() { return  d3.select('#itemRects')}
 
     componentDidMount() {
-        this.chartWidth = document.getElementById('mainChart').offsetWidth;
-        console.log('componentDidMount');
-        this.createChartStructure();
+        var elem = ReactDOM.findDOMNode(this);
+        d3.select(elem)
+            .append("svg")
+            .attr("class", "mainChart")
+            .attr("id", "svg");
+
+        this._svg().append("defs").append("clipPath")
+            .attr("id", "clip")
+            .append("rect");
+
+        var main = this._svg().append("g")
+            .attr("transform", "translate(" + this._left_pad + "," + this._top_pad + ")")
+            .attr("class", "main")
+            .attr("id", "main");
+
+        var mini = this._svg().append("g")
+            .attr("class", "mini")
+            .attr("id","mini");
     }
 
     componentDidUpdate() {
-        console.log('componentDidUPdate');
-        this._svg()
-            .attr("width", this._w() + this._left_pad + this._right_pad);
-        this._clipPath()
+        this.chartWidth = document.getElementById('mainChart').offsetWidth;
+        this.createChartStructure();
+    }
+
+    createChartStructure() {
+        this._svg().attr("id", "svg")
+            .attr("width", this._w() + this._left_pad + this._right_pad)
+            .attr("height", this._h() + this._top_pad + this._bot_pad);;
+
+        this._clipPath().select("rect")
             .attr("width", this._w() )
             .attr("height", this._main_h() );
-        this._main()
+
+       this._main()
             .attr("width", this._w() )
             .attr("height", this._main_h() );
+
         this._mini()
             .attr("transform", "translate(" + this._left_pad + "," + (this._main_h() + this._top_pad) + ")")
             .attr("width", this._w() )
-            .attr("height", this._mini_h() );
+            .attr("height", this._mini_h() )
 
+        var itemRects = this._main().append("g")
+            .attr("clip-path", "url(#clip)")
+            .attr("id", "itemRects");
+
+
+        var items = this.props.issues;
+
+        //mini item rects
         this._mini().append("g").selectAll("miniItems")
-            .data(this.props.issues)
+            .data(items)
             .enter().append("rect")
             .attr("class", (d) => "miniItem" + d.lane)
             .attr("x", (d) => this._x0()(d.start))
@@ -106,64 +137,32 @@ class MainChart extends React.Component {
             .attr("width", (d) => this._x0()(d.end) - this._x0()(d.start))
             .attr("height", 10);
 
-
-        //mini labels
-        this._mini().selectAll(".miniLabels")
-            .data(this.props.issues)
+            //mini labels
+        this._mini().append("g").selectAll(".miniLabels")
+            .data(items)
             .enter().append("text")
             .text( (d) => d.name)
             .attr("x", (d) => this._x0()(d.start))
             .attr("y", (d) => this._y2()(d.lane + .5))
             .attr("dy", ".5ex");
 
-        this._brush
-            .x(this._x0());
+        this._brush = d3.svg.brush()
+            .x(this._x0())
+            .on("brush", this._displayFromBrush.bind(this ));
 
-        this._mini().select("g").select("brush")
+        this._mini().append("g")
+            .attr("class", "x brush")
+            .call(this._brush)
             .selectAll("rect")
             .attr("y", 1)
             .attr("height", this._mini_h() - 1);
-
-        this._updateRectangles()
-    }
-
-    createChartStructure() {
-        var elem = ReactDOM.findDOMNode(this);
-        var chart = d3.select(elem)
-            .append("svg")
-            .attr("class", "mainChart")
-            .attr("id", "svg")
-            .attr("height", this._h() + this._top_pad + this._bot_pad);
-
-        chart.append("defs").append("clipPath")
-            .attr("id", "clip")
-            .append("rect");
-
-        var main = chart.append("g")
-            .attr("class", "main")
-            .attr("id", "main")
-            .attr("transform", "translate(" + this._left_pad + "," + this._top_pad + ")");
-
-        var mini = chart.append("g")
-            .attr("class", "mini")
-            .attr("id","mini");
-
-        var itemRects = main.append("g")
-            .attr("clip-path", "url(#clip)")
-            .attr("id", "itemRects");
-
-        this._brush = d3.svg.brush()
-            .on("brush", this._displayFromBrush.bind(this ));
-
-        mini.append("g")
-            .attr("class", "x brush")
-            .call(this._brush)
     }
 
     _displayFromBrush() {
         var minExtent = this._brush.extent()[0],
             maxExtent = this._brush.extent()[1];
         this.props.dispatchBrushInterval(minExtent, maxExtent);
+        this._updateRectangles();
     }
 
     _updateRectangles() {
