@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import Chart from '../presentation/chart';
-import {actionAddIssues, actionBrushInterval} from '../../actions/issues';
+import MainChart from '../presentation/mainChart';
+import {actionBrushInterval} from '../../actions/issues';
 
 const mapStateToProps = (state) => {
     return {
@@ -13,19 +13,15 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        dispatchAddIssues: (issues) => {
-        dispatch( actionAddIssues(issues) )
-    },
-
         dispatchBrushInterval: (start_time, end_time) => {
-        dispatch( actionBrushInterval(start_time, end_time) )
+            dispatch( actionBrushInterval(start_time, end_time) )
+        }
     }
-}
 };
 
-const VisibleChart = connect (
+const VisibleMainChart = connect (
     mapStateToProps,
     mapDispatchToProps
-)(Chart);
+)(MainChart);
 
-export default VisibleChart
+export default VisibleMainChart

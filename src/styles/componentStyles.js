@@ -17,7 +17,6 @@ export const cardStyles = {
 
 export const appbarStyles = {
     container: {
-        marginBottom: '32px',
         backgroundColor: 'rgb(70,77,91)',
         textAlign: 'right'
     }

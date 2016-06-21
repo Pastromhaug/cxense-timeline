@@ -21,7 +21,7 @@ const initial_state = {
         is_fixed: true,
         start_day: 30,
         end_day: 0,
-        query: "https://jira.cxense.com/rest/api/2/search?jql=project=CXANA"
+        query: 'http://localhost:8001/sample'
     },
     query: {
         start_date: start_date,
@@ -29,7 +29,7 @@ const initial_state = {
         is_fixed: true,
         start_day: 30,
         end_day: 0,
-        query: "https://jira.cxense.com/rest/api/2/search?jql=project=CXANA"
+        query: 'http://localhost:8001/sample'
     }
 };
 
