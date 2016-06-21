@@ -4,16 +4,19 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import MiniChart from '../presentation/miniChart';
+import {actionBrushInterval} from '../../actions/issues';
 
 const mapStateToProps = (state) => {
     return {
-        state: state
+        issues: state.issues
     }
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        state2: null
+        dispatchBrushInterval: (start_time, end_time) => {
+            dispatch( actionBrushInterval(start_time, end_time) )
+        }
     }
 };
 
