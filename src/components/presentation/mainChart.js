@@ -13,7 +13,6 @@ class MainChart extends React.Component {
 
     constructor() {
         super();
-        this.createChartStructure.bind(this);
         this._displayFromBrush.bind(this);
         this._timeBegin.bind(this);
         this._timeEnd.bind(this);
@@ -77,6 +76,7 @@ class MainChart extends React.Component {
     _itemRects() { return  d3.select('#itemRects')}
 
     componentDidMount() {
+        console.log('componentDidMount');
         var elem = ReactDOM.findDOMNode(this);
         d3.select(elem)
             .append("svg")
@@ -97,17 +97,26 @@ class MainChart extends React.Component {
             .attr("id","mini");
 
         this._mini().append("g").attr("id", "miniItems");
+        this._mini().append("g").attr("id", "miniRects");
+        this._mini().append("g").attr("id", "miniLabels");
+        this._main().append("g")
+            .attr("clip-path", "url(#clip)")
+            .attr("id", "itemRects");
+
+        this._brush = d3.svg.brush()
+            .x(this._x0())
+            .on("brush", this._displayFromBrush.bind(this ));
+
+        this._mini().append("g").attr('id','mybrush').attr("class", "x brush");
     }
 
     componentDidUpdate() {
+        console.log('componentDidUpdate');
         this.chartWidth = document.getElementById('mainChart').offsetWidth;
-        this.createChartStructure();
-    }
 
-    createChartStructure() {
         this._svg().attr("id", "svg")
             .attr("width", this._w() + this._left_pad + this._right_pad)
-            .attr("height", this._h() + this._top_pad + this._bot_pad);;
+            .attr("height", this._h() + this._top_pad + this._bot_pad);
 
         this._clipPath().select("rect")
             .attr("width", this._w() )
@@ -120,50 +129,46 @@ class MainChart extends React.Component {
         this._mini()
             .attr("transform", "translate(" + this._left_pad + "," + (this._main_h() + this._top_pad) + ")")
             .attr("width", this._w() )
-            .attr("height", this._mini_h() )
+            .attr("height", this._mini_h() );
 
-        var itemRects = this._main().append("g")
-            .attr("clip-path", "url(#clip)")
-            .attr("id", "itemRects");
-
-        this._mini().select("#miniItems").select("miniItems")
-            .data(this.props.issues)
+        this._mini().select("#miniItems").selectAll(".miniItems")
+            .data(this.props.issues, d => d.name)
             .enter().append("rect")
-            .attr("class", (d) => "miniItem" + d.lane)
+            .attr("class", (d) => "miniItems miniItem" + d.lane)
             .attr("x", (d) => this._x0()(d.start))
             .attr("y", (d) => this._y2()(d.lane + .5) - 5)
             .attr("width", (d) => this._x0()(d.end) - this._x0()(d.start))
             .attr("height", 10);
+        this._mini().select("#miniItems").selectAll(".miniItems")
+            .data(this.props.issues, d => d.name).exit().remove();
 
-
-
-        //mini item rects
-        this._mini().append("g")
-            .attr("id", "miniItems")
-            .selectAll("miniItems")
-            .data(this.props.issues)
+        this._mini().select("#miniRects").selectAll(".miniItems")
+            .data(this.props.issues, d => d.name)
             .enter().append("rect")
-            .attr("class", (d) => "miniItem" + d.lane)
+            .attr("class", (d) => "miniItems miniItem" + d.lane)
             .attr("x", (d) => this._x0()(d.start))
             .attr("y", (d) => this._y2()(d.lane + .5) - 5)
             .attr("width", (d) => this._x0()(d.end) - this._x0()(d.start))
             .attr("height", 10);
+        this._mini().select("#miniRects").selectAll("miniItems")
+            .data(this.props.issues, d => d.name).exit().remove();
 
             //mini labels
-        this._mini().append("g").selectAll(".miniLabels")
-            .data(this.props.issues)
+        this._mini().select("#miniLabels").selectAll(".miniLabels")
+            .data(this.props.issues, d => d.name)
             .enter().append("text")
+            .attr("class", "miniLabels")
             .text( (d) => d.name)
             .attr("x", (d) => this._x0()(d.start))
             .attr("y", (d) => this._y2()(d.lane + .5))
             .attr("dy", ".5ex");
+        this._mini().select("#miniLabels").selectAll(".miniLabels")
+            .data(this.props.issues, d => d.name).exit().remove();
 
-        this._brush = d3.svg.brush()
-            .x(this._x0())
-            .on("brush", this._displayFromBrush.bind(this ));
+        this._brush
+            .x(this._x0());
 
-        this._mini().append("g")
-            .attr("class", "x brush")
+        this._mini().select("#mybrush")
             .call(this._brush)
             .selectAll("rect")
             .attr("y", 1)
@@ -174,7 +179,7 @@ class MainChart extends React.Component {
         var minExtent = this._brush.extent()[0],
             maxExtent = this._brush.extent()[1];
         this.props.dispatchBrushInterval(minExtent, maxExtent);
-        this._updateRectangles();
+        //this._updateRectangles();
     }
 
     _updateRectangles() {
