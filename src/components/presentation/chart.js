@@ -99,7 +99,6 @@ class Chart extends React.Component {
 
     updateChartIssues(elem) {
         var chart = d3.select(elem);
-
     }
 
 
@@ -229,9 +228,13 @@ class Chart extends React.Component {
 
         return {
             lane: 0,
-            name: d.fields.summary,
+            name: d.fields.summary + " (" + d.fields.issuetype.name + ")",
             start: start,
             end: end,
+            id: d.key,
+            status: d.fields.status.name,
+            remaining_estimate: end - moment.utc().valueOf(),
+            planning_status: d.fields.status.description
 
         };});
 
