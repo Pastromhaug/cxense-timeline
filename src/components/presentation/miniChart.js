@@ -22,17 +22,13 @@ class MiniChart extends React.Component {
         this._w.bind(this);
 
         this._brush = null;
-        this._left_pad = 20;
-        this._right_pad = 20;
-        this._top_pad = 15;
-        this._bot_pad = 15;
         this.chartWidth = 0;
     }
-    _w() { return  Math.max(this.chartWidth - this._right_pad - this._left_pad,0) }
+    _w() { return  Math.max(this.chartWidth,0) }
     _mini_h() { return  this._lane_num() * 12 + 50 }
     _mini() { return  d3.select('#mini') }
     _lane_num() {
-        var max = d3.max(this.props.issues, (issue) => issue.lane);
+        var max = d3.max(this.props.issues, (issue) => issue.lane + 1);
         if (typeof max === 'undefined') max = 0;
         return max  }
     _x0() { return (
@@ -77,11 +73,10 @@ class MiniChart extends React.Component {
         this.chartWidth = document.getElementById('miniChart').offsetWidth;
 
         this._svg().attr("id", "svg")
-            .attr("width", this._w() + this._left_pad + this._right_pad)
-            .attr("height", this._mini_h() + this._top_pad + this._bot_pad);
+            .attr("width", this._w())
+            .attr("height", this._mini_h() );
 
         this._mini()
-            .attr("transform", "translate(" + this._left_pad + "," + (this._top_pad) + ")")
             .attr("width", this._w() );
 
         var miniItems = this._mini().select("#miniItems").selectAll(".miniItems")

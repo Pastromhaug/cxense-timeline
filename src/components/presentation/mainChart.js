@@ -15,7 +15,6 @@ class MainChart extends React.Component {
         this._w.bind(this);
         this._h.bind(this);
         this._lane_num.bind(this);
-        this._main_h.bind(this);
         this._clipPath.bind(this);
         this._x1.bind(this);
         this._y1.bind(this);
@@ -24,20 +23,14 @@ class MainChart extends React.Component {
         this._itemRects.bind(this);
         this. _updateRectangles.bind(this);
         this._brush = null;
-        this._left_pad = 20;
-        this._right_pad = 20;
-        this._top_pad = 15;
-        this._bot_pad = 15;
         this.chartWidth = 0;
     }
-
-    _main_h() { return  this._h() -  50 }
     _lane_num() {
-        var max = d3.max(this.props.issues, (issue) => issue.lane);
+        var max = d3.max(this.props.issues, (issue) => issue.lane + 1);
         if (typeof max === 'undefined') max = 0;
         return max  }
-    _h() { return  500 - this._top_pad - this._bot_pad }
-    _w() { return  Math.max(this.chartWidth - this._right_pad - this._left_pad,0) }
+    _h() { return  500 }
+    _w() { return  Math.max(this.chartWidth,0) }
     _x1() { return (
                 d3.scale.linear()
                     .domain( [this.props.brush_start, this.props.brush_end])
@@ -46,7 +39,7 @@ class MainChart extends React.Component {
     _y1() { return (
                 d3.scale.linear()
                     .domain([0, this._lane_num() ])
-                    .range([0, this._main_h() ])
+                    .range([0, this._h() ])
         )}
     _timeBegin() { return  d3.min(this.props.issues, (issue) => issue.start) }
     _timeEnd() { return  d3.max(this.props.issues, (issue) => issue.end) }
@@ -67,7 +60,6 @@ class MainChart extends React.Component {
             .append("rect");
 
         this._svg().append("g")
-            .attr("transform", "translate(" + this._left_pad + "," + this._top_pad + ")")
             .attr("class", "main")
             .attr("id", "main_el");
 
@@ -80,16 +72,16 @@ class MainChart extends React.Component {
         this.chartWidth = document.getElementById('mainChart').offsetWidth;
 
         this._svg().attr("id", "svg")
-            .attr("width", this._w() + this._left_pad + this._right_pad)
-            .attr("height", this._h() + this._top_pad + this._bot_pad);
+            .attr("width", this._w() )
+            .attr("height", this._h() );
 
         this._clipPath().select("rect")
             .attr("width", this._w() )
-            .attr("height", this._main_h() );
+            .attr("height", this._h() );
 
        this._main()
             .attr("width", this._w() )
-            .attr("height", this._main_h() );
+            .attr("height", this._h() );
 
         this._updateRectangles();
     }
