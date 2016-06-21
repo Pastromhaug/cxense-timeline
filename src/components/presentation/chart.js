@@ -55,25 +55,26 @@ class Chart extends React.Component {
         // console.log('_x(): this._w(): ' + this._w())
         return (
             d3.scale.linear()
-              .domain([this._timeBegin(), this._timeEnd()])
-              .range( [0, this._w() ] )
+                .domain([this._timeBegin(), this._timeEnd()])
+                .range( [0, this._w() ] )
         )}
     _x1() {
         return (
             d3.scale.linear()
-              .range( [0, this._w() ] )
+                .domain( [this.props.brush_start, this.props.brush_end])
+                .range( [0, this._w() ] )
         )}
     _y1() {
         return (
             d3.scale.linear()
-              .domain([0, this._lane_num() ])
-              .range([0, this._main_h() ])
+                .domain([0, this._lane_num() ])
+                .range([0, this._main_h() ])
         )}
     _y2() {
         return (
             d3.scale.linear()
-              .domain( [0, this._lane_num() ] )
-              .range( [0, this._mini_h() ] )
+                .domain( [0, this._lane_num() ] )
+                .range( [0, this._mini_h() ] )
         )}
     _timeBegin() {
         return d3.min(this.props.issues, (issue) => issue.start) }
@@ -103,71 +104,71 @@ class Chart extends React.Component {
 
     createChartStructure(elem) {
         fetch('http://localhost:8001/sample').then((data) => data.json())
-            .then( (data) => {
+    .then( (data) => {
 
-                var items = this.formatIssues(data);
-                this.props.dispatchAddIssues(items);
-                var items = this.props.issues;
+            var items = this.formatIssues(data);
+        this.props.dispatchAddIssues(items);
+        var items = this.props.issues;
 
-                var chart = d3.select(elem)
-                        .append("svg")
-                        .attr("width", this._w() + this._left_pad + this._right_pad)
-                        .attr("height", this._h() + this._top_pad + this._bot_pad)
-                        .attr("class", "chart");
+        var chart = d3.select(elem)
+            .append("svg")
+            .attr("width", this._w() + this._left_pad + this._right_pad)
+            .attr("height", this._h() + this._top_pad + this._bot_pad)
+            .attr("class", "chart");
 
-                chart.append("defs").append("clipPath")
-                    .attr("id", "clip")
-                    .append("rect")
-                    .attr("width", this._w() )
-                    .attr("height", this._main_h() );
+        chart.append("defs").append("clipPath")
+            .attr("id", "clip")
+            .append("rect")
+            .attr("width", this._w() )
+            .attr("height", this._main_h() );
 
-                var main = chart.append("g")
-                    .attr("transform", "translate(" + this._left_pad + "," + this._top_pad + ")")
-                    .attr("width", this._w() )
-                    .attr("height", this._main_h() )
-                    .attr("class", "main");
+        var main = chart.append("g")
+            .attr("transform", "translate(" + this._left_pad + "," + this._top_pad + ")")
+            .attr("width", this._w() )
+            .attr("height", this._main_h() )
+            .attr("class", "main");
 
-                var mini = chart.append("g")
-                    .attr("transform", "translate(" + this._left_pad + "," + (this._main_h() + this._top_pad) + ")")
-                    .attr("width", this._w() )
-                    .attr("height", this._mini_h() )
-                    .attr("class", "mini")
-                    .attr("id","mini");
+        var mini = chart.append("g")
+            .attr("transform", "translate(" + this._left_pad + "," + (this._main_h() + this._top_pad) + ")")
+            .attr("width", this._w() )
+            .attr("height", this._mini_h() )
+            .attr("class", "mini")
+            .attr("id","mini");
 
-                var itemRects = main.append("g")
-                    .attr("clip-path", "url(#clip)")
-                    .attr("id", "itemRects");
+        var itemRects = main.append("g")
+            .attr("clip-path", "url(#clip)")
+            .attr("id", "itemRects");
 
-                //mini item rects
-                mini.append("g").selectAll("miniItems")
-                    .data(items)
-                    .enter().append("rect")
-                    .attr("class", (d) => "miniItem" + d.lane)
-                    .attr("x", (d) => this._x0()(d.start))
-                    .attr("y", (d) => this._y2()(d.lane + .5) - 5)
-                    .attr("width", (d) => this._x0()(d.end) - this._x0()(d.start))
-                    .attr("height", 10);
+        //mini item rects
+        mini.append("g").selectAll("miniItems")
+            .data(items)
+            .enter().append("rect")
+            .attr("class", (d) => "miniItem" + d.lane)
+    .attr("x", (d) => this._x0()(d.start))
+    .attr("y", (d) => this._y2()(d.lane + .5) - 5)
+    .attr("width", (d) => this._x0()(d.end) - this._x0()(d.start))
+    .attr("height", 10);
 
-                //mini labels
-                mini.append("g").selectAll(".miniLabels")
-                    .data(items)
-                    .enter().append("text")
-                    .text( (d) => d.id)
-                    .attr("x", (d) => this._x0()(d.start))
-                    .attr("y", (d) => this._y2()(d.lane + .5))
-                    .attr("dy", ".5ex");
+        //mini labels
+        mini.append("g").selectAll(".miniLabels")
+            .data(items)
+            .enter().append("text")
+            .text( (d) => d.id)
+    .attr("x", (d) => this._x0()(d.start))
+    .attr("y", (d) => this._y2()(d.lane + .5))
+    .attr("dy", ".5ex");
 
-                this._brush = d3.svg.brush()
-                              .x(this._x0())
-                              .on("brush", this._displayFromBrush.bind(this ));
+        this._brush = d3.svg.brush()
+            .x(this._x0())
+            .on("brush", this._displayFromBrush.bind(this ));
 
-                mini.append("g")
-                    .attr("class", "x brush")
-                    .call(this._brush)
-                    .selectAll("rect")
-                    .attr("y", 1)
-                    .attr("height", this._mini_h() - 1);
-        })
+        mini.append("g")
+            .attr("class", "x brush")
+            .call(this._brush)
+            .selectAll("rect")
+            .attr("y", 1)
+            .attr("height", this._mini_h() - 1);
+    })
     }
 
     _displayFromBrush() {
@@ -176,41 +177,32 @@ class Chart extends React.Component {
             maxExtent = this._brush.extent()[1],
             visItems = this.props.issues.filter(  (d) =>  d.start < maxExtent && d.end > minExtent);
 
-        this._mini().select(".brush")
-            .call(this._brush.extent([minExtent, maxExtent]));
-
-        this._x1().domain([minExtent, maxExtent]);
-
-        //update main item rects
-        console.log('this._itemRects()')
-        console.log(this._itemRects())
-        console.log('this._itemRects().selectAll("rect")')
-        console.log(this._itemRects().selectAll("rect"))
+        this.props.dispatchBrushInterval(minExtent, maxExtent);
 
         rects = this._itemRects().selectAll("rect")
-            .data(visItems, (d) => d.id)
-            .attr("x", (d) => this._x1()(d.start))
-            .attr("width", (d) =>  this._x1()(d.end) - this._x1()(d.start));
+                .data(visItems, (d) => d.id)
+    .attr("x", (d) => this._x1()(d.start))
+    .attr("width", (d) =>  this._x1()(d.end) - this._x1()(d.start));
 
         rects.enter().append("rect")
             .attr("class", (d) => "miniItem" + d.lane)
-            .attr("x", (d) => this._x1()(d.start))
-            .attr("y", (d) => this._y1()(d.lane) + 10)
-            .attr("width", (d) => this._x1()(d.end) - this._x1()(d.start))
-            .attr("height", (d) => .8 * this._y1()(1))
+    .attr("x", (d) => this._x1()(d.start))
+    .attr("y", (d) => this._y1()(d.lane) + 10)
+    .attr("width", (d) => this._x1()(d.end) - this._x1()(d.start))
+    .attr("height", (d) => .8 * this._y1()(1));
 
         rects.exit().remove();
 
         //update the item labels
         labels = this._itemRects().selectAll("text")
-            .data(visItems, (d) => d.id)
-            .attr("x", (d) => this._x1()(Math.max(d.start, minExtent) + 2))
+                .data(visItems, (d) => d.id)
+    .attr("x", (d) => this._x1()(Math.max(d.start, minExtent) + 2));
 
         labels.enter().append("text")
             .text( (d) => d.id)
-            .attr("x", (d) => this._x1()(Math.max(d.start, minExtent)))
-            .attr("y", (d) => this._y1()(d.lane + .5))
-            .attr("text-anchor", "start");
+    .attr("x", (d) => this._x1()(Math.max(d.start, minExtent)))
+    .attr("y", (d) => this._y1()(d.lane + .5))
+    .attr("text-anchor", "start");
 
         labels.exit().remove();
 
@@ -219,47 +211,47 @@ class Chart extends React.Component {
 
     formatIssues(data) {
         data = data.issues.filter( (d) => {
-            return _.has(d.fields, 'customfield_10651') && _.has(d.fields, 'customfield_10652');});
+                return _.has(d.fields, 'customfield_10651') && _.has(d.fields, 'customfield_10652');});
         data = data.filter( (d) => {
-            return (
-                d.fields.customfield_10651 != null && typeof d.fields.customfield_10651 !== 'undefined'
-                && d.fields.customfield_10652 != null && typeof d.fields.customfield_10652 !== 'undefined'
-            )});
+                return (
+                    d.fields.customfield_10651 != null && typeof d.fields.customfield_10651 !== 'undefined'
+                    && d.fields.customfield_10652 != null && typeof d.fields.customfield_10652 !== 'undefined'
+                )});
 
 
         var items = data.map( (d) => {
-            let start = moment.utc(d.fields.customfield_10651).valueOf();
-            let end = moment.utc(d.fields.customfield_10652).valueOf();
+                let start = moment.utc(d.fields.customfield_10651).valueOf();
+        let end = moment.utc(d.fields.customfield_10652).valueOf();
 
-            return {
-                lane: 0,
-                id: d.fields.summary,
-                start: start,
-                end: end
-            };});
+        return {
+            lane: 0,
+            id: d.fields.summary,
+            start: start,
+            end: end
+        };});
 
         items = items.sort( (a,b) => d3.ascending(a.start, b.start));
         items = items.sort( (a,b) => d3.ascending(a.end, b.end));
 
         var laneData = [];
         items = items.map( (new_item) => {
-            var laneDataLength = laneData.length;
-            for (let i = 0; i <= laneDataLength; i++){
-                if (i == laneData.length) {
+                var laneDataLength = laneData.length;
+        for (let i = 0; i <= laneDataLength; i++){
+            if (i == laneData.length) {
+                new_item.lane = i;
+                laneData = laneData.concat([[new_item]]);
+                return new_item;}
+            else {
+                let overlaps = laneData[i].filter( (item) => (
+                    item.start >= new_item.start && item.start <= new_item.end
+                    || item.end >= new_item.start && item.end <= new_item.end
+                    || item.start <= new_item.start && item.end >= new_item.end));
+                if (overlaps.length == 0) {
                     new_item.lane = i;
-                    laneData = laneData.concat([[new_item]]);
+                    laneData[i] = laneData[i].concat([new_item]);
                     return new_item;}
-                else {
-                    let overlaps = laneData[i].filter( (item) => (
-                        item.start >= new_item.start && item.start <= new_item.end
-                        || item.end >= new_item.start && item.end <= new_item.end
-                        || item.start <= new_item.start && item.end >= new_item.end));
-                    if (overlaps.length == 0) {
-                        new_item.lane = i;
-                        laneData[i] = laneData[i].concat([new_item]);
-                        return new_item;}
-                }
-            }});
+            }
+        }});
         return items;
     }
 
