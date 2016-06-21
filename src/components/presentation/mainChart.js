@@ -95,6 +95,8 @@ class MainChart extends React.Component {
         var mini = this._svg().append("g")
             .attr("class", "mini")
             .attr("id","mini");
+
+        this._mini().append("g").attr("id", "miniItems");
     }
 
     componentDidUpdate() {
@@ -124,12 +126,22 @@ class MainChart extends React.Component {
             .attr("clip-path", "url(#clip)")
             .attr("id", "itemRects");
 
+        this._mini().select("#miniItems").select("miniItems")
+            .data(this.props.issues)
+            .enter().append("rect")
+            .attr("class", (d) => "miniItem" + d.lane)
+            .attr("x", (d) => this._x0()(d.start))
+            .attr("y", (d) => this._y2()(d.lane + .5) - 5)
+            .attr("width", (d) => this._x0()(d.end) - this._x0()(d.start))
+            .attr("height", 10);
 
-        var items = this.props.issues;
+
 
         //mini item rects
-        this._mini().append("g").selectAll("miniItems")
-            .data(items)
+        this._mini().append("g")
+            .attr("id", "miniItems")
+            .selectAll("miniItems")
+            .data(this.props.issues)
             .enter().append("rect")
             .attr("class", (d) => "miniItem" + d.lane)
             .attr("x", (d) => this._x0()(d.start))
@@ -139,7 +151,7 @@ class MainChart extends React.Component {
 
             //mini labels
         this._mini().append("g").selectAll(".miniLabels")
-            .data(items)
+            .data(this.props.issues)
             .enter().append("text")
             .text( (d) => d.name)
             .attr("x", (d) => this._x0()(d.start))
