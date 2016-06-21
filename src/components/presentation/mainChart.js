@@ -70,7 +70,7 @@ class MainChart extends React.Component {
     _timeBegin() { return  d3.min(this.props.issues, (issue) => issue.start) }
     _timeEnd() { return  d3.max(this.props.issues, (issue) => issue.end) }
     _mini() { return  d3.select('#mini') }
-    _main() { return d3.select('#main') }
+    _main() { return d3.select('#main_el') }
     _clipPath() { return d3.select('#clip')}
     _svg() { return d3.select('#svg')}
     _itemRects() { return  d3.select('#itemRects')}
@@ -87,12 +87,12 @@ class MainChart extends React.Component {
             .attr("id", "clip")
             .append("rect");
 
-        var main = this._svg().append("g")
+        this._svg().append("g")
             .attr("transform", "translate(" + this._left_pad + "," + this._top_pad + ")")
             .attr("class", "main")
-            .attr("id", "main");
+            .attr("id", "main_el");
 
-        var mini = this._svg().append("g")
+        this._svg().append("g")
             .attr("class", "mini")
             .attr("id","mini");
 
@@ -111,7 +111,6 @@ class MainChart extends React.Component {
     }
 
     componentDidUpdate() {
-        console.log('componentDidUpdate');
         this.chartWidth = document.getElementById('mainChart').offsetWidth;
 
         this._svg().attr("id", "svg")
@@ -131,39 +130,26 @@ class MainChart extends React.Component {
             .attr("width", this._w() )
             .attr("height", this._mini_h() );
 
-        this._mini().select("#miniItems").selectAll(".miniItems")
-            .data(this.props.issues, d => d.name)
-            .enter().append("rect")
+        var miniItems = this._mini().select("#miniItems").selectAll(".miniItems")
+            .data(this.props.issues, d => d.name);
+        miniItems.enter().append("rect")
             .attr("class", (d) => "miniItems miniItem" + d.lane)
             .attr("x", (d) => this._x0()(d.start))
             .attr("y", (d) => this._y2()(d.lane + .5) - 5)
             .attr("width", (d) => this._x0()(d.end) - this._x0()(d.start))
             .attr("height", 10);
-        this._mini().select("#miniItems").selectAll(".miniItems")
-            .data(this.props.issues, d => d.name).exit().remove();
-
-        this._mini().select("#miniRects").selectAll(".miniItems")
-            .data(this.props.issues, d => d.name)
-            .enter().append("rect")
-            .attr("class", (d) => "miniItems miniItem" + d.lane)
-            .attr("x", (d) => this._x0()(d.start))
-            .attr("y", (d) => this._y2()(d.lane + .5) - 5)
-            .attr("width", (d) => this._x0()(d.end) - this._x0()(d.start))
-            .attr("height", 10);
-        this._mini().select("#miniRects").selectAll("miniItems")
-            .data(this.props.issues, d => d.name).exit().remove();
+        miniItems.exit().remove();
 
             //mini labels
-        this._mini().select("#miniLabels").selectAll(".miniLabels")
-            .data(this.props.issues, d => d.name)
-            .enter().append("text")
+        var miniLabels = this._mini().select("#miniLabels").selectAll(".miniLabels")
+            .data(this.props.issues, d => d.name);
+        miniLabels.enter().append("text")
             .attr("class", "miniLabels")
             .text( (d) => d.name)
             .attr("x", (d) => this._x0()(d.start))
             .attr("y", (d) => this._y2()(d.lane + .5))
             .attr("dy", ".5ex");
-        this._mini().select("#miniLabels").selectAll(".miniLabels")
-            .data(this.props.issues, d => d.name).exit().remove();
+        miniLabels.exit().remove();
 
         this._brush
             .x(this._x0());
@@ -173,24 +159,25 @@ class MainChart extends React.Component {
             .selectAll("rect")
             .attr("y", 1)
             .attr("height", this._mini_h() - 1);
+
+        this._updateRectangles();
     }
 
     _displayFromBrush() {
         var minExtent = this._brush.extent()[0],
             maxExtent = this._brush.extent()[1];
         this.props.dispatchBrushInterval(minExtent, maxExtent);
-        //this._updateRectangles();
     }
 
     _updateRectangles() {
-        var rects, labels;
         var visItems = this.props.issues.filter(  (d) =>  (
             d.start < this.props.brush_end && d.end > this.props.brush_start)
         );
-        rects = this._itemRects().selectAll("rect")
+        console.log(visItems);
+        var rects = this._itemRects().selectAll("rect")
             .data(visItems, (d) => d.name)
             .attr("x", (d) => this._x1()(d.start))
-            .attr("width", (d) =>  this._x1()(d.end) - this._x1()(d.start));
+            .attr("width", (d) => this._x1()(d.end) - this._x1()(d.start));
 
         rects.enter().append("rect")
             .attr("class", (d) => "miniItem" + d.lane)
@@ -202,7 +189,7 @@ class MainChart extends React.Component {
         rects.exit().remove();
 
         //update the item labels
-        labels = this._itemRects().selectAll("text")
+        var labels = this._itemRects().selectAll("text")
             .data(visItems, (d) => d.name)
             .attr("x", (d) => this._x1()(Math.max(d.start, this.props.brush_start) + 2));
 
