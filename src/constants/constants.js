@@ -33,12 +33,43 @@ export const COLUMNS = [
     },{
         name: 'pew pwe',
         jire_name: 'fdka;fad'
+    },{
+        name: 'Name (Type)',
+        jira_name: 'Name (Type)',
+        field_name: 'name'
+    },{
+        name: 'ID',
+        jira_name: 'ID',
+        field_name: 'id'
+    },{
+        name: 'Status',
+        jira_name: 'status',
+        field_name: 'status'
+    },{
+        name: 'Remaining Estimate',
+        jira_name: 'Remaining Estimate',
+        field_name: 'remaining_estimate'
+    },{
+        name: 'Planned Start',
+        jira_name: 'Planned Start',
+        field_name: 'start'
+    },{
+        name: 'Planned End',
+        jira_name: 'Planned End',
+        field_name: 'end'
+    },{
+        name: 'Planning Status',
+        jira_name: 'Planning Status',
+        field_name: 'planning_status'
     }
 ];
 
 export const DEFAULT_COLUMNS = [
-    'fdafsd',
-    'Per Andre',
-    'oh yeah',
-    'pew pwe'
+    'Name (Type)',
+    'ID',
+    'Status',
+    'Remaining Estimate',
+    'Planned Start',
+    'Planned End',
+    'Planning Status'
 ];

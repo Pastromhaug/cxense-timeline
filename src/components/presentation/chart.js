@@ -31,6 +31,7 @@ class Chart extends React.Component {
         this._y2.bind(this);
         this._mini.bind(this);
         this._itemRects.bind(this);
+        this. _updateRectangles.bind(this);
 
         this._brush = null;
 
@@ -153,7 +154,7 @@ class Chart extends React.Component {
         mini.append("g").selectAll(".miniLabels")
             .data(items)
             .enter().append("text")
-            .text( (d) => d.id)
+            .text( (d) => d.name)
     .attr("x", (d) => this._x0()(d.start))
     .attr("y", (d) => this._y2()(d.lane + .5))
     .attr("dy", ".5ex");
@@ -172,40 +173,43 @@ class Chart extends React.Component {
     }
 
     _displayFromBrush() {
-        var rects, labels,
-            minExtent = this._brush.extent()[0],
-            maxExtent = this._brush.extent()[1],
-            visItems = this.props.issues.filter(  (d) =>  d.start < maxExtent && d.end > minExtent);
-
+        var minExtent = this._brush.extent()[0],
+            maxExtent = this._brush.extent()[1];
         this.props.dispatchBrushInterval(minExtent, maxExtent);
+        this._updateRectangles();
+    }
 
+    _updateRectangles() {
+        var rects, labels;
+        var visItems = this.props.issues.filter(  (d) =>  (
+            d.start < this.props.brush_end && d.end > this.props.brush_start)
+        );
         rects = this._itemRects().selectAll("rect")
-                .data(visItems, (d) => d.id)
-    .attr("x", (d) => this._x1()(d.start))
-    .attr("width", (d) =>  this._x1()(d.end) - this._x1()(d.start));
+            .data(visItems, (d) => d.name)
+            .attr("x", (d) => this._x1()(d.start))
+            .attr("width", (d) =>  this._x1()(d.end) - this._x1()(d.start));
 
         rects.enter().append("rect")
             .attr("class", (d) => "miniItem" + d.lane)
-    .attr("x", (d) => this._x1()(d.start))
-    .attr("y", (d) => this._y1()(d.lane) + 10)
-    .attr("width", (d) => this._x1()(d.end) - this._x1()(d.start))
-    .attr("height", (d) => .8 * this._y1()(1));
+            .attr("x", (d) => this._x1()(d.start))
+            .attr("y", (d) => this._y1()(d.lane) + 10)
+            .attr("width", (d) => this._x1()(d.end) - this._x1()(d.start))
+            .attr("height", (d) => .8 * this._y1()(1));
 
         rects.exit().remove();
 
         //update the item labels
         labels = this._itemRects().selectAll("text")
-                .data(visItems, (d) => d.id)
-    .attr("x", (d) => this._x1()(Math.max(d.start, minExtent) + 2));
+            .data(visItems, (d) => d.name)
+            .attr("x", (d) => this._x1()(Math.max(d.start, this.props.brush_start) + 2));
 
         labels.enter().append("text")
-            .text( (d) => d.id)
-    .attr("x", (d) => this._x1()(Math.max(d.start, minExtent)))
-    .attr("y", (d) => this._y1()(d.lane + .5))
-    .attr("text-anchor", "start");
+            .text( (d) => d.name)
+            .attr("x", (d) => this._x1()(Math.max(d.start, this.props.brush_end)))
+            .attr("y", (d) => this._y1()(d.lane + .5))
+            .attr("text-anchor", "start");
 
         labels.exit().remove();
-
     }
 
 
@@ -225,9 +229,10 @@ class Chart extends React.Component {
 
         return {
             lane: 0,
-            id: d.fields.summary,
+            name: d.fields.summary,
             start: start,
-            end: end
+            end: end,
+
         };});
 
         items = items.sort( (a,b) => d3.ascending(a.start, b.start));
