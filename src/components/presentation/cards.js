@@ -40,7 +40,6 @@ class  Cards extends React.Component {
     }
 
     _initIssues() {
-        console.log(this.props.query);
         fetch(this.props.query).then((data) => data.json())
             .then( (data) => {
                 var items = this._formatIssues(data);

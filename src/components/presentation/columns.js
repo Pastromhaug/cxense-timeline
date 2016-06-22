@@ -26,7 +26,6 @@ const Columns = ({columns_temp, to_add, to_remove, dispatchAddAllColumns,
                     <Table multiSelectable={true}
                            onCellClick={ (col_id) => {
                                 let col_name = available_cols[col_id];
-                                console.log(col_name);
                                 dispatchAddGroup(col_name);
                            }}>
                         <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
@@ -63,7 +62,6 @@ const Columns = ({columns_temp, to_add, to_remove, dispatchAddAllColumns,
                     <Table multiSelectable={true}
                            onCellClick={ (col_id) => {
                                 let col_name = columns_temp[col_id];
-                                console.log(col_name);
                                 dispatchRemoveGroup(col_name);
                            }}>
                         <TableHeader displaySelectAll={false} adjustForCheckbox={false}>

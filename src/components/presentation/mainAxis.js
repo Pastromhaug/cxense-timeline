@@ -13,31 +13,34 @@ class MainAxis extends React.Component {
         super();
         this._w.bind(this);
         this._x1.bind(this);
-        this._sprintItems.bind(this);
+        this._quarterItems.bind(this);
+        this._timeBegin.bind(this);
+        this._timeEnd.bind(this);
         this.chartWidth = 0;
         this.h = 35;
     }
 
+    _timeBegin() { return  d3.min(this.props.issues, (issue) => issue.start) }
+    _timeEnd() { return  d3.max(this.props.issues, (issue) => issue.end) }
     _w() { return  Math.max(this.chartWidth,0) }
     _x1() { return (
         d3.scale.linear()
             .domain( [this.props.brush_start, this.props.brush_end])
             .range( [0, this._w() ] ) )}
-    _sprintItems() {
-        var brush_start = moment.utc(this.props.brush_start);
-        var brush_end = moment.utc(this.props.brush_end);
-        var thurs = brush_start.day(-3).startOf('day'); // get thursday before interval
-        var sprintItems = [];
-
-        while (thurs.valueOf() < brush_end) {
-            sprintItems = sprintItems.concat([{
-                start: thurs.valueOf(),
-                end: thurs.add(2,'weeks').valueOf()
+    _quarterItems() {
+        var quarter = moment.utc(this._timeBegin()).startOf('year'); // get thursday before interval
+        var quarters = [];
+        var quart_num = 0;
+        var end = moment.utc(this._timeEnd());
+        while (quarter.valueOf() < end) {
+            quart_num = quart_num % 4 + 1;
+            quarters = quarters.concat([{
+                start: quarter.valueOf(),
+                end: quarter.add(3,'months').valueOf(),
+                num: quart_num
             }]);
         }
-
-        console.log(sprintItems);
-        return sprintItems;
+        return quarters;
     }
 
     static _svg() { return  d3.select('#axisSvg') }
@@ -52,29 +55,40 @@ class MainAxis extends React.Component {
         this.chartWidth = document.getElementById('mainAxis').offsetWidth;
         MainAxis._svg().attr('height', this.h);
         MainAxis._axis().attr('height', this.h);
-        console.log(this.props.sprints);
     }
 
     componentDidUpdate() {
         MainAxis._svg().attr('width', this._w());
         MainAxis._axis().attr('width', this._w());
-        var sprintItems = this._sprintItems();
+        var quartItems = this._quarterItems();
+        quartItems = quartItems.filter( (q) => (
+            q.start < this.props.brush_end && q.end > this.props.brush_start
+        ));
 
-        var sprintRects = MainAxis._sprintRects().selectAll('rect')
-            .data(sprintItems, d => d.start)
+        var quartRects = MainAxis._quartRects().selectAll('rect')
+            .data(quartItems, d => d.start)
             .attr('width', d => (this._x1()(d.end) - this._x1()(d.start)))
-            .attr('x', d => this._x1()(d.start));
-
-        sprintRects.enter()
-            .append('rect')
+            .attr('x', d => this._x1()(d.start))
             .attr('class', 'sprintRect')
             .attr('height', this.h)
-            .attr('width', d => (this._x1()(d.end) - this._x1()(d.start) - 100))
-            .attr('x', d => this._x1()(d.start) + 5)
             .attr('y', 0)
             .attr('style', {backgroundColor: 'blue'});
 
-        sprintRects.exit().remove();
+        quartRects.enter().append('rect');
+        quartRects.exit().remove();
+
+        var quartLabels = MainAxis._quartLabels().selectAll('text')
+            .data(quartItems, d => d.start)
+            .attr("x", (d) => this._x1()(
+                (Math.max(d.start, this.props.brush_start ) + Math.min(d.end, this.props.brush_end))/2
+            ))
+            .attr('y',20)
+            .attr('text-anchor', 'start');
+
+        quartLabels.enter().append('text').text( d => 'Q' + d.num);
+        quartLabels.exit().remove();
+
+        var sprintLa
     }
 
     render() {

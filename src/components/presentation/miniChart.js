@@ -46,7 +46,6 @@ class MiniChart extends React.Component {
     _svg() { return d3.select('#mini_svg')}
 
     componentDidMount() {
-        console.log('componentDidMount mini');
         var elem = ReactDOM.findDOMNode(this);
         d3.select(elem)
             .append("svg")
@@ -69,7 +68,6 @@ class MiniChart extends React.Component {
     }
 
     componentDidUpdate() {
-        console.log('componentDidUpdate mini');
         this.chartWidth = document.getElementById('miniChart').offsetWidth;
 
         this._svg().attr("id", "svg")

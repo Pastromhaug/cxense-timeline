@@ -47,7 +47,6 @@ class MainChart extends React.Component {
     _itemRects() { return  d3.select('#itemRects')}
 
     componentDidMount() {
-        console.log('componentDidMount');
         var elem = ReactDOM.findDOMNode(this);
         d3.select(elem)
             .append("svg")

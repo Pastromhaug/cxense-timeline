@@ -7,6 +7,7 @@ import MainAxis from '../presentation/mainAxis';
 
 const mapStateToProps = (state) => {
     return {
+        issues: state.issues,
         brush_start: state.brush.start_time,
         brush_end: state.brush.end_time
     }

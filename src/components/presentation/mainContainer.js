@@ -35,20 +35,19 @@ class MainContainer extends React.Component {
     _timeBegin() { return  d3.min(this.props.issues, (issue) => issue.start) }
     _timeEnd() { return  d3.max(this.props.issues, (issue) => issue.end) }
 
-    componentDidUpdate() {
-        this.timeBegin = this._timeBegin();
-        this.timeEnd = this._timeEnd()
-
-        var begin = moment.utc(this.timeBegin);
-
-        var thurs = begin.day(-3).startOf('day'); // get thursday before interval
-        var sprintItems = [thurs];
-        while (thurs.valueOf() < this.timeEnd) {
-            sprintItems = sprintItems.concat([thurs.add(2, 'weeks')])
-        }
-        this.sprints = sprintItems;
-
-    }
+    //componentDidUpdate() {
+    //    this.timeBegin = this._timeBegin();
+    //    this.timeEnd = this._timeEnd()
+    //
+    //    var begin = moment.utc(this.timeBegin);
+    //
+    //    var thurs = begin.day(-3).startOf('day'); // get thursday before interval
+    //    var sprintItems = [thurs.valueOf()];
+    //    while (thurs.valueOf() < this.timeEnd) {
+    //        sprintItems = sprintItems.concat([thurs.add(2, 'weeks').valueOf()])
+    //    }
+    //    //this.sprints = sprintItems;
+    //}
 }
 
 export default MainContainer;
