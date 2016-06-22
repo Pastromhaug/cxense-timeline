@@ -4,7 +4,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom'
 var d3 = require('d3');
-require('../../styles/chartStyles.css');
+
 
 class MainChart extends React.Component {
 
