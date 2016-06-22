@@ -8,6 +8,7 @@ import {Card} from 'material-ui/Card';
 import VisibleMainChart from '../logic/visibleMainChart'
 import VisibleTimelineTable from './../logic/visibleTimelineTable';
 import VisibleMiniChart from '../logic/visibleMiniChart';
+import VisibleMainAxis from '../logic/visibleMainAxis';
 var _ = require('lodash');
 
 var moment = require('moment');
@@ -23,6 +24,7 @@ class  Cards extends React.Component {
         return(
             <div>
                 <Card style={cardStyles.container}>
+                    <VisibleMainAxis/>
                     <VisibleMainChart/>
                     <VisibleMiniChart/>
                 </Card>

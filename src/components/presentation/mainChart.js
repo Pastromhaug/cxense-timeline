@@ -15,7 +15,6 @@ class MainChart extends React.Component {
         this._w.bind(this);
         this._h.bind(this);
         this._lane_num.bind(this);
-        this._clipPath.bind(this);
         this._x1.bind(this);
         this._y1.bind(this);
         this._main.bind(this);
@@ -29,7 +28,7 @@ class MainChart extends React.Component {
         var max = d3.max(this.props.issues, (issue) => issue.lane + 1);
         if (typeof max === 'undefined') max = 0;
         return max  }
-    _h() { return  500 }
+    _h() { return  this._lane_num() * 60 }
     _w() { return  Math.max(this.chartWidth,0) }
     _x1() { return (
                 d3.scale.linear()
@@ -44,7 +43,6 @@ class MainChart extends React.Component {
     _timeBegin() { return  d3.min(this.props.issues, (issue) => issue.start) }
     _timeEnd() { return  d3.max(this.props.issues, (issue) => issue.end) }
     _main() { return d3.select('#main_el') }
-    _clipPath() { return d3.select('#clip')}
     _svg() { return d3.select('#svg')}
     _itemRects() { return  d3.select('#itemRects')}
 
@@ -54,10 +52,6 @@ class MainChart extends React.Component {
         d3.select(elem)
             .append("svg")
             .attr("id", "svg");
-
-        this._svg().append("defs").append("clipPath")
-            .attr("id", "clip")
-            .append("rect");
 
         this._svg().append("g")
             .attr("class", "main")
@@ -72,10 +66,6 @@ class MainChart extends React.Component {
         this.chartWidth = document.getElementById('mainChart').offsetWidth;
 
         this._svg().attr("id", "svg")
-            .attr("width", this._w() )
-            .attr("height", this._h() );
-
-        this._clipPath().select("rect")
             .attr("width", this._w() )
             .attr("height", this._h() );
 
