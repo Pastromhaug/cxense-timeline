@@ -116,7 +116,7 @@ class MiniChart extends React.Component {
 
     render() {
         return (
-            <div id="miniChart" style={{width:'100%'}}></div>
+            <div id="miniChart" style={{width:'100%', marginTop: '50px'}}></div>
         )
     }
 }

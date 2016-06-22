@@ -29,15 +29,19 @@ class MainAxis extends React.Component {
             .range( [0, this._w() ] ) )}
     _quarterItems() {
         var quarter = moment.utc(this._timeBegin()).startOf('year'); // get thursday before interval
+        var first_year = quarter.year();
         var quarters = [];
-        var quart_num = 0;
+        var quart_cnt = 0;
         var end = moment.utc(this._timeEnd());
         while (quarter.valueOf() < end) {
-            quart_num = quart_num % 4 + 1;
+            quart_cnt += 1;
+            let quart_num = quart_cnt % 4 + 1;
+            let quart_yr = Math.floor(quart_cnt / 4);
             quarters = quarters.concat([{
                 start: quarter.valueOf(),
                 end: quarter.add(3,'months').valueOf(),
-                num: quart_num
+                num: quart_num,
+                yr: first_year + quart_yr
             }]);
         }
         return quarters;
@@ -65,6 +69,8 @@ class MainAxis extends React.Component {
             q.start < this.props.brush_end && q.end > this.props.brush_start
         ));
 
+        //console.log(quartItems);
+
         var quartRects = MainAxis._quartRects().selectAll('rect')
             .data(quartItems, d => d.start)
             .attr('width', d => (this._x1()(d.end) - this._x1()(d.start)))
@@ -82,10 +88,10 @@ class MainAxis extends React.Component {
             .attr("x", (d) => this._x1()(
                 (Math.max(d.start, this.props.brush_start ) + Math.min(d.end, this.props.brush_end))/2
             ))
-            .attr('y',20)
-            .attr('text-anchor', 'start');
+            .attr('y',22)
+            .attr('text-anchor', 'middle');
 
-        quartLabels.enter().append('text').text( d => 'Q' + d.num);
+        quartLabels.enter().append('text').text( d => 'Q' + d.num + " " + d.yr);
         quartLabels.exit().remove();
 
         var sprintLa

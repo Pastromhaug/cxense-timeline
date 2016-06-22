@@ -24,7 +24,7 @@ class MainContainer extends React.Component {
     render() {
         return (
             <div>
-                <VisibleMainAxis sprints={this.sprints}/>
+                <VisibleMainAxis style={{margin: '20px'}}/>
                 <VisibleMainChart/>
                 <VisibleMiniChart/>
             </div>

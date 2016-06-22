@@ -60,6 +60,9 @@ class  Cards extends React.Component {
         var items = data.map( (d) => {
             let start = moment.utc(d.fields.customfield_10651).valueOf();
             let end = moment.utc(d.fields.customfield_10652).valueOf();
+            let time_left = 0;
+            if (end > moment.utc().valueOf()) time_left = end - moment.utc().valueOf();
+
 
             return {
                 lane: 0,
@@ -68,7 +71,7 @@ class  Cards extends React.Component {
                 end: end,
                 id: d.key,
                 status: d.fields.status.name,
-                remaining_estimate: end - moment.utc().valueOf(),
+                remaining_estimate: time_left,
                 planning_status: d.fields.status.description
 
             };});

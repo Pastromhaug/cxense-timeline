@@ -5,6 +5,7 @@
 import React from 'react';
 import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
 import {COLUMNS} from '../../constants/constants';
+var moment = require('moment');
 
 
 const TimelineTable = ({columns, issues, brush_start, brush_end}) => {
@@ -19,8 +20,15 @@ const TimelineTable = ({columns, issues, brush_start, brush_end}) => {
             <TableRow key={issue.name}>
                 {col_info.map( (col) => {
                     var field_name = col.field_name;
+                    var text = issue[field_name];
+                    if (col.name === 'Planned End' || col.name === 'Planned Start') {
+                        text = moment.utc(text).format('MMM d, YYYY')
+                    }
+                    else if (col.name == 'Remaining Estimate') {
+                        text = moment.utc(text).diff(0, 'days') + ' days'
+                    }
                     return (
-                        <TableRowColumn key={field_name}> {issue[field_name]} </TableRowColumn>
+                        <TableRowColumn key={field_name}> {text} </TableRowColumn>
                     )
                 })}
             </TableRow>
