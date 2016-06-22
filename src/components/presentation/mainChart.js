@@ -58,7 +58,6 @@ class MainChart extends React.Component {
             .attr("id", "main_el");
 
         this._main().append("g")
-            .attr("clip-path", "url(#clip)")
             .attr("id", "itemRects");
     }
 
