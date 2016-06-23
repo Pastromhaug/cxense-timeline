@@ -62,7 +62,6 @@ class MainAxis extends React.Component {
     }
 
     componentDidUpdate() {
-        MainAxis._svg().attr('width', this._w());
         MainAxis._axis().attr('width', this._w());
         var quartItems = this._quarterItems();
         quartItems = quartItems.filter( (q) => (
@@ -98,7 +97,7 @@ class MainAxis extends React.Component {
     render() {
         return (
             <div id="mainAxis">
-                <svg id="axisSvg">
+                <svg id="axisSvg" style={{width: '100%'}}>
                     <g id ="axis">
                         <g id="sprintRects"/>
                         <g id="sprintLabels"/>

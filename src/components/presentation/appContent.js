@@ -35,10 +35,10 @@ class AppContent extends React.Component {
                     {PROJECTS.map( loc => {
                         return (
                             <div>
-                                <MenuItem disabled={true} style={{paddingTop: '24px'}}> {loc.name} </MenuItem>
+                                <MenuItem disabled={true} style={{paddingTop: '24px'}} id={loc.name}> {loc.name} </MenuItem>
                                 {loc.projects.map( proj => {
                                     return (
-                                        <MenuItem style={{paddingLeft: '24px'}}> {proj.name} </MenuItem>
+                                        <MenuItem style={{paddingLeft: '24px'}} id={proj.name}> {proj.name} </MenuItem>
                                     )
                                 })}
                                 <Divider/>
@@ -81,37 +81,42 @@ class AppContent extends React.Component {
     }
 
     _initIssues() {
-        var createCORSRequest = function(method, url) {
-            var xhr = new XMLHttpRequest();
-            if ("withCredentials" in xhr) {
-                // Most browsers.
-                xhr.open(method, url, true);
-            } else if (typeof XDomainRequest != "undefined") {
-                // IE8 & IE9
-                xhr = new XDomainRequest();
-                xhr.open(method, url);
-            } else {
-                // CORS not supported.
-                xhr = null;
-            }
-            return xhr;
-        };
-
-        var url = 'https://jira.cxense.com/rest/api/2/search?jql=project%20IN%20(CXANA)%20AND%20status%20in%20(resolved)&fields=id,key,status,project&maxResults=5';
-        var method = 'GET';
-        var xhr = createCORSRequest(method, url);
-
-        xhr.onload = function(data) {
-            console.log('success');
-            console.log(data);
-            // Success code goes here.
-        };
-
-        xhr.onerror = function() {
-            // Error code goes here.
-        };
-
-        xhr.send();
+        var url = 'http://localhost:8001/sample';
+        fetch(url).then((data) => data.json())
+            .then( (data) => {
+                var items = this._formatIssues(data);
+                this.props.dispatchAddIssues(items);
+            });
+        //var createCORSRequest = function(method, url) {
+        //    var xhr = new XMLHttpRequest();
+        //    if ("withCredentials" in xhr) {
+        //        // Most browsers.
+        //        xhr.open(method, url, true);
+        //    } else if (typeof XDomainRequest != "undefined") {
+        //        // IE8 & IE9
+        //        xhr = new XDomainRequest();
+        //        xhr.open(method, url);
+        //    } else {
+        //        // CORS not supported.
+        //        xhr = null;
+        //    }
+        //    return xhr;
+        //};
+        //
+        //var url = 'http://localhost:8001/sample.json';
+        //var method = 'GET';
+        //var xhr = createCORSRequest(method, url);
+        //
+        //xhr.onload = function() {
+        //
+        //    // Success code goes here.
+        //};
+        //
+        //xhr.onerror = function() {
+        //    // Error code goes here.
+        //};
+        //
+        //xhr.send();
     }
 
     _formatIssues(data) {

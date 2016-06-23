@@ -20,9 +20,11 @@ class  Cards extends React.Component {
                         style={cardHeaderStyles}>
                         <CardTitle style={{padding: '0px'}}> {this.props.query} </CardTitle>
                     </div>
-                    <VisibleMainAxis style={{margin: '20px'}}/>
-                    <VisibleMainChart/>
-                    <VisibleMiniChart/>
+                    <div style={{padding: '16px'}}>
+                        <VisibleMainAxis style={{margin: '20px'}}/>
+                        <VisibleMainChart/>
+                        <VisibleMiniChart/>
+                    </div>
                 </Card>
                 <Card style={cardStyles.container}>
                     <VisibleTimelineTable/>

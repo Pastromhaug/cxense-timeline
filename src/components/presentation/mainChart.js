@@ -47,10 +47,12 @@ class MainChart extends React.Component {
     _itemRects() { return  d3.select('#itemRects')}
 
     componentDidMount() {
+        this.chartWidth = document.getElementById('mainChart').offsetWidth;
         var elem = ReactDOM.findDOMNode(this);
         d3.select(elem)
             .append("svg")
-            .attr("id", "svg");
+            .attr("id", "svg")
+            .style('width', '100%');
 
         this._svg().append("g")
             .attr("class", "main")
@@ -63,10 +65,8 @@ class MainChart extends React.Component {
     }
 
     componentDidUpdate() {
-        this.chartWidth = document.getElementById('mainChart').offsetWidth;
 
         this._svg().attr("id", "svg")
-            .attr("width", this._w() )
             .attr("height", this._h() );
 
        this._main()
@@ -97,13 +97,19 @@ class MainChart extends React.Component {
         //update the item labels
         var labels = this._itemRects().selectAll("text")
             .data(visItems, (d) => d.name)
-            .attr("x", (d) => this._x1()(Math.max(d.start, this.props.brush_start) + 2));
+            .attr("x", (d) => this._x1()(Math.max(d.start, this.props.brush_start) + 2))
+            .attr('width', (d) =>
+            this._x1()(Math.min(d.end, this.props.brush_end )) -
+            this._x1()(Math.max(d.start, this.props.brush_start)));
 
         labels.enter().append("text")
             .text( (d) => d.name)
             .attr("x", (d) => this._x1()(Math.max(d.start, this.props.brush_end)))
             .attr("y", (d) => this._y1()(d.lane + .5))
-            .attr("text-anchor", "start");
+            .attr("text-anchor", "start")
+            .attr('width', (d) =>
+            this._x1()(Math.min(d.end, this.props.brush_end )) -
+            this._x1()(Math.max(d.start, this.props.brush_start)));
 
         labels.exit().remove();
     }

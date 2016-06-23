@@ -7,7 +7,8 @@ export const PROJECTS = [
         name: 'Global',
         projects: [
             {
-                name: 'Infrastructure'
+                name: 'Infrastructure',
+                jira: 'INFRA'
             }
         ]
     },
@@ -17,7 +18,8 @@ export const PROJECTS = [
             {
                 name: 'DMP'
             },{
-                name: 'Content'
+                name: 'Search & Content',
+                jira: 'CXSRCH'
             },{
                 name: 'UX'
             },{
@@ -33,16 +35,20 @@ export const PROJECTS = [
                 name: 'Optimization'
             },
             {
-                name: '3rd Party Integrations'
+                name: '3rd Party Integrations',
+                jira: 'CI'
             },
             {
-                name: 'Apps'
+                name: 'Apps',
+                jira: 'APPS'
             },
             {
-                name: 'Promotion'
+                name: 'Promotion',
+                jira: 'PROMO'
             },
             {
-                name: 'Mobile SDKs'
+                name: 'Mobile SDKs',
+                jira: 'CXSDK'
             }
         ]
     },
@@ -50,7 +56,8 @@ export const PROJECTS = [
         name: 'Boston',
         projects: [
             {
-                name: 'Video'
+                name: 'Video',
+                jira :'CXVID'
             }
         ]
     }
