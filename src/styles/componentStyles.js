@@ -7,8 +7,6 @@ export const cardStyles = {
     container: {
         margin: '16px',
         marginBottom: '32px',
-        padding: '16px',
-        //maxWidth: '1500px',
         marginLeft: 'auto',
         marginRight: 'auto',
         textAlign: 'center'
@@ -18,7 +16,10 @@ export const cardStyles = {
 export const appbarStyles = {
     container: {
         backgroundColor: 'rgb(70,77,91)',
-        textAlign: 'right'
+        height: '64px',
+        width: '100%',
+        paddingLeft: '20%',
+        zIndex: 1
     }
 };
 
@@ -87,4 +88,11 @@ export const applyColButton = {
     margin: '32px',
     display: 'block',
     marginTop: '256px'
+};
+
+export const cardHeaderStyles = {
+    backgroundColor: 'rgb(232,232,232)',
+    color: 'rgba(0,0,0,0.4)',
+    padding: '16px',
+    textAlign: 'left'
 };

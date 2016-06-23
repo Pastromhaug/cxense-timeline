@@ -47,23 +47,21 @@ class AppContent extends React.Component {
                     })}
                 </Drawer>
                 <div style={{marginLeft: 256}}>
-                <AppBar
-                    showMenuIconButton={false}
-                    style={appbarStyles.container}>
+                    <div  style={appbarStyles.container}>
 
-                    <Link className="MyLink" to="/timeline" >
-                        <FlatButton style={headerButton.container}>Timeline</FlatButton>
-                    </Link>
+                        <Link className="MyLink" to="/timeline" >
+                            <FlatButton style={headerButton.container}>Timeline</FlatButton>
+                        </Link>
 
-                    <Link className="MyLink" to="/query">
-                        <FlatButton style={headerButton.container}>Edit Query</FlatButton>
-                    </Link>
+                        <Link className="MyLink" to="/query">
+                            <FlatButton style={headerButton.container}>Edit Query</FlatButton>
+                        </Link>
 
-                    <Link className="MyLink" to="/columns" >
-                        <FlatButton style={headerButton.container}>Configure Columns</FlatButton>
-                    </Link>
+                        <Link className="MyLink" to="/columns" >
+                            <FlatButton style={headerButton.container}>Configure Columns</FlatButton>
+                        </Link>
 
-                </AppBar>
+                    </div>
                 <div style={{padding: '16px'}}>
                     {this.props.children}
                 </div>

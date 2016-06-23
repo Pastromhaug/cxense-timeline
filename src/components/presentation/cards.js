@@ -3,8 +3,8 @@
  */
 
 import React from 'react';
-import {cardStyles} from '../../styles/componentStyles';
-import {Card} from 'material-ui/Card';
+import {cardStyles, cardHeaderStyles} from '../../styles/componentStyles';
+import {Card, CardHeader, CardTitle} from 'material-ui/Card';
 import VisibleTimelineTable from './../logic/visibleTimelineTable';
 import VisibleMainAxis from '../logic/visibleMainAxis';
 import VisibleMainChart from '../logic/visibleMainChart';
@@ -16,6 +16,10 @@ class  Cards extends React.Component {
         return(
             <div>
                 <Card style={cardStyles.container}>
+                    <div
+                        style={cardHeaderStyles}>
+                        <CardTitle style={{padding: '0px'}}> {this.props.query} </CardTitle>
+                    </div>
                     <VisibleMainAxis style={{margin: '20px'}}/>
                     <VisibleMainChart/>
                     <VisibleMiniChart/>
