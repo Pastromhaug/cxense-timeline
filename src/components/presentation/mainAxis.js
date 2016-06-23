@@ -93,8 +93,6 @@ class MainAxis extends React.Component {
 
         quartLabels.enter().append('text').text( d => 'Q' + d.num + " " + d.yr);
         quartLabels.exit().remove();
-
-        var sprintLa
     }
 
     render() {

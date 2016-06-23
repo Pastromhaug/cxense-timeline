@@ -13,6 +13,8 @@ const brush = (state = initial_state, action) => {
     switch (action.type) {
 
         case BRUSH_INTERVAL:
+            //console.log('BRUSH_INTERVAL');
+            //console.log([action.start_time, action.end_time]);
             return Object.assign({}, state, {
                 start_time: action.start_time,
                 end_time: action.end_time

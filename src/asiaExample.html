@@ -200,7 +200,7 @@
                 visItems = items.filter(function(d) {return d.start < maxExtent && d.end > minExtent;});
 
         mini.select(".brush")
-                .call(brush.extent([minExtent, maxExtent]));
+                .call(brush.extent([0, 200]));
 
         x1.domain([minExtent, maxExtent]);
 

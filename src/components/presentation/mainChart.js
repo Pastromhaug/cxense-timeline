@@ -58,6 +58,8 @@ class MainChart extends React.Component {
 
         this._main().append("g")
             .attr("id", "itemRects");
+
+        this._updateRectangles();
     }
 
     componentDidUpdate() {

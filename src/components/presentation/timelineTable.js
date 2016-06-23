@@ -16,7 +16,6 @@ const TimelineTable = ({columns, issues, brush_start, brush_end}) => {
         );
 
         var col_info = COLUMNS.filter( (COL) => columns.indexOf(COL.name) !== -1);
-        console.log(vis_issues);
         return vis_issues.map( (issue) => (
             <TableRow key={issue.name}>
                 {col_info.map( (col) => {

@@ -17,6 +17,7 @@ import {appbarStyles, headerButton, headerTitle} from './styles/componentStyles'
 import FlatButton from 'material-ui/FlatButton';
 import mainReducer from './reducers/main';
 import VisibleAppContent from './components/logic/visibleAppContent';
+
 require('./styles/general.css');
 
 

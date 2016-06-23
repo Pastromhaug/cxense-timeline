@@ -10,6 +10,6 @@ const issues = (state = [], action) => {
         default:
             return state;
     }
-}
+};
 
 export default issues;

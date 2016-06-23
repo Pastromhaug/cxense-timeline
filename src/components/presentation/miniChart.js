@@ -60,16 +60,31 @@ class MiniChart extends React.Component {
         this._mini().append("g").attr("id", "miniRects");
         this._mini().append("g").attr("id", "miniLabels");
         // console.log(7);
+
+        console.log([this.props.brush_start, this.props.brush_end]);
+
         this._brush = d3.svg.brush()
             .x(this._x0())
             .on("brush", this._displayFromBrush.bind(this ));
-        this._brush.extent([this.props.brush_start, this.props.brush_end]);
+
         // console.log(8);
         this._mini().append("g").attr('id','mybrush').attr("class", "x brush");
         // console.log(9);
+
+        this._brush.extent([1469502356093.3433, 1471870222639.9736])
+        this._mini().select('#mybrush').select(".brush")
+            .call(this._brush);
+
+        var minExtent = this._brush.extent()[0],
+            maxExtent = this._brush.extent()[1];
+
+        console.log('brush init');
+        console.log([minExtent, maxExtent]);
+
     }
 
     componentDidUpdate() {
+        console.log('minichart updates');
         this.chartWidth = document.getElementById('miniChart').offsetWidth;
 
         this._svg().attr("id", "svg")
@@ -115,6 +130,10 @@ class MiniChart extends React.Component {
     _displayFromBrush() {
         var minExtent = this._brush.extent()[0],
             maxExtent = this._brush.extent()[1];
+
+        console.log('displayfrombrush');
+        console.log([minExtent, maxExtent]);
+
         this.props.dispatchBrushInterval(minExtent, maxExtent);
     }
 
