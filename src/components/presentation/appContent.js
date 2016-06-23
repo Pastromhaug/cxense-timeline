@@ -6,9 +6,13 @@ import React from 'react';
 import AppBar from 'material-ui/AppBar';
 import {appbarStyles, headerButton, headerTitle} from '../../styles/componentStyles';
 import FlatButton from 'material-ui/FlatButton';
+import Drawer from 'material-ui/Drawer';
+import MenuItem from 'material-ui/MenuItem';
+import Divider from 'material-ui/Divider';
 import {Link} from 'react-router';
 var moment = require('moment');
 var _ = require('lodash');
+import {PROJECTS} from '../../constants/projectConstants';
 
 class AppContent extends React.Component {
 
@@ -21,6 +25,28 @@ class AppContent extends React.Component {
     render() {
         return (
             <div>
+                <Drawer open={true} zDepth={1} docked={true} >
+                    <div style={{height: '64px', width: '100%', color: 'rgb(243,243,243)',
+                        backgroundColor: 'rgb(70,77,91)', textAlign: 'center',
+                        display: 'flex', justifyContent: 'center'
+                        }}>
+                        <h3>Projects </h3>
+                    </div>
+                    {PROJECTS.map( loc => {
+                        return (
+                            <div>
+                                <MenuItem disabled={true} style={{paddingTop: '24px'}}> {loc.name} </MenuItem>
+                                {loc.projects.map( proj => {
+                                    return (
+                                        <MenuItem style={{paddingLeft: '24px'}}> {proj.name} </MenuItem>
+                                    )
+                                })}
+                                <Divider/>
+                            </div>
+                        )
+                    })}
+                </Drawer>
+                <div style={{marginLeft: 256}}>
                 <AppBar
                     showMenuIconButton={false}
                     style={appbarStyles.container}>
@@ -41,6 +67,7 @@ class AppContent extends React.Component {
                 <div style={{padding: '16px'}}>
                     {this.props.children}
                 </div>
+                </div>
             </div>
         )
     }
@@ -56,11 +83,37 @@ class AppContent extends React.Component {
     }
 
     _initIssues() {
-        fetch(this.props.query).then((data) => data.json())
-            .then( (data) => {
-                var items = this._formatIssues(data);
-                this.props.dispatchAddIssues(items);
-            })
+        var createCORSRequest = function(method, url) {
+            var xhr = new XMLHttpRequest();
+            if ("withCredentials" in xhr) {
+                // Most browsers.
+                xhr.open(method, url, true);
+            } else if (typeof XDomainRequest != "undefined") {
+                // IE8 & IE9
+                xhr = new XDomainRequest();
+                xhr.open(method, url);
+            } else {
+                // CORS not supported.
+                xhr = null;
+            }
+            return xhr;
+        };
+
+        var url = 'https://jira.cxense.com/rest/api/2/search?jql=project%20IN%20(CXANA)%20AND%20status%20in%20(resolved)&fields=id,key,status,project&maxResults=5';
+        var method = 'GET';
+        var xhr = createCORSRequest(method, url);
+
+        xhr.onload = function(data) {
+            console.log('success');
+            console.log(data);
+            // Success code goes here.
+        };
+
+        xhr.onerror = function() {
+            // Error code goes here.
+        };
+
+        xhr.send();
     }
 
     _formatIssues(data) {

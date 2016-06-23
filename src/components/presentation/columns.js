@@ -8,7 +8,7 @@ import {Card} from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
 import {colTable, colButton, applyColButton} from '../../styles/componentStyles';
 import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
-import {COLUMNS} from '../../constants/constants';
+import {COLUMNS} from '../../constants/columnConstants';
 import {Link} from 'react-router'
 
 const Columns = ({columns_temp, to_add, to_remove, dispatchAddAllColumns,

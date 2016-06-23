@@ -4,7 +4,7 @@
 
 import React from 'react';
 import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
-import {COLUMNS} from '../../constants/constants';
+import {COLUMNS} from '../../constants/columnConstants';
 var moment = require('moment');
 
 

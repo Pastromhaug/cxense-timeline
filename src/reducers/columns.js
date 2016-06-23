@@ -2,7 +2,7 @@
  * Created by perandre on 6/14/16.
  */
 
-import {COLUMNS, DEFAULT_COLUMNS} from '../constants/constants';
+import {COLUMNS, DEFAULT_COLUMNS} from '../constants/columnConstants';
 import {REMOVE_ALL_COLUMNS, ADD_ALL_COLUMNS,
         ADD_COLUMNS, REMOVE_COLUMNS,
         ADD_GROUP, REMOVE_GROUP, APPLY_COLUMNS} from '../actions/columns';
