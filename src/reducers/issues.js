@@ -1,10 +1,12 @@
 import {ADD_ISSUES} from '../actions/issues';
+var _ = require('lodash');
 
 const issues = (state = [], action) => {
     switch (action.type) {
 
         case ADD_ISSUES:
-            return state.concat(action.issues);
+            console.log('ADD_ISSUES');
+            return _.unionBy(state, action.issues, (d) => d.id);
         default:
             return state;
     }

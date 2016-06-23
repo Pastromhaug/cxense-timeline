@@ -1,10 +1,10 @@
 /**
- * Created by perandre on 6/21/16.
+ * Created by perandre on 6/23/16.
  */
 
 import React from 'react';
 import { connect } from 'react-redux';
-import Cards from '../presentation/cards';
+import AppContent from '../presentation/appContent';
 import {actionAddIssues} from '../../actions/issues';
 
 const mapStateToProps = (state) => {
@@ -21,9 +21,9 @@ const mapDispatchToProps = (dispatch) => {
     }
 };
 
-const VisibleCards = connect(
+const VisibleAppContent = connect (
     mapStateToProps,
     mapDispatchToProps
-)(Cards);
+)(AppContent);
 
-export default VisibleCards
+export default VisibleAppContent;

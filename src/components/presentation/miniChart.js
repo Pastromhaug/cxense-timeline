@@ -47,24 +47,26 @@ class MiniChart extends React.Component {
 
     componentDidMount() {
         var elem = ReactDOM.findDOMNode(this);
+        // console.log(4);
         d3.select(elem)
             .append("svg")
             .attr("id", "mini_svg");
-
+        // console.log(5);
         this._svg().append("g")
             .attr("class", "mini")
             .attr("id","mini");
-
+        // console.log(6);
         this._mini().append("g").attr("id", "miniItems");
         this._mini().append("g").attr("id", "miniRects");
         this._mini().append("g").attr("id", "miniLabels");
-
+        // console.log(7);
         this._brush = d3.svg.brush()
             .x(this._x0())
             .on("brush", this._displayFromBrush.bind(this ));
-
+        this._brush.extent([this.props.brush_start, this.props.brush_end]);
+        // console.log(8);
         this._mini().append("g").attr('id','mybrush').attr("class", "x brush");
-
+        // console.log(9);
     }
 
     componentDidUpdate() {
@@ -77,6 +79,7 @@ class MiniChart extends React.Component {
         this._mini()
             .attr("width", this._w() );
 
+        // console.log(1);
         var miniItems = this._mini().select("#miniItems").selectAll(".miniItems")
             .data(this.props.issues, d => d.name);
         miniItems.enter().append("rect")
@@ -86,7 +89,7 @@ class MiniChart extends React.Component {
             .attr("width", (d) => this._x0()(d.end) - this._x0()(d.start))
             .attr("height", 10);
         miniItems.exit().remove();
-
+        // console.log(2);
         //mini labels
         var miniLabels = this._mini().select("#miniLabels").selectAll(".miniLabels")
             .data(this.props.issues, d => d.name);
@@ -97,6 +100,7 @@ class MiniChart extends React.Component {
             .attr("y", (d) => this._y2()(d.lane + .5))
             .attr("dy", ".5ex");
         miniLabels.exit().remove();
+        // console.log(3);
 
         this._brush
             .x(this._x0());
