@@ -21,7 +21,6 @@ class  Cards extends React.Component {
                         <CardTitle style={{padding: '0px'}}> {this.props.query} </CardTitle>
                     </div>
                     <div style={{padding: '16px'}}>
-                        <VisibleMainAxis style={{margin: '20px'}}/>
                         <VisibleMainChart/>
                         <VisibleMiniChart/>
                     </div>
@@ -35,3 +34,5 @@ class  Cards extends React.Component {
 }
 
 export default Cards
+
+// <VisibleMainAxis style={{margin: '20px'}}/>

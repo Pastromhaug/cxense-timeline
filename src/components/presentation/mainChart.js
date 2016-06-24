@@ -13,7 +13,7 @@ class MainChart extends React.Component {
         this._timeBegin.bind(this);
         this._timeEnd.bind(this);
         this._w.bind(this);
-        this._h.bind(this);
+        this._chart_h.bind(this);
         this._lane_num.bind(this);
         this._x1.bind(this);
         this._y1.bind(this);
@@ -21,14 +21,36 @@ class MainChart extends React.Component {
         this._svg.bind(this);
         this._itemRects.bind(this);
         this. _updateRectangles.bind(this);
+        this._svg_h.bind(this);
+        this._timeScale.bind(this);
+        this._mainAxis.bind(this);
+        this._axis.bind(this);
         this._brush = null;
         this.chartWidth = 0;
+        this.axis_pad = 50;
+    }
+    _axis() { return d3.select('#mainAxis')}
+    _timeScale() {
+        return  (
+            d3.time.scale.utc()
+                .domain([new Date(this.props.brush_start), new Date(this.props.brush_end)] )
+                .range([0, this._w()])
+        )}
+    _mainAxis() { return (
+        d3.svg.axis()
+            .orient('top')
+            .scale(this._timeScale())
+            .ticks(10)
+            .tickFormat(d3.time.format('%a %d'))
+            .tickSize(10,2)
+            .tickPadding(3))
     }
     _lane_num() {
         var max = d3.max(this.props.issues, (issue) => issue.lane + 1);
         if (typeof max === 'undefined') max = 0;
         return max  }
-    _h() { return  this._lane_num() * 60 }
+    _svg_h() { return this._chart_h() + this.axis_pad}
+    _chart_h() { return  this._lane_num() * 60 }
     _w() { return  Math.max(this.chartWidth,0) }
     _x1() { return (
                 d3.scale.linear()
@@ -38,7 +60,7 @@ class MainChart extends React.Component {
     _y1() { return (
                 d3.scale.linear()
                     .domain([0, this._lane_num() ])
-                    .range([0, this._h() ])
+                    .range([0, this._chart_h() ])
         )}
     _timeBegin() { return  d3.min(this.props.issues, (issue) => issue.start) }
     _timeEnd() { return  d3.max(this.props.issues, (issue) => issue.end) }
@@ -54,9 +76,15 @@ class MainChart extends React.Component {
             .attr("id", "svg")
             .style('width', '100%');
 
+        this._svg().append('g').attr('id','mainAxis')
+            .attr('class', 'x axis')
+            .attr('transform', 'translate(0, ' + 50  + ')');
+
         this._svg().append("g")
             .attr("class", "main")
-            .attr("id", "main_el");
+            .attr("id", "main_el")
+            .attr('transform', 'translate(0', + this.axis_pad + ')')
+            .attr("height", this._chart_h() );
 
         this._main().append("g")
             .attr("id", "itemRects");
@@ -66,12 +94,17 @@ class MainChart extends React.Component {
 
     componentDidUpdate() {
 
-        this._svg().attr("id", "svg")
-            .attr("height", this._h() );
+        this._axis()
+            .call(this._mainAxis());
 
-       this._main()
+        this._svg().attr("id", "svg")
+            .attr("height", this._svg_h() );
+
+        this._main()
             .attr("width", this._w() )
-            .attr("height", this._h() );
+            .attr("height", this._chart_h() )
+            .attr('transform', 'translate(0,' + this.axis_pad + ')');
+
 
         this._updateRectangles();
     }

@@ -46,11 +46,7 @@ class MiniChart extends React.Component {
             .domain( [0, this._lane_num() ] )
             .range( [0, this._chart_h() ] )
     )}
-    _timeScale() {
-        console.log('timescale');
-        console.log([this._timeBegin(), this._timeEnd()]);
-        console.log([new Date(this._timeBegin()), new Date(this._timeEnd())]);
-        return  (
+    _timeScale() { return  (
         d3.time.scale.utc()
             .domain([new Date(this._timeBegin()), new Date(this._timeEnd())] )
             .range([0, this._w()])
@@ -59,11 +55,10 @@ class MiniChart extends React.Component {
         d3.svg.axis()
             .orient('top')
             .scale(this._timeScale())
-            .ticks(d3.time.months, 1)
+            .ticks(d3.time.months)
             .tickFormat(d3.time.format('%B \'%y'))
-            .tickSize(2)
-            .tickPadding(8)
-    )
+            .tickSize(10,2)
+            .tickPadding(3))
     }
     _timeBegin() { return  d3.min(this.props.issues, (issue) => issue.start) }
     _timeEnd() { return  d3.max(this.props.issues, (issue) => issue.end) }
@@ -157,7 +152,7 @@ class MiniChart extends React.Component {
 
     render() {
         return (
-            <div id="miniChart" style={{width:'100%', marginTop: '50px'}}></div>
+            <div id="miniChart" style={{width:'100%'}}></div>
         )
     }
 }
