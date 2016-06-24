@@ -25,11 +25,15 @@ class MainChart extends React.Component {
         this._timeScale.bind(this);
         this._mainAxis.bind(this);
         this._axis.bind(this);
+        this._axis2.bind(this);
+        this._timeScale2.bind(this);
+        this._mainAxis2.bind(this);
         this._brush = null;
         this.chartWidth = 0;
         this.axis_pad = 50;
     }
     _axis() { return d3.select('#mainAxis')}
+    _axis2() { return d3.select('#mainAxis2')}
     _timeScale() {
         return  (
             d3.time.scale.utc()
@@ -41,10 +45,25 @@ class MainChart extends React.Component {
             .orient('top')
             .scale(this._timeScale())
             .ticks(10)
-            .tickFormat(d3.time.format('%a %d'))
+            .tickFormat(d3.time.format('%d'))
             .tickSize(10,2)
             .tickPadding(3))
     }
+
+    _timeScale2() {
+        return  (
+            d3.time.scale.utc()
+                .domain([new Date(this.props.brush_start), new Date(this.props.brush_end)] )
+                .range([0, this._w()]))}
+    _mainAxis2() { return (
+        d3.svg.axis()
+            .orient('top')
+            .scale(this._timeScale2())
+            .ticks(d3.time.months, 1)
+            .tickFormat(d3.time.format('%B'))
+            .tickSize(10,2)
+            .tickPadding(25))}
+
     _lane_num() {
         var max = d3.max(this.props.issues, (issue) => issue.lane + 1);
         if (typeof max === 'undefined') max = 0;
@@ -76,9 +95,13 @@ class MainChart extends React.Component {
             .attr("id", "svg")
             .style('width', '100%');
 
-        this._svg().append('g').attr('id','mainAxis')
+        this._svg().append('g').attr('id', 'mainAxis')
+            .attr('class', 'x axis');
+        this._svg().append('g').attr('id', 'mainAxis2')
             .attr('class', 'x axis')
-            .attr('transform', 'translate(0, ' + 50  + ')');
+
+        this._svg().select('#mainAxis').attr('transform', 'translate(0, ' + 50  + ')');
+        this._svg().select('#mainAxis2').attr('transform', 'translate(0, ' + 50  + ')');
 
         this._svg().append("g")
             .attr("class", "main")
@@ -96,6 +119,11 @@ class MainChart extends React.Component {
 
         this._axis()
             .call(this._mainAxis());
+        this._axis2()
+            .call(this._mainAxis2());
+
+        //this._axis()
+        //    .call(this._mainAxis2());
 
         this._svg().attr("id", "svg")
             .attr("height", this._svg_h() );

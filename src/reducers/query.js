@@ -21,7 +21,7 @@ const initial_state = {
         is_fixed: true,
         start_day: 30,
         end_day: 0,
-        query: 'project%20IN%20(CXANA)%20AND%20status%20in%20(resolved)&fields=id,key,status,project&maxResults=5'
+        query: 'project IN (CXSRCH) AND status in (resolved)&fields=id,key,status,project&maxResults=5'
     },
     query: {
         start_date: start_date,
@@ -29,7 +29,7 @@ const initial_state = {
         is_fixed: true,
         start_day: 30,
         end_day: 0,
-        query: 'project IN (CXANA) AND status in (resolved)&fields=id,key,status,project&maxResults=5'
+        query: 'project IN (CXSRCH) AND status in (resolved)&fields=id,key,status,project&maxResults=5'
     }
 };
 

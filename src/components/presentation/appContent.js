@@ -13,6 +13,7 @@ import {Link} from 'react-router';
 var moment = require('moment');
 var _ = require('lodash');
 import {PROJECTS} from '../../constants/projectConstants';
+var $ = require('jquery');
 
 class AppContent extends React.Component {
 
@@ -20,6 +21,7 @@ class AppContent extends React.Component {
         super();
         this._initIssues.bind(this);
         this._formatIssues.bind(this);
+        this._handleDrawerClick.bind(this);
     }
 
     render() {
@@ -80,43 +82,51 @@ class AppContent extends React.Component {
         this._initIssues();
     }
 
+    _handleDrawerClick() {}
+
     _initIssues() {
-        var url = 'http://localhost:8001/sample';
-        fetch(url).then((data) => data.json())
-            .then( (data) => {
-                var items = this._formatIssues(data);
-                this.props.dispatchAddIssues(items);
-            });
-        //var createCORSRequest = function(method, url) {
-        //    var xhr = new XMLHttpRequest();
-        //    if ("withCredentials" in xhr) {
-        //        // Most browsers.
-        //        xhr.open(method, url, true);
-        //    } else if (typeof XDomainRequest != "undefined") {
-        //        // IE8 & IE9
-        //        xhr = new XDomainRequest();
-        //        xhr.open(method, url);
-        //    } else {
-        //        // CORS not supported.
-        //        xhr = null;
-        //    }
-        //    return xhr;
-        //};
-        //
-        //var url = 'http://localhost:8001/sample.json';
-        //var method = 'GET';
-        //var xhr = createCORSRequest(method, url);
-        //
-        //xhr.onload = function() {
-        //
-        //    // Success code goes here.
-        //};
-        //
-        //xhr.onerror = function() {
-        //    // Error code goes here.
-        //};
-        //
-        //xhr.send();
+        var stem = 'https://jira.cxense.com/rest/api/2/search?jql='
+        //var url = 'http://localhost:8001/sample';
+        //fetch(stem + this.props.query).then((data) => data.json())
+        //    .then( (data) => {
+        //        var items = this._formatIssues(data);
+        //        this.props.dispatchAddIssues(items);
+        //    });
+
+        $.getJSON(stem + this.props.query, (data) => {
+            console.log(data);
+        });
+
+        var createCORSRequest = function(method, url) {
+            var xhr = new XMLHttpRequest();
+            if ("withCredentials" in xhr) {
+                // Most browsers.
+                xhr.open(method, url, true);
+            } else if (typeof XDomainRequest != "undefined") {
+                // IE8 & IE9
+                xhr = new XDomainRequest();
+                xhr.open(method, url);
+            } else {
+                // CORS not supported.
+                xhr = null;
+            }
+            return xhr;
+        };
+
+        var url = stem + this.props.query;
+        var method = 'GET';
+        var xhr = createCORSRequest(method, url);
+
+        xhr.onload = function() {
+
+            // Success code goes here.
+        };
+
+        xhr.onerror = function() {
+            // Error code goes here.
+        };
+
+        xhr.send();
     }
 
     _formatIssues(data) {
