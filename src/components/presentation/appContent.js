@@ -96,6 +96,7 @@ class AppContent extends React.Component {
     _initIssues() {
         var stem = 'https://jira.cxense.com/rest/api/2/search?jql='
         var url = stem + this.props.query;
+        console.log(url);
         var method = 'GET';
 
         var createCORSRequest = function(method, url) {
@@ -106,8 +107,11 @@ class AppContent extends React.Component {
         };
 
         var xhr = createCORSRequest(method, url);
-        xhr.onload = function(data) {
+        xhr.onload = (data) => {
             console.log(JSON.parse(data.srcElement.response));
+            data = JSON.parse(data.srcElement.response);
+            data = this._formatIssues(data);
+            this.props.dispatchAddIssues(data);
         };
         xhr.onerror = function() {
             window.alert("Not work");
