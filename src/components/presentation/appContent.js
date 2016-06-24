@@ -15,6 +15,7 @@ var _ = require('lodash');
 import {PROJECTS} from '../../constants/projectConstants';
 var $ = require('jquery');
 
+
 class AppContent extends React.Component {
 
     constructor() {
@@ -22,6 +23,12 @@ class AppContent extends React.Component {
         this._initIssues.bind(this);
         this._formatIssues.bind(this);
         this._handleDrawerClick.bind(this);
+    }
+
+    _handleDrawerClick(data) {
+        console.log(data);
+        var con = /project IN ()/.test(this.props.query);
+        console.log(con);
     }
 
     render() {
@@ -40,7 +47,11 @@ class AppContent extends React.Component {
                                 <MenuItem disabled={true} style={{paddingTop: '24px'}} id={loc.name}> {loc.name} </MenuItem>
                                 {loc.projects.map( proj => {
                                     return (
-                                        <MenuItem style={{paddingLeft: '24px'}} id={proj.name}> {proj.name} </MenuItem>
+                                        <MenuItem style={{paddingLeft: '24px'}} id={proj.name}
+                                            onClick={ (event) => {
+                                                var col = event.currentTarget.id;
+                                                this._handleDrawerClick(col)
+                                            }}> {proj.name} </MenuItem>
                                     )
                                 })}
                                 <Divider/>
@@ -82,51 +93,30 @@ class AppContent extends React.Component {
         this._initIssues();
     }
 
-    _handleDrawerClick() {}
-
     _initIssues() {
         var stem = 'https://jira.cxense.com/rest/api/2/search?jql='
-        //var url = 'http://localhost:8001/sample';
-        //fetch(stem + this.props.query).then((data) => data.json())
-        //    .then( (data) => {
-        //        var items = this._formatIssues(data);
-        //        this.props.dispatchAddIssues(items);
-        //    });
-
-        $.getJSON(stem + this.props.query, (data) => {
-            console.log(data);
-        });
+        var url = stem + this.props.query;
+        var method = 'GET';
 
         var createCORSRequest = function(method, url) {
             var xhr = new XMLHttpRequest();
-            if ("withCredentials" in xhr) {
-                // Most browsers.
-                xhr.open(method, url, true);
-            } else if (typeof XDomainRequest != "undefined") {
-                // IE8 & IE9
-                xhr = new XDomainRequest();
-                xhr.open(method, url);
-            } else {
-                // CORS not supported.
-                xhr = null;
-            }
+            xhr.open(method, url, true);
+            xhr.setRequestHeader("Authorization", "Basic " + btoa("per.stromhaug:Qmkg9awn"));
             return xhr;
         };
 
-        var url = stem + this.props.query;
-        var method = 'GET';
         var xhr = createCORSRequest(method, url);
-
-        xhr.onload = function() {
-
-            // Success code goes here.
+        xhr.onload = function(data) {
+            console.log(JSON.parse(data.srcElement.response));
         };
-
         xhr.onerror = function() {
-            // Error code goes here.
+            window.alert("Not work");
         };
-
         xhr.send();
+
+
+
+
     }
 
     _formatIssues(data) {
