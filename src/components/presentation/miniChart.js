@@ -122,15 +122,15 @@ class MiniChart extends React.Component {
         miniItems.exit().remove();
         // console.log(2);
         //mini labels
-        var miniLabels = this._mini().select("#miniLabels").selectAll(".miniLabels")
-            .data(this.props.issues, d => d.name);
-        miniLabels.enter().append("text")
-            .attr("class", "miniLabels")
-            .text( (d) => d.name)
-            .attr("x", (d) => this._x0()(d.start))
-            .attr("y", (d) => this._y2()(d.lane + .5))
-            .attr("dy", ".5ex");
-        miniLabels.exit().remove();
+        //var miniLabels = this._mini().select("#miniLabels").selectAll(".miniLabels")
+        //    .data(this.props.issues, d => d.name);
+        //miniLabels.enter().append("text")
+        //    .attr("class", "miniLabels")
+        //    .text( (d) => d.name)
+        //    .attr("x", (d) => this._x0()(d.start))
+        //    .attr("y", (d) => this._y2()(d.lane + .5))
+        //    .attr("dy", ".5ex");
+        //miniLabels.exit().remove();
         // console.log(3);
 
         this._brush

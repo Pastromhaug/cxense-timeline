@@ -21,7 +21,7 @@ const initial_state = {
         is_fixed: true,
         start_day: 30,
         end_day: 0,
-        query: 'project IN (CXANA) AND issuetype = epic'// AND status in (resolved)&fields=id,key,status,project&maxResults=5'
+        query: 'project IN (CXANA) AND issuetype = epic and startAt = 0 & maxResult = 10'// AND status in (resolved)&fields=id,key,status,project&maxResults=5'
     },
     query: {
         start_date: start_date,
@@ -29,7 +29,7 @@ const initial_state = {
         is_fixed: true,
         start_day: 30,
         end_day: 0,
-        query: 'project IN (CXANA) AND issuetype = epic'// AND status in (resolved)&fields=id,key,status,project&maxResults=5'
+        query: 'project IN (CXANA) AND issuetype = epic &startAt=0&maxResults=1000'// AND status in (resolved)&fields=id,key,status,project&maxResults=5'
     }
 };
 
