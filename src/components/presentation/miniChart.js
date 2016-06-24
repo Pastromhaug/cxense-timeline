@@ -10,7 +10,7 @@ class MiniChart extends React.Component {
 
     constructor() {
         super();
-        this._mini_h.bind(this);
+        this._chart_h.bind(this);
         this._lane_num.bind(this);
         this._x0.bind(this);
         this._x0.bind(this);
@@ -22,13 +22,15 @@ class MiniChart extends React.Component {
         this._w.bind(this);
         this._timeScale.bind(this);
         this._miniAxis.bind(this);
+        this._svg_h.bind(this);
 
-        this.top_pad = 50;
+        this.top_pad =60;
         this._brush = null;
         this.chartWidth = 0;
     }
     _w() { return  Math.max(this.chartWidth,0) }
-    _mini_h() { return  this._lane_num() * 12 + 50  + this.top_pad}
+    _chart_h() { return  this._lane_num() * 12 + 50}
+    _svg_h() { return this._chart_h() + this.top_pad}
     _mini() { return  d3.select('#mini') }
     _lane_num() {
         var max = d3.max(this.props.issues, (issue) => issue.lane + 1);
@@ -42,7 +44,7 @@ class MiniChart extends React.Component {
     _y2() { return (
         d3.scale.linear()
             .domain( [0, this._lane_num() ] )
-            .range( [0, this._mini_h() - this.top_pad ] )
+            .range( [0, this._chart_h() ] )
     )}
     _timeScale() {
         console.log('timescale');
@@ -83,6 +85,7 @@ class MiniChart extends React.Component {
         this._mini().append("g").attr("id", "miniItems");
         this._mini().append("g").attr("id", "miniRects");
         this._mini().append("g").attr("id", "miniLabels");
+        this._mini().attr('transform', 'translate(0,' + this.top_pad + ')');
 
         this._brush = d3.svg.brush()
             .x(this._x0())
@@ -103,11 +106,11 @@ class MiniChart extends React.Component {
 
         this._svg().append('g').attr('id','miniAxis')
             .attr('class', 'x axis')
-            .attr('transform', 'translate(0, ' + this._mini_h()  + ')')
+            .attr('transform', 'translate(0, ' + 50  + ')')
             .call(this._miniAxis());
 
         this._svg().attr("id", "svg")
-            .attr("height", this._mini_h() + this.top_pad);
+            .attr("height", this._svg_h());
 
         this._mini()
             .attr("width", this._w() );
@@ -142,7 +145,7 @@ class MiniChart extends React.Component {
             .call(this._brush)
             .selectAll("rect")
             .attr("y", 1 )
-            .attr("height", this._mini_h() - 1 - this.top_pad);
+            .attr("height", this._chart_h() - 1 );
     }
 
     _displayFromBrush() {
