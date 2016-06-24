@@ -114,7 +114,7 @@ class MiniChart extends React.Component {
         var miniItems = this._mini().select("#miniItems").selectAll(".miniItems")
             .data(this.props.issues, d => d.name);
         miniItems.enter().append("rect")
-            .attr("class", (d) => "miniItems miniItem" + d.lane)
+            .attr("class", (d) => "miniItems miniItem" + d.lane % 5)
             .attr("x", (d) => this._x0()(d.start))
             .attr("y", (d) => this._y2()(d.lane + .5) - 5)
             .attr("width", (d) => this._x0()(d.end) - this._x0()(d.start))

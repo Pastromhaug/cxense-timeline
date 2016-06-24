@@ -147,7 +147,7 @@ class MainChart extends React.Component {
             .attr("width", (d) => this._x1()(d.end) - this._x1()(d.start));
 
         rects.enter().append("rect")
-            .attr("class", (d) => "miniItem" + d.lane)
+            .attr("class", (d) => "miniItem" + d.lane % 5)
             .attr("x", (d) => this._x1()(d.start))
             .attr("y", (d) => this._y1()(d.lane) + 10)
             .attr("width", (d) => this._x1()(d.end) - this._x1()(d.start))
