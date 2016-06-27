@@ -11,6 +11,7 @@ var path = require('path');
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(express.static(path.resolve(__dirname + '/../prod/')));
 
 app.get('/sample', function(req,res) {
     res.sendFile(__dirname + '/sample.json')
@@ -25,8 +26,8 @@ app.get('/test', function (req, res) {
         })
 });
 
-app.get('/*', function (req, res) {
-    res.sendFile(path.resolve(__dirname + '/../prod/index.html'));
+app.get('/', function (req, res) {
+    res.sendFile(path.resolve(__dirname + '/../prod/prod-index.html'));
 });
 
 
