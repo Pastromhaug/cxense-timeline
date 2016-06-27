@@ -94,29 +94,35 @@ class AppContent extends React.Component {
     }
 
     _initIssues() {
-        var stem = 'https://jira.cxense.com/rest/api/2/search?jql='
-        var url = stem + this.props.query;
-        console.log(url);
-        var method = 'GET';
-
-        var createCORSRequest = function(method, url) {
-            var xhr = new XMLHttpRequest();
-            xhr.open(method, url, true);
-            xhr.setRequestHeader("Authorization", "Basic " + btoa("per.stromhaug:Qmkg9awn"));
-            return xhr;
-        };
-
-        var xhr = createCORSRequest(method, url);
-        xhr.onload = (data) => {
-            console.log(JSON.parse(data.srcElement.response));
-            data = JSON.parse(data.srcElement.response);
-            data = this._formatIssues(data);
-            this.props.dispatchAddIssues(data);
-        };
-        xhr.onerror = function() {
-            window.alert("Not work");
-        };
-        xhr.send();
+        var url = 'http://localhost:8001/sample';
+        fetch(url).then((data) => data.json())
+            .then( (data) => {
+                var items = this._formatIssues(data);
+                this.props.dispatchAddIssues(items);
+            });
+        // var stem = 'https://jira.cxense.com/rest/api/2/search?jql='
+        // var url = stem + this.props.query;
+        // console.log(url);
+        // var method = 'GET';
+        //
+        // var createCORSRequest = function(method, url) {
+        //     var xhr = new XMLHttpRequest();
+        //     xhr.open(method, url, true);
+        //     xhr.setRequestHeader("Authorization", "Basic " + btoa("per.stromhaug:Qmkg9awn"));
+        //     return xhr;
+        // };
+        //
+        // var xhr = createCORSRequest(method, url);
+        // xhr.onload = (data) => {
+        //     console.log(JSON.parse(data.srcElement.response));
+        //     data = JSON.parse(data.srcElement.response);
+        //     data = this._formatIssues(data);
+        //     this.props.dispatchAddIssues(data);
+        // };
+        // xhr.onerror = function() {
+        //     window.alert("Not work");
+        // };
+        // xhr.send();
 
 
 
