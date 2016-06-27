@@ -27,6 +27,11 @@ const TimelineTable = ({columns, issues, brush_start, brush_end}) => {
                     else if (col.name == 'Remaining Estimate') {
                         text = moment.utc(text).diff(0, 'days') + ' days'
                     }
+                    else if (col.name == 'ID') {
+                        let id = issue[field_name];
+                        let link = "https://jira.cxense.com/browse/" + id + "?jql=issue=" + id;
+                        text = <a href={link}> {id} </a>
+                    }
                     return (
                         <TableRowColumn key={field_name}> {text} </TableRowColumn>
                     )
