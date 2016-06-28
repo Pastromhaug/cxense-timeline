@@ -2,10 +2,11 @@
  * Created by perandre on 6/21/16.
  */
 import React from 'react';
-import ReactDOM from 'react-dom'
+import ReactDOM from 'react-dom';
 var d3 = require('d3');
 var moment = require('moment');
 require('../../styles/chartStyles.css');
+
 
 class MiniChart extends React.Component {
 
@@ -131,7 +132,13 @@ class MiniChart extends React.Component {
             .attr("width", (d) => {
                 return this._x0()(d.end) - this._x0()(d.start)
             })
-            .attr("height", 10);
+            .attr("height", 10)
+            .style('fill', (d) => {
+                console.log(d.resolution);
+                console.log(d.resolution2);
+                console.log(this.props.getColors(d));
+                return this.props.getColors(d).backgroundColor
+            });
         miniItems.exit().remove();
 
         this._brush

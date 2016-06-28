@@ -4,11 +4,11 @@
 
 import React from 'react';
 import {cardStyles, cardHeaderStyles} from '../../styles/componentStyles';
-import {Card, CardHeader, CardTitle} from 'material-ui/Card';
+import {Card, CardTitle} from 'material-ui/Card';
 import VisibleTimelineTable from './../logic/visibleTimelineTable';
-import VisibleMainAxis from '../logic/visibleMainAxis';
 import VisibleMainChart from '../logic/visibleMainChart';
 import VisibleMiniChart from '../logic/visibleMiniChart';
+import {COLORS} from '../../constants/colorCode';
 
 class  Cards extends React.Component {
 
@@ -21,8 +21,8 @@ class  Cards extends React.Component {
                         <CardTitle style={{padding: '0px'}}> {this.props.query} </CardTitle>
                     </div>
                     <div style={{padding: '16px'}}>
-                        <VisibleMainChart/>
-                        <VisibleMiniChart/>
+                        <VisibleMainChart getColors={Cards.getColors}/>
+                        <VisibleMiniChart getColors={Cards.getColors}/>
                     </div>
                 </Card>
                 <Card style={cardStyles.container}>
@@ -30,6 +30,34 @@ class  Cards extends React.Component {
                 </Card>
             </div>
         );
+    }
+
+    static getColors(issue) {
+        var group1 = ['None', 'Not started' + 'Functional spec in progress'];
+        var group2 = ['Functional spec done', 'Dev planning in progress']
+        if (issue.status === 'Resolved' && issue.resolution === 'Fixed') {
+            return COLORS.a;
+        }
+        else if (issue.status === 'Resolved' && issue.resolution === "Won't Fix") {
+            return COLORS.b;
+        }
+        else if (issue.status !== 'Resolved' &&
+            (group1.indexOf(issue.resolution) != -1 || group1.indexOf(issue.resolution2) != -1)) {
+            return COLORS.c;
+        }
+        else if (issue.status !== 'Resolved' &&
+            (group2.indexOf(issue.resolution) != -1 || group2.indexOf(issue.resolution2) != -1)) {
+            return COLORS.d;
+        }
+        else if (issue.status !== 'Resolved' &&
+            (issue.resolution === 'Ready for coding' || issue.resolution2 === 'Ready for coding')) {
+            return COLORS.d;
+        }
+        else if (issue.status !== 'Resolved' &&
+            (issue.resolution === 'N/A' || issue.resolution2 === 'N/A')) {
+            return COLORS.e;
+        }
+        else return COLORS.f;
     }
 }
 

@@ -146,6 +146,17 @@ class AppContent extends React.Component {
             let time_left = 0;
             if (end > moment.utc().valueOf()) time_left = end - moment.utc().valueOf();
 
+            var resolution = d.fields.resolution;
+            var resname = null;
+            if (resolution !== null && typeof resolution !== 'undefined') {
+                resname = resolution.name;
+            }
+
+            var resolution2 = d.fields.customfield_10955;
+            var resname2 = null;
+            if (resolution2 !== null && typeof resolution2 !== 'undefined') {
+                resname2 = resolution2.value;
+            }
 
             return {
                 lane: 0,
@@ -155,7 +166,9 @@ class AppContent extends React.Component {
                 id: d.key,
                 status: d.fields.status.name,
                 remaining_estimate: time_left,
-                planning_status: d.fields.status.description
+                planning_status: d.fields.status.description,
+                resolution: resname,
+                resolution2: resname2
 
             };});
 

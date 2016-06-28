@@ -151,7 +151,11 @@ class MainChart extends React.Component {
             .attr("x", (d) => this._x1()(d.start))
             .attr("y", (d) => this._y1()(d.lane) + 10)
             .attr("width", (d) => this._x1()(d.end) - this._x1()(d.start))
-            .attr("height", (d) => .8 * this._y1()(1));
+            .attr("height", (d) => .8 * this._y1()(1))
+            .style('fill', (d) => {
+                return this.props.getColors(d).backgroundColor
+            });
+        ;
 
         rects.exit().remove();
 
@@ -161,7 +165,13 @@ class MainChart extends React.Component {
             .attr("x", (d) => this._x1()(Math.max(d.start, this.props.brush_start) + 2))
             .attr('width', (d) =>
             this._x1()(Math.min(d.end, this.props.brush_end )) -
-            this._x1()(Math.max(d.start, this.props.brush_start)));
+            this._x1()(Math.max(d.start, this.props.brush_start)))
+            .style('stroke', (d) => {
+                console.log(d.resolution);
+                console.log(d.resolution2);
+                console.log(this.props.getColors(d));
+                return this.props.getColors(d).color
+            });;
 
         labels.enter().append("text")
             .text( (d) => d.name)
