@@ -134,8 +134,9 @@ class MiniChart extends React.Component {
             })
             .attr("height", 10)
             .style('fill', (d) => {
-                console.log(d.resolution);
-                console.log(d.resolution2);
+                console.log('status: ' + d.status);
+                console.log('res1: ' + d.resolution);
+                console.log('res2: ' + d.resolution2);
                 console.log(this.props.getColors(d));
                 return this.props.getColors(d).backgroundColor
             });
