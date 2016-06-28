@@ -59,8 +59,8 @@ class MiniChart extends React.Component {
             .scale(this._timeScale())
             .ticks(d3.time.months)
             .tickFormat(d3.time.format('%B \'%y'))
-            .tickSize(10,2)
-            .tickPadding(3))
+            .tickSize(10,0.5)
+            .tickPadding(0))
     }
     _timeBegin() {
         var min = d3.min(this.props.issues, (issue) => issue.start);
@@ -114,6 +114,8 @@ class MiniChart extends React.Component {
         this._svg().append('g').attr('id','miniAxis')
             .attr('class', 'x axis')
             .attr('transform', 'translate(0, ' + 50  + ')')
+            .attr('fontSize', 'smallest')
+            .attr('fill','grey')
             .call(this._miniAxis());
 
         this._svg().attr("id", "svg")
@@ -150,6 +152,9 @@ class MiniChart extends React.Component {
             .selectAll("rect")
             .attr("y", 1 )
             .attr("height", this._chart_h() - 1 );
+
+        d3.selectAll("#miniAxis > .tick > text")
+            .style("font-size", 12);
     }
 
     _displayFromBrush() {
