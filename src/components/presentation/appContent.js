@@ -94,6 +94,7 @@ class AppContent extends React.Component {
     }
 
     _initIssues() {
+        console.log('initIssues()');
         var url = 'http://localhost:8001/sample';
         fetch(url).then((data) => data.json())
             .then( (data) => {

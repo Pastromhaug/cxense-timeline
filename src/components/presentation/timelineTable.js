@@ -16,28 +16,30 @@ const TimelineTable = ({columns, issues, brush_start, brush_end}) => {
         );
 
         var col_info = COLUMNS.filter( (COL) => columns.indexOf(COL.name) !== -1);
-        return vis_issues.map( (issue) => (
-            <TableRow key={issue.name}>
-                {col_info.map( (col) => {
-                    var field_name = col.field_name;
-                    var text = issue[field_name];
-                    if (col.name === 'Planned End' || col.name === 'Planned Start') {
-                        text = moment.utc(text).format('MMM d, YYYY')
-                    }
-                    else if (col.name == 'Remaining Estimate') {
-                        text = moment.utc(text).diff(0, 'days') + ' days'
-                    }
-                    else if (col.name == 'ID') {
-                        let id = issue[field_name];
-                        let link = "https://jira.cxense.com/browse/" + id + "?jql=issue=" + id;
-                        text = <a href={link}> {id} </a>
-                    }
-                    return (
-                        <TableRowColumn key={field_name}> {text} </TableRowColumn>
-                    )
-                })}
-            </TableRow>
-        ))
+        return vis_issues.map( (issue) => {
+            return (
+                <TableRow key={issue.name}>
+                    {col_info.map( (col) => {
+                        var field_name = col.field_name;
+                        var text = issue[field_name];
+                        if (col.name === 'Planned End' || col.name === 'Planned Start') {
+                            text = moment.utc(text).format('MMM D, YYYY');
+                        }
+                        else if (col.name == 'Remaining Estimate') {
+                            text = moment.utc(text).diff(0, 'days') + ' days'
+                        }
+                        else if (col.name == 'ID') {
+                            let id = issue[field_name];
+                            let link = "https://jira.cxense.com/browse/" + id + "?jql=issue=" + id;
+                            text = <a href={link}> {id} </a>
+                        }
+                        return (
+                            <TableRowColumn key={field_name}> {text} </TableRowColumn>
+                        )
+                    })}
+                </TableRow>
+            )
+        })
     }
 
     return (
