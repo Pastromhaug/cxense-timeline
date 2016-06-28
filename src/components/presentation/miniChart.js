@@ -4,6 +4,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom'
 var d3 = require('d3');
+var moment = require('moment');
 require('../../styles/chartStyles.css');
 
 class MiniChart extends React.Component {
@@ -60,8 +61,18 @@ class MiniChart extends React.Component {
             .tickSize(10,2)
             .tickPadding(3))
     }
-    _timeBegin() { return  d3.min(this.props.issues, (issue) => issue.start) }
-    _timeEnd() { return  d3.max(this.props.issues, (issue) => issue.end) }
+    _timeBegin() {
+        var min = d3.min(this.props.issues, (issue) => issue.start);
+        min = Math.min(min, moment.utc().valueOf());
+        var max = d3.max(this.props.issues, (issue) => issue.end);
+        return min - (max - min)/20;
+    }
+    _timeEnd() {
+        var max = d3.max(this.props.issues, (issue) => issue.end);
+        max = Math.max(max, moment.utc().valueOf());
+        var min = d3.min(this.props.issues, (issue) => issue.start);
+        return max + (max - min)/20;
+    }
     _svg() { return d3.select('#mini_svg')}
 
     componentDidMount() {
@@ -122,18 +133,6 @@ class MiniChart extends React.Component {
             })
             .attr("height", 10);
         miniItems.exit().remove();
-        // console.log(2);
-        //mini labels
-        //var miniLabels = this._mini().select("#miniLabels").selectAll(".miniLabels")
-        //    .data(this.props.issues, d => d.name);
-        //miniLabels.enter().append("text")
-        //    .attr("class", "miniLabels")
-        //    .text( (d) => d.name)
-        //    .attr("x", (d) => this._x0()(d.start))
-        //    .attr("y", (d) => this._y2()(d.lane + .5))
-        //    .attr("dy", ".5ex");
-        //miniLabels.exit().remove();
-        // console.log(3);
 
         this._brush
             .x(this._x0());
