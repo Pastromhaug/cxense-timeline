@@ -4,11 +4,11 @@
 
 export const COLORS = {
     a: {
-        backgroundColor: 'dark green',
-        color: 'light grey'
+        backgroundColor: 'green',
+        color: 'grey'
     },
     b: {
-        backgroundColor: 'dark green',
+        backgroundColor: 'green',
         color: 'red'
     },
     c: {
