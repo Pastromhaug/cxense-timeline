@@ -7,12 +7,14 @@ import query from './query';
 import columns from './columns';
 import issues from './issues';
 import brush from './brush';
+import timeIntervals from './timeIntervals'
 
 const mainReducer = combineReducers({
     query,
     columns,
     issues,
-    brush
+    brush,
+    timeIntervals
 });
 
 export default mainReducer

@@ -38,7 +38,8 @@ class MiniChart extends React.Component {
         return max  }
     _x0() { return (
         d3.scale.linear()
-            .domain([this.props._timeBegin(this.props.issues), this.props._timeEnd(this.props.issues)])
+            .domain([this.props._timeBegin(this.props.issues),
+                this.props._timeEnd(this.props.issues)])
             .range( [0, this._w() ] )
     )}
     _y2() { return (
@@ -48,7 +49,8 @@ class MiniChart extends React.Component {
     )}
     _timeScale() { return  (
         d3.time.scale.utc()
-            .domain([new Date(this.props._timeBegin(this.props.issues)), new Date(this.props._timeEnd(this.props.issues))] )
+            .domain([new Date(this.props._timeBegin(this.props.issues)),
+                new Date(this.props._timeEnd(this.props.issues))] )
             .range([0, this._w()])
     )}
     _miniAxis() { return (
@@ -123,10 +125,6 @@ class MiniChart extends React.Component {
             })
             .attr("height", 10)
             .style('fill', (d) => {
-                console.log('status: ' + d.status);
-                console.log('res1: ' + d.resolution);
-                console.log('res2: ' + d.resolution2);
-                console.log(this.props.getColors(d));
                 return this.props.getColors(d).backgroundColor
             });
         miniItems.exit().remove();

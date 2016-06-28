@@ -5,15 +5,26 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Cards from '../presentation/cards'
+import {actionNewIntervals} from '../../actions/timeIntervals';
 
 const mapStateToProps = (state) => {
     return {
-        query: state.query.query.query
+        query: state.query.query.query,
+        issues: state.issues
+    }
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        dispatchNewIntervals: (sprints, quarters) => (
+            dispatch(actionNewIntervals(sprints, quarters))
+        )
     }
 };
 
 const VisibleCards = connect (
-    mapStateToProps
+    mapStateToProps,
+    mapDispatchToProps
 )(Cards);
 
 export default VisibleCards

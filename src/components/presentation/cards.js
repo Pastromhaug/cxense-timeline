@@ -15,6 +15,11 @@ class  Cards extends React.Component {
 
     constructor() {
         super();
+        this.buildSprintIntervals.bind(this);
+        this.buildQuarterIntervals.bind(this);
+        this.sprintOrigin = moment.utc("2016-01-01");
+        this.timeBegin = moment.utc().valueOf();
+        this.timeEnd = moment.utc().valueOf();
     }
 
     render() {
@@ -37,6 +42,52 @@ class  Cards extends React.Component {
                 </Card>
             </div>
         );
+    }
+
+    componentDidUpdate() {
+        this.timeBegin = Cards._timeBegin(this.props.issues);
+        this.timeEnd = Cards._timeEnd(this.props.issues);
+        var sprints = this.buildSprintIntervals();
+        console.log(sprints.map( sprint => ( {
+            start: moment.utc(sprint.start).format(),
+            end: moment.utc(sprint.end).format()}
+        )));
+        var quarters = this.buildQuarterIntervals(sprints);
+        this.props.dispatchNewIntervals(sprints, quarters);
+    }
+
+    buildSprintIntervals() {
+        var sprints = [];
+        var forwardOrigin = this.sprintOrigin.clone();
+        while (forwardOrigin.isBefore(this.timeEnd)) {
+            let begin = forwardOrigin.clone();
+            let end = forwardOrigin.add(14, 'days').clone();
+            if (end.isAfter(this.timeBegin)){
+                let new_interval = {
+                    start: begin.valueOf(),
+                    end: end.valueOf()
+                };
+                sprints = sprints.concat([new_interval])
+            }
+
+        }
+        var backwardOrigin = this.sprintOrigin.clone();
+        while(backwardOrigin.isAfter(this.timeBegin)) {
+            let end = forwardOrigin.clone();
+            let begin = forwardOrigin.subtract(14, 'days').clone();
+            if (begin.isBefore(this.timeEnd)) {
+                let new_interval = {
+                    start: begin.valueOf(),
+                    end: end.valueOf()
+                };
+                sprints = ([new_interval]).concat(sprints);
+            }
+        }
+        return sprints;
+
+    }
+    buildQuarterIntervals(sprints) {
+
     }
 
     static _timeBegin(issues) {

@@ -6,6 +6,8 @@ import {actionBrushInterval} from '../../actions/issues';
 const mapStateToProps = (state) => {
     return {
         issues: state.issues,
+        sprints: state.timeIntervals.sprints,
+        quarters: state.timeIntervals.quarters,
         brush_start: state.brush.start_time,
         brush_end: state.brush.end_time
     }

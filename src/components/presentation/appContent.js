@@ -43,11 +43,11 @@ class AppContent extends React.Component {
                     </div>
                     {PROJECTS.map( loc => {
                         return (
-                            <div>
+                            <div key={loc.name}>
                                 <MenuItem disabled={true} style={{paddingTop: '24px'}} id={loc.name}> {loc.name} </MenuItem>
                                 {loc.projects.map( proj => {
                                     return (
-                                        <MenuItem style={{paddingLeft: '24px'}} id={proj.name}
+                                        <MenuItem key={proj.name} style={{paddingLeft: '24px'}} id={proj.name}
                                             onClick={ (event) => {
                                                 var col = event.currentTarget.id;
                                                 this._handleDrawerClick(col)
