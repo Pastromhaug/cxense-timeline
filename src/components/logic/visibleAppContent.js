@@ -15,7 +15,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        dispatchAddIssues: (issues) => {
+        dispatchReplaceIssues: (issues) => {
             dispatch( actionReplaceIssues(issues) )
         }
     }

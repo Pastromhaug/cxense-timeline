@@ -98,7 +98,7 @@ class AppContent extends React.Component {
         fetch(url).then((data) => data.json())
             .then( (data) => {
                 var items = this._formatIssues(data);
-                this.props.dispatchAddIssues(items);
+                this.props.dispatchReplaceIssues(items);
             });
         // var stem = 'https://jira.cxense.com/rest/api/2/search?jql='
         // var url = stem + this.props.query;
