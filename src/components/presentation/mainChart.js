@@ -102,7 +102,7 @@ class MainChart extends React.Component {
         this._svg().append("g")
             .attr("class", "main")
             .attr("id", "main_el")
-            .attr('transform', 'translate(0', + this.axis_pad + ')')
+            .attr('transform', 'translate(0,' + this.axis_pad + ')')
             .attr("height", this._chart_h() );
 
         this._main().append("g")

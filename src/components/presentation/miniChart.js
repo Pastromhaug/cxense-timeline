@@ -91,7 +91,7 @@ class MiniChart extends React.Component {
         this._mini().append("g").attr('id','mybrush').attr("class", "x brush");
         // console.log(9);
 
-        this._brush.extent([1469502356093.3433, 1471870222639.9736])
+        this._brush.extent([this.props.brush_start, this.props.brush_end]);
         this._mini().select('#mybrush').select(".brush")
             .call(this._brush);
 
