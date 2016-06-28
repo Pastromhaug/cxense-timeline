@@ -8,7 +8,7 @@ export const COLORS = {
         color: '#DDDDDD'
     },
     b: {
-        backgroundColor: '#3D9970',
+        backgroundColor: 'darkolivegreen',
         color: '#FF4136'
     },
     c: {
@@ -20,7 +20,7 @@ export const COLORS = {
         color: 'black'
     },
     e: {
-        backgroundColor: '#B10DC9',
+        backgroundColor: '#907090', // purple
         color: '#FFFFFF'
     },
     f: {
