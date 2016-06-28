@@ -8,7 +8,7 @@ export const COLORS = {
         color: '#DDDDDD'
     },
     b: {
-        backgroundColor: 'darkolivegreen',
+        backgroundColor: '#709070', //green
         color: '#FF4136'
     },
     c: {
