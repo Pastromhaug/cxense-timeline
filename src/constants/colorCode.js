@@ -16,7 +16,7 @@ export const COLORS = {
         color: '#FFFFFF'
     },
     d: {
-        backgroundColor: '#FFDC00',
+        backgroundColor: '#FFE37A', // yellow
         color: 'black'
     },
     e: {
