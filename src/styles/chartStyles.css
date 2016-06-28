@@ -23,6 +23,13 @@
 
 .sprintRect {
     fill: steelblue;
+    fill-opacity: .2;
+    stroke-width: 2;
+    stroke: white;
+}
+
+.sprintRectMain {
+    fill: steelblue;
     fill-opacity: .5;
     stroke-width: 2;
     stroke: white;

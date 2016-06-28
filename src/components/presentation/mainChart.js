@@ -26,12 +26,16 @@ class MainChart extends React.Component {
         this._axis2.bind(this);
         this._timeScale2.bind(this);
         this._mainAxis2.bind(this);
+        this._sprints.bind(this);
+        this._updateSprints.bind(this);
         this._brush = null;
         this.chartWidth = 0;
         this.axis_pad = 50;
+        this.sprint_height = 40;
     }
     _axis() { return d3.select('#mainAxis')}
     _axis2() { return d3.select('#mainAxis2')}
+    _sprints() { return  d3.select('#sprintsMain')}
     _timeScale() {
         return  (
             d3.time.scale.utc()
@@ -66,7 +70,7 @@ class MainChart extends React.Component {
         var max = d3.max(this.props.issues, (issue) => issue.lane + 1);
         if (typeof max === 'undefined') max = 0;
         return max  }
-    _svg_h() { return this._chart_h() + this.axis_pad}
+    _svg_h() { return this._chart_h() + this.axis_pad + this.sprint_height}
     _chart_h() { return  this._lane_num() * 60 }
     _w() { return  Math.max(this.chartWidth,0) }
     _x1() { return (
@@ -91,6 +95,15 @@ class MainChart extends React.Component {
             .attr("id", "svg")
             .style('width', '100%');
 
+        this._svg().append('g')
+            .attr('class','sprintsMain')
+            .attr('id', 'sprintsMain');
+
+
+        this._sprints().append('g').attr('id','sprintRectsMain');
+        this._sprints().append('g').attr('id','sprintLabelsMain');
+        this._sprints().attr('transform', 'translate(0,' + this.axis_pad + ')');
+
         this._svg().append('g').attr('id', 'mainAxis')
             .attr('class', 'x axis');
         this._svg().append('g').attr('id', 'mainAxis2')
@@ -102,12 +115,13 @@ class MainChart extends React.Component {
         this._svg().append("g")
             .attr("class", "main")
             .attr("id", "main_el")
-            .attr('transform', 'translate(0,' + this.axis_pad + ')')
+            .attr('transform', 'translate(0,' + (this.axis_pad + this.sprint_height) + ')')
             .attr("height", this._chart_h() );
 
         this._main().append("g")
             .attr("id", "itemRects");
 
+        this._updateSprints();
         this._updateRectangles();
     }
 
@@ -127,10 +141,31 @@ class MainChart extends React.Component {
         this._main()
             .attr("width", this._w() )
             .attr("height", this._chart_h() )
-            .attr('transform', 'translate(0,' + this.axis_pad + ')');
 
 
+        this._updateSprints();
         this._updateRectangles();
+    }
+
+    _updateSprints() {
+        var visItems = this.props.sprints.filter(  (d) =>  (
+            d.start < this.props.brush_end && d.end > this.props.brush_start)
+        );
+        var sprintRects = this._sprints().select('#sprintRectsMain').selectAll('.sprintRectMain')
+            .data(visItems, d => d.start)
+            .attr('x', (d) =>  this._x1()(d.start))
+            .attr('width', d => this._x1()(d.end) - this._x1()(d.start));
+
+        sprintRects.enter().append('rect')
+            .attr('class', "sprintRectMain")
+            .attr('x', (d) => {
+                console.log(this._x1()(d.start));
+                return this._x1()(d.start)
+            })
+            .attr('y', 0)
+            .attr('width', d => this._x1()(d.end) - this._x1()(d.start))
+            .attr('height', this.sprint_height);
+        sprintRects.exit().remove();
     }
 
     _updateRectangles() {

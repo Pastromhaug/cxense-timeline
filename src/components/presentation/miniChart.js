@@ -110,13 +110,14 @@ class MiniChart extends React.Component {
             .call(this._brush);
 
 
+
     }
 
     componentDidUpdate() {
 
         this._svg().append('g').attr('id','miniAxis')
             .attr('class', 'x axis')
-            .attr('transform', 'translate(0, ' + 50  + ')')
+            .attr('transform', 'translate(0, ' + 60  + ')')
             .attr('fontSize', 'smallest')
             .attr('fill','grey')
             .call(this._miniAxis());
