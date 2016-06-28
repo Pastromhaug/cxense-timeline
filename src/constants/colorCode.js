@@ -4,27 +4,27 @@
 
 export const COLORS = {
     a: {
-        backgroundColor: 'green',
-        color: 'grey'
+        backgroundColor: '#3D9970',
+        color: '#DDDDDD'
     },
     b: {
-        backgroundColor: 'green',
-        color: 'red'
+        backgroundColor: '#3D9970',
+        color: '#FF4136'
     },
     c: {
-        backgroundColor: 'red',
-        color: 'white'
+        backgroundColor: '#FF4136',
+        color: '#FFFFFF'
     },
     d: {
-        backgroundColor: 'yellow',
+        backgroundColor: '#FFDC00',
         color: 'black'
     },
     e: {
-        backgroundColor: 'purple',
-        color: 'white'
+        backgroundColor: '#B10DC9',
+        color: '#FFFFFF'
     },
     f: {
         backgroundColor: 'pink',
-        color: 'red'
+        color: '#FF4136'
     }
 };
