@@ -14,6 +14,7 @@
     fill-opacity: .5;
 }
 
+
 .brush .extent {
     stroke: #fff;
     fill-opacity: .1;
@@ -22,7 +23,7 @@
 
 .sprintRect {
     fill: steelblue;
-    fill-opacity: .2;
-    stroke-width: 6;
-    stroke: gray;
+    fill-opacity: .5;
+    stroke-width: 2;
+    stroke: white;
 }

@@ -19,19 +19,22 @@ class MiniChart extends React.Component {
         this._svg.bind(this);
         this._displayFromBrush.bind(this);
         this._mini.bind(this);
+        this._sprints.bind(this);
         this._w.bind(this);
         this._timeScale.bind(this);
         this._miniAxis.bind(this);
         this._svg_h.bind(this);
 
         this.top_pad =60;
+        this.sprint_height = 20;
         this._brush = null;
         this.chartWidth = 0;
     }
     _w() { return  Math.max(this.chartWidth,0) }
     _chart_h() { return  this._lane_num() * 12 + 50}
-    _svg_h() { return this._chart_h() + this.top_pad}
+    _svg_h() { return this._chart_h() + this.top_pad + this.sprint_height}
     _mini() { return  d3.select('#mini') }
+    _sprints() { return  d3.select('#sprints')}
     _lane_num() {
         var max = d3.max(this.props.issues, (issue) => issue.lane + 1);
         if (typeof max === 'undefined') max = 0;
@@ -74,14 +77,25 @@ class MiniChart extends React.Component {
             .attr("id", "mini_svg")
             .style('width', '100%');
         // console.log(5);
+
+        this._svg().append('g')
+            .attr('class','sprints')
+            .attr('id', 'sprints');
+
+        this._sprints().append('g').attr('id','sprintRects');
+        this._sprints().append('g').attr('id','sprintLabels');
+        this._sprints().attr('transform', 'translate(0,' + this.top_pad + ')');
+
+
         this._svg().append("g")
             .attr("class", "mini")
             .attr("id","mini");
+
         // console.log(6);
         this._mini().append("g").attr("id", "miniItems");
         this._mini().append("g").attr("id", "miniRects");
         this._mini().append("g").attr("id", "miniLabels");
-        this._mini().attr('transform', 'translate(0,' + this.top_pad + ')');
+        this._mini().attr('transform', 'translate(0,' + (this.top_pad + this.sprint_height) + ')');
 
         this._brush = d3.svg.brush()
             .x(this._x0())
@@ -113,6 +127,16 @@ class MiniChart extends React.Component {
         this._mini()
             .attr("width", this._w() );
 
+        var sprintRects = this._sprints().select('#sprintRects').selectAll('.sprintRect')
+            .data(this.props.sprints, d => d.start);
+
+        sprintRects.enter().append('rect')
+            .attr('class', "sprintRect")
+            .attr('x', (d) => this._x0()(d.start))
+            .attr('y', (d) => this._y2()(0))
+            .attr('width', d => this._x0()(d.end) - this._x0()(d.start))
+            .attr('height', this.sprint_height);
+        sprintRects.exit().remove();
         // console.log(1);
         var miniItems = this._mini().select("#miniItems").selectAll(".miniItems")
             .data(this.props.issues, d => d.name);
