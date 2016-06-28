@@ -5,7 +5,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import AppContent from '../presentation/appContent';
-import {actionAddIssues} from '../../actions/issues';
+import {actionReplaceIssues} from '../../actions/issues';
 
 const mapStateToProps = (state) => {
     return {
@@ -16,7 +16,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         dispatchAddIssues: (issues) => {
-            dispatch( actionAddIssues(issues) )
+            dispatch( actionReplaceIssues(issues) )
         }
     }
 };

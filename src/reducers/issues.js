@@ -1,4 +1,4 @@
-import {ADD_ISSUES} from '../actions/issues';
+import {ADD_ISSUES, REPLACE_ISSUES} from '../actions/issues';
 var _ = require('lodash');
 
 const issues = (state = [], action) => {
@@ -7,6 +7,11 @@ const issues = (state = [], action) => {
         case ADD_ISSUES:
             console.log('ADD_ISSUES');
             return _.unionBy(state, action.issues, (d) => d.id);
+
+        case REPLACE_ISSUES:
+            console.log('REPLACE_ISSUES');
+            return action.issues;
+
         default:
             return state;
     }

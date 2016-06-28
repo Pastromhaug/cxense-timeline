@@ -8,3 +8,8 @@ export const BRUSH_INTERVAL = 'START_BRUSH';
 export function actionBrushInterval(start_time, end_time) {
     return {type: BRUSH_INTERVAL, start_time: start_time, end_time: end_time}
 }
+
+export const REPLACE_ISSUES = 'REPLACE ISSUES';
+export function actionReplaceIssues(issues) {
+    return {type: REPLACE_ISSUES, issues: issues}
+}
