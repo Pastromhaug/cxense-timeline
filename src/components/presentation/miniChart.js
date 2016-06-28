@@ -16,8 +16,6 @@ class MiniChart extends React.Component {
         this._lane_num.bind(this);
         this._x0.bind(this);
         this._x0.bind(this);
-        this._timeBegin.bind(this);
-        this._timeEnd.bind(this);
         this._svg.bind(this);
         this._displayFromBrush.bind(this);
         this._mini.bind(this);
@@ -40,7 +38,7 @@ class MiniChart extends React.Component {
         return max  }
     _x0() { return (
         d3.scale.linear()
-            .domain([this._timeBegin(), this._timeEnd()])
+            .domain([this.props._timeBegin(this.props.issues), this.props._timeEnd(this.props.issues)])
             .range( [0, this._w() ] )
     )}
     _y2() { return (
@@ -50,7 +48,7 @@ class MiniChart extends React.Component {
     )}
     _timeScale() { return  (
         d3.time.scale.utc()
-            .domain([new Date(this._timeBegin()), new Date(this._timeEnd())] )
+            .domain([new Date(this.props._timeBegin(this.props.issues)), new Date(this.props._timeEnd(this.props.issues))] )
             .range([0, this._w()])
     )}
     _miniAxis() { return (
@@ -62,18 +60,7 @@ class MiniChart extends React.Component {
             .tickSize(10,0.5)
             .tickPadding(0))
     }
-    _timeBegin() {
-        var min = d3.min(this.props.issues, (issue) => issue.start);
-        min = Math.min(min, moment.utc().valueOf());
-        var max = d3.max(this.props.issues, (issue) => issue.end);
-        return min - (max - min)/20;
-    }
-    _timeEnd() {
-        var max = d3.max(this.props.issues, (issue) => issue.end);
-        max = Math.max(max, moment.utc().valueOf());
-        var min = d3.min(this.props.issues, (issue) => issue.start);
-        return max + (max - min)/20;
-    }
+
     _svg() { return d3.select('#mini_svg')}
 
     componentDidMount() {

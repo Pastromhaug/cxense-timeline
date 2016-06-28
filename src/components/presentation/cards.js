@@ -9,8 +9,13 @@ import VisibleTimelineTable from './../logic/visibleTimelineTable';
 import VisibleMainChart from '../logic/visibleMainChart';
 import VisibleMiniChart from '../logic/visibleMiniChart';
 import {COLORS} from '../../constants/colorCode';
+var moment = require('moment');
 
 class  Cards extends React.Component {
+
+    constructor() {
+        super();
+    }
 
     render() {
         return(
@@ -22,7 +27,9 @@ class  Cards extends React.Component {
                     </div>
                     <div style={{padding: '16px'}}>
                         <VisibleMainChart getColors={Cards.getColors}/>
-                        <VisibleMiniChart getColors={Cards.getColors}/>
+                        <VisibleMiniChart getColors={Cards.getColors}
+                                        _timeBegin = {Cards._timeBegin}
+                                        _timeEnd = {Cards._timeEnd}/>
                     </div>
                 </Card>
                 <Card style={cardStyles.container}>
@@ -30,6 +37,19 @@ class  Cards extends React.Component {
                 </Card>
             </div>
         );
+    }
+
+    static _timeBegin(issues) {
+        var min = d3.min(issues, (issue) => issue.start);
+        min = Math.min(min, moment.utc().valueOf());
+        var max = d3.max(issues, (issue) => issue.end);
+        return min - (max - min)/20;
+    }
+    static _timeEnd(issues) {
+        var max = d3.max(issues, (issue) => issue.end);
+        max = Math.max(max, moment.utc().valueOf());
+        var min = d3.min(issues, (issue) => issue.start);
+        return max + (max - min)/20;
     }
 
     static getColors(issue) {

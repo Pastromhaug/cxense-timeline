@@ -10,8 +10,6 @@ class MainChart extends React.Component {
 
     constructor() {
         super();
-        this._timeBegin.bind(this);
-        this._timeEnd.bind(this);
         this._w.bind(this);
         this._chart_h.bind(this);
         this._lane_num.bind(this);
@@ -81,8 +79,6 @@ class MainChart extends React.Component {
                     .domain([0, this._lane_num() ])
                     .range([0, this._chart_h() ])
         )}
-    _timeBegin() { return  d3.min(this.props.issues, (issue) => issue.start) }
-    _timeEnd() { return  d3.max(this.props.issues, (issue) => issue.end) }
     _main() { return d3.select('#main_el') }
     _svg() { return d3.select('#svg')}
     _itemRects() { return  d3.select('#itemRects')}
