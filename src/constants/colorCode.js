@@ -4,7 +4,7 @@
 
 export const COLORS = {
     a: {
-        backgroundColor: '#3D9970',
+        backgroundColor: '#709070', //green
         color: '#DDDDDD'
     },
     b: {
