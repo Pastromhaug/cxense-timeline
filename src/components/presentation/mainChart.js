@@ -166,11 +166,8 @@ class MainChart extends React.Component {
             this._x1()(Math.min(d.end, this.props.brush_end )) -
             this._x1()(Math.max(d.start, this.props.brush_start)))
             .style('fill', (d) => {
-                console.log(d.resolution);
-                console.log(d.resolution2);
-                console.log(this.props.getColors(d));
                 return this.props.getColors(d).color
-            });;
+            });
 
         labels.enter().append("text")
             .text( (d) => d.name)
