@@ -166,7 +166,7 @@ class MainChart extends React.Component {
             .attr('width', (d) =>
             this._x1()(Math.min(d.end, this.props.brush_end )) -
             this._x1()(Math.max(d.start, this.props.brush_start)))
-            .style('stroke', (d) => {
+            .style('fill', (d) => {
                 console.log(d.resolution);
                 console.log(d.resolution2);
                 console.log(this.props.getColors(d));
