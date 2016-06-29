@@ -25,6 +25,8 @@ class MainChart extends React.Component {
         this._axis.bind(this);
         this._sprints.bind(this);
         this._updateSprints.bind(this);
+        this._quarters.bind(this);
+        this._updateQuarters.bind(this);
         this._brush = null;
         this.chartWidth = 0;
         this.axis_pad = 50;
@@ -32,6 +34,7 @@ class MainChart extends React.Component {
         this.quarter_height = 25;
     }
     _axis() { return d3.select('#mainAxis')}
+    _quarters() {return d3.select('#quartersMain')}
     _sprints() { return  d3.select('#sprintsMain')}
     _timeScale() {
         return  (
@@ -53,7 +56,7 @@ class MainChart extends React.Component {
         var max = d3.max(this.props.issues, (issue) => issue.lane + 1);
         if (typeof max === 'undefined') max = 0;
         return max  }
-    _svg_h() { return this._chart_h() + this.axis_pad + this.sprint_height}
+    _svg_h() { return this._chart_h() + this.axis_pad + this.sprint_height + this.quarter_height}
     _chart_h() { return  this._lane_num() * 60 }
     _w() { return  Math.max(this.chartWidth,0) }
     _x1() { return (
@@ -82,10 +85,17 @@ class MainChart extends React.Component {
             .attr('class','sprintsMain')
             .attr('id', 'sprintsMain');
 
+        this._svg().append('g')
+            .attr('class','quartersMain')
+            .attr('id', 'quartersMain');
 
         this._sprints().append('g').attr('id','sprintRectsMain');
         this._sprints().append('g').attr('id','sprintLabelsMain');
-        this._sprints().attr('transform', 'translate(0,' + this.axis_pad + ')');
+        this._sprints().attr('transform', 'translate(0,' + (this.axis_pad + this.quarter_height) + ')');
+
+        this._quarters().append('g').attr('id', 'quarterRectsMain');
+        this._quarters().append('g').attr('id', 'quarterLabelsMain');
+        this._quarters().attr('transform', 'translate(0,' + this.axis_pad + ')');
 
         this._svg().append('g').attr('id', 'mainAxis')
             .attr('class', 'x axis')
@@ -97,13 +107,14 @@ class MainChart extends React.Component {
         this._svg().append("g")
             .attr("class", "main")
             .attr("id", "main_el")
-            .attr('transform', 'translate(0,' + (this.axis_pad + this.sprint_height) + ')')
+            .attr('transform', 'translate(0,' + (this.axis_pad + this.sprint_height + this.quarter_height) + ')')
             .attr("height", this._chart_h() );
 
         this._main().append("g")
             .attr("id", "itemRects");
 
         this._updateSprints();
+        this._updateQuarters();
         this._updateRectangles();
     }
 
@@ -121,7 +132,45 @@ class MainChart extends React.Component {
 
 
         this._updateSprints();
+        this._updateQuarters();
         this._updateRectangles();
+    }
+
+    _updateQuarters() {
+        var visItems = this.props.quarters.filter(  (d) =>  (
+            d.start < this.props.brush_end && d.end > this.props.brush_start)
+        );
+        var quarterRects = this._quarters().select('#quarterRectsMain').selectAll('.quarterRectMain')
+            .data(visItems, d => d.start)
+            .attr('x', (d) =>  this._x1()(d.start))
+            .attr('width', d => this._x1()(d.end) - this._x1()(d.start));
+
+        quarterRects.enter().append('rect')
+            .attr('class', "quarterRectMain")
+            .attr('x', (d) => {
+                console.log(this._x1()(d.start));
+                return this._x1()(d.start)
+            })
+            .attr('y', 0)
+            .attr('width', d => this._x1()(d.end) - this._x1()(d.start))
+            .attr('height', this.quarter_height);
+        quarterRects.exit().remove();
+
+        var quarterLabels = this._quarters().select('#quarterLabelsMain').selectAll('text')
+            .data(visItems, d => d.start)
+            .attr('x', (d) => (this._x1()(d.start) + this._x1()(d.end))/2);
+
+        quarterLabels.enter().append('text')
+            .text(d => {
+                let year = moment.utc(d.start).year();
+                return 'Q' + d.quarter_num + '  ' + year;
+            })
+            .attr('class', 'quarterTextMain')
+            .attr('x', (d) => (this._x1()(d.start) + this._x1()(d.end))/2)
+            .attr('y', (d) => this.quarter_height)
+            .attr('dy', -7)
+            .attr("text-anchor", "middle");
+        quarterLabels.exit().remove();
     }
 
     _updateSprints() {

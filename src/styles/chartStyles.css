@@ -56,3 +56,15 @@
     fill: grey;
     font-size: small;
 }
+
+.quarterTextMain {
+    fill: grey;
+    font-size: larger;
+}
+
+.quarterRectMain {
+    fill: steelblue;
+    fill-opacity: .5;
+    stroke-width: 2;
+    stroke: white;
+}
