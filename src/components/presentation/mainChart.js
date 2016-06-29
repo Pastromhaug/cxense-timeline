@@ -166,6 +166,20 @@ class MainChart extends React.Component {
             .attr('width', d => this._x1()(d.end) - this._x1()(d.start))
             .attr('height', this.sprint_height);
         sprintRects.exit().remove();
+
+        var sprintLabels = this._sprints().select('#sprintLabelsMain').selectAll('text')
+            .data(visItems, d => d.start)
+            .attr('x', (d) => (this._x1()(d.start) + this._x1()(d.end))/2);
+
+        sprintLabels.enter().append('text')
+            .text(d => 'T'+d.sprint_num)
+            .attr('class', 'sprintTextMain')
+            .attr('x', (d) => (this._x1()(d.start) + this._x1()(d.end))/2)
+            .attr('y', (d) => this._y1()(0) + this.sprint_height)
+            .attr('dy', -13)
+            .attr("text-anchor", "middle");
+        sprintLabels.exit().remove();
+
     }
 
     _updateRectangles() {
