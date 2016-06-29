@@ -31,7 +31,7 @@ class MainChart extends React.Component {
         this._brush = null;
         this.chartWidth = 0;
         this.axis_pad = 50;
-        this.sprint_height = 40;
+        this.sprint_height = 25;
     }
     _axis() { return d3.select('#mainAxis')}
     _axis2() { return d3.select('#mainAxis2')}
@@ -105,9 +105,8 @@ class MainChart extends React.Component {
         this._sprints().attr('transform', 'translate(0,' + this.axis_pad + ')');
 
         this._svg().append('g').attr('id', 'mainAxis')
-            .attr('class', 'x axis');
-        this._svg().append('g').attr('id', 'mainAxis2')
             .attr('class', 'x axis')
+            .attr('fill','grey');
 
         this._svg().select('#mainAxis').attr('transform', 'translate(0, ' + 50  + ')');
         this._svg().select('#mainAxis2').attr('transform', 'translate(0, ' + 50  + ')');
@@ -129,11 +128,6 @@ class MainChart extends React.Component {
 
         this._axis()
             .call(this._mainAxis());
-        this._axis2()
-            .call(this._mainAxis2());
-
-        //this._axis()
-        //    .call(this._mainAxis2());
 
         this._svg().attr("id", "svg")
             .attr("height", this._svg_h() );
@@ -176,7 +170,7 @@ class MainChart extends React.Component {
             .attr('class', 'sprintTextMain')
             .attr('x', (d) => (this._x1()(d.start) + this._x1()(d.end))/2)
             .attr('y', (d) => this._y1()(0) + this.sprint_height)
-            .attr('dy', -13)
+            .attr('dy', -7)
             .attr("text-anchor", "middle");
         sprintLabels.exit().remove();
 

@@ -30,7 +30,7 @@
 
 .sprintRectMain {
     fill: steelblue;
-    fill-opacity: .5;
+    fill-opacity: .3;
     stroke-width: 2;
     stroke: white;
 }
@@ -41,7 +41,7 @@
 }
 
 .sprintTextMain {
-    fill: white;
+    fill: grey;
     font-size: larger;
 }
 
