@@ -62,10 +62,12 @@ class  Cards extends React.Component {
         while (forwardOrigin.isBefore(this.timeEnd)) {
             let begin = forwardOrigin.clone();
             let end = forwardOrigin.add(14, 'days').clone();
+            let sprint_num = Math.ceil(end.dayOfYear()/14);
             if (end.isAfter(this.timeBegin)){
                 let new_interval = {
                     start: begin.valueOf(),
-                    end: end.valueOf()
+                    end: end.valueOf(),
+                    sprint_num: sprint_num
                 };
                 sprints = sprints.concat([new_interval])
             }
@@ -75,14 +77,18 @@ class  Cards extends React.Component {
         while(backwardOrigin.isAfter(this.timeBegin)) {
             let end = backwardOrigin.clone();
             let begin = backwardOrigin.subtract(14, 'days').clone();
+            let sprint_num = Math.ceil(end.dayOfYear()/14);
             if (begin.isBefore(this.timeEnd)) {
                 let new_interval = {
                     start: begin.valueOf(),
-                    end: end.valueOf()
+                    end: end.valueOf(),
+                    sprint_num: sprint_num
                 };
                 sprints = ([new_interval]).concat(sprints);
             }
         }
+        console.log('sprints');
+        console.log(sprints);
         return sprints;
 
     }

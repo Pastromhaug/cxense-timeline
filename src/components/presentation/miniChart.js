@@ -138,7 +138,19 @@ class MiniChart extends React.Component {
             .attr('width', d => this._x0()(d.end) - this._x0()(d.start))
             .attr('height', this.sprint_height);
         sprintRects.exit().remove();
-        // console.log(1);
+
+        var sprintLabels = this._sprints().select('#sprintLabels').selectAll('text')
+            .data(this.props.sprints, d => d.start);
+
+        sprintLabels.enter().append('text')
+            .text(d => d.sprint_num)
+            .attr('class', 'sprintText')
+            .attr('x', (d) => (this._x0()(d.start) + this._x0()(d.end))/2)
+            .attr('y', (d) => this._y2()(0) + this.sprint_height)
+            .attr('dy', -5)
+            .attr("text-anchor", "middle");
+        sprintLabels.exit().remove();
+
         var miniItems = this._mini().select("#miniItems").selectAll(".miniItems")
             .data(this.props.issues, d => d.name);
         miniItems.enter().append("rect")
@@ -146,10 +158,10 @@ class MiniChart extends React.Component {
             .attr("x", (d) => this._x0()(d.start))
             .attr("y", (d) => this._y2()(d.lane + .5) - 5)
             .attr("width", (d) => {
-                console.log(d.name);
-                console.log('status: ' + d.status);
-                console.log('res1: ' + d.resolution);
-                console.log('res2: ' + d.resolution2);
+                // console.log(d.name);
+                // console.log('status: ' + d.status);
+                // console.log('res1: ' + d.resolution);
+                // console.log('res2: ' + d.resolution2);
                 return this._x0()(d.end) - this._x0()(d.start)
             })
             .attr("height", 10)
