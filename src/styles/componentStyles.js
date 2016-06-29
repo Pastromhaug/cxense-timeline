@@ -5,8 +5,7 @@
 
 export const cardStyles = {
     container: {
-        margin: '16px',
-        marginBottom: '32px',
+        marginBottom: '16px',
         marginLeft: 'auto',
         marginRight: 'auto',
         textAlign: 'center'
