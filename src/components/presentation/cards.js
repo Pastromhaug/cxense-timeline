@@ -104,7 +104,7 @@ class  Cards extends React.Component {
             // console.log(curr_end.clone().dayOfYear() + ' - ' + curr_end.clone().startOf('month').dayOfYear());
             // console.log(curr_end.format() + ' - ' + curr_end.startOf('month').format());
             if ( (end_month) % 3 === 0 && dayOfMonth < 14) {
-                console.log('end month: ' + end_month);
+                // console.log('end month: ' + end_month);
                 // console.log('new quarter!!');
                 // console.log(curr_end.clone().dayOfYear() + ' - ' + curr_end.clone().startOf('month').dayOfYear());
                 // console.log(curr_end.format() + ' - ' + curr_end.startOf('month').format());

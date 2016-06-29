@@ -26,9 +26,9 @@ class AppContent extends React.Component {
     }
 
     _handleDrawerClick(data) {
-        console.log(data);
-        var con = /project IN ()/.test(this.props.query);
-        console.log(con);
+        // console.log(data);
+        // var con = /project IN ()/.test(this.props.query);
+        // console.log(con);
     }
 
     render() {
@@ -84,17 +84,17 @@ class AppContent extends React.Component {
     }
 
     componentDidMount() {
-        console.log('initing card')
+        // console.log('initing card')
         this._initIssues();
     }
 
     componentDidUpdate() {
-        console.log('card updating')
+        // console.log('card updating')
         this._initIssues();
     }
 
     _initIssues() {
-        console.log('initIssues()');
+        // console.log('initIssues()');
         var url = 'http://localhost:8001/sample';
         fetch(url).then((data) => data.json())
             .then( (data) => {

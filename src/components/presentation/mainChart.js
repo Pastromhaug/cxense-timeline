@@ -149,7 +149,7 @@ class MainChart extends React.Component {
         quarterRects.enter().append('rect')
             .attr('class', "quarterRectMain")
             .attr('x', (d) => {
-                console.log(this._x1()(d.start));
+                // console.log(this._x1()(d.start));
                 return this._x1()(d.start)
             })
             .attr('y', 0)
@@ -186,7 +186,7 @@ class MainChart extends React.Component {
         sprintRects.enter().append('rect')
             .attr('class', "sprintRectMain")
             .attr('x', (d) => {
-                console.log(this._x1()(d.start));
+                // console.log(this._x1()(d.start));
                 return this._x1()(d.start)
             })
             .attr('y', 0)
