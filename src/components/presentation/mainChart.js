@@ -238,7 +238,7 @@ class MainChart extends React.Component {
             .attr("y", (d) => this._y1()(d.lane))
             .attr('width', (d) =>
             this._x1()(Math.min(d.end, this.props.brush_end )) -
-            this._x1()(Math.max(d.start, this.props.brush_start)))
+            this._x1()(Math.max(d.start, this.props.brush_start)) - 5)
             .attr("height", (d) => .8 * this._y1()(1));
 
         clippaths.enter().append('clipPath')
@@ -266,6 +266,8 @@ class MainChart extends React.Component {
             .text( (d) => d.name)
             .attr("x", (d) => this._x1()(Math.max(d.start, this.props.brush_end)))
             .attr("y", (d) => this._y1()(d.lane + .5))
+            .attr('dx', 5)
+            .attr('dy', 7)
             .attr("text-anchor", "start")
             .attr("clip-path", d => ("url(#" + d.id + ")"));
 
