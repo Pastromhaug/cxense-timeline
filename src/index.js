@@ -12,11 +12,10 @@ import { createStore } from 'redux';
 import VisibleCards from './components/logic/visibleCards';
 import VisibleQuery from './components/logic/visibleQuery';
 import VisibleColumns from './components/logic/visibleColumns';
-import AppBar from 'material-ui/AppBar';
-import {appbarStyles, headerButton, headerTitle} from './styles/componentStyles';
-import FlatButton from 'material-ui/FlatButton';
 import mainReducer from './reducers/main';
 import VisibleAppContent from './components/logic/visibleAppContent';
+import { syncHistoryWithStore } from 'react-router-redux';
+
 
 require('./styles/general.css');
 
@@ -38,10 +37,12 @@ class App extends React.Component {
     }
 }
 
+const history = syncHistoryWithStore(browserHistory, store);
+
 class Routing extends React.Component {
     render() {
         return (
-            <Router history = {browserHistory}>
+            <Router history = {history}>
                 <Route path="/" component = {App}>
                     <IndexRoute component={VisibleCards}/>
                     <Route path="/timeline" component={VisibleCards}/>

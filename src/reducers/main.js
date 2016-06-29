@@ -7,14 +7,16 @@ import query from './query';
 import columns from './columns';
 import issues from './issues';
 import brush from './brush';
-import timeIntervals from './timeIntervals'
+import timeIntervals from './timeIntervals';
+import {routerReducer} from 'react-router-redux';
 
 const mainReducer = combineReducers({
     query,
     columns,
     issues,
     brush,
-    timeIntervals
+    timeIntervals,
+    routing: routerReducer
 });
 
 export default mainReducer
