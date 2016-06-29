@@ -2,4 +2,5 @@ colors
 timeline should always include now,
 need quarters and sprints at top always
 don't need date picker anymore
+code everything into URL
 
