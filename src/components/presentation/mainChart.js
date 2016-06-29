@@ -4,6 +4,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom'
 var d3 = require('d3');
+var moment = require('moment');
 
 
 class MainChart extends React.Component {
