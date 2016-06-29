@@ -146,6 +146,10 @@ class MiniChart extends React.Component {
             .attr("x", (d) => this._x0()(d.start))
             .attr("y", (d) => this._y2()(d.lane + .5) - 5)
             .attr("width", (d) => {
+                console.log(d.name);
+                console.log('status: ' + d.status);
+                console.log('res1: ' + d.resolution);
+                console.log('res2: ' + d.resolution2);
                 return this._x0()(d.end) - this._x0()(d.start)
             })
             .attr("height", 10)

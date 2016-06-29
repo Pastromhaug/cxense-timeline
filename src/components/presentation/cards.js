@@ -123,13 +123,13 @@ class  Cards extends React.Component {
         }
         else if (status1.indexOf(issue.status) == -1 &&
             (issue.resolution === 'Ready for coding' || issue.resolution2 === 'Ready for coding')) {
-            return COLORS.d;
+            return COLORS.e;
         }
         else if (status1.indexOf(issue.status) == -1 &&
             (issue.resolution === 'N/A' || issue.resolution2 === 'N/A')) {
-            return COLORS.e;
+            return COLORS.f;
         }
-        else return COLORS.f;
+        else return COLORS.g;
     }
 }
 

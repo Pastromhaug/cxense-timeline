@@ -12,7 +12,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 app.get('/sample', function(req,res) {
-   res.sendFile(__dirname + '/sample.json')
+   res.sendFile(__dirname + '/sample_large.json')
 });
 
 app.get('/test', function (req, res) {

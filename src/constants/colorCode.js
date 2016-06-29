@@ -4,27 +4,31 @@
 
 export const COLORS = {
     a: {
-        backgroundColor: '#669966', //green
-        color: '#DDDDDD'
+        backgroundColor: '#669966', // green
+        color: '#DDDDDD' // grey
     },
     b: {
-        backgroundColor: '#669966', //green
-        color: '#FF4136'
+        backgroundColor: '#669966', // green
+        color: '#FF4136' // red
     },
     c: {
-        backgroundColor: '#FF4136',
-        color: '#FFFFFF'
+        backgroundColor: '#FF4136', // red
+        color: '#FFFFFF' // white
     },
     d: {
         backgroundColor: '#FFE37A', // yellow
-        color: 'black'
+        color: 'black' // black
     },
     e: {
-        backgroundColor: '#907090', // purple
-        color: '#FFFFFF'
+        backgroundColor: '#a4efa4', // light green
+        color: 'black'
     },
     f: {
-        backgroundColor: 'pink',
-        color: '#FF4136'
+        backgroundColor: '#907090', // purple
+        color: '#FFFFFF' // white
+    },
+    g: {
+        backgroundColor: 'pink', // pink
+        color: '#FF4136' // red
     }
 };
