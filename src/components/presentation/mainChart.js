@@ -23,18 +23,15 @@ class MainChart extends React.Component {
         this._timeScale.bind(this);
         this._mainAxis.bind(this);
         this._axis.bind(this);
-        this._axis2.bind(this);
-        this._timeScale2.bind(this);
-        this._mainAxis2.bind(this);
         this._sprints.bind(this);
         this._updateSprints.bind(this);
         this._brush = null;
         this.chartWidth = 0;
         this.axis_pad = 50;
         this.sprint_height = 25;
+        this.quarter_height = 25;
     }
     _axis() { return d3.select('#mainAxis')}
-    _axis2() { return d3.select('#mainAxis2')}
     _sprints() { return  d3.select('#sprintsMain')}
     _timeScale() {
         return  (
@@ -51,20 +48,6 @@ class MainChart extends React.Component {
             .tickSize(10,2)
             .tickPadding(3))
     }
-
-    _timeScale2() {
-        return  (
-            d3.time.scale.utc()
-                .domain([new Date(this.props.brush_start), new Date(this.props.brush_end)] )
-                .range([0, this._w()]))}
-    _mainAxis2() { return (
-        d3.svg.axis()
-            .orient('top')
-            .scale(this._timeScale2())
-            .ticks(d3.time.months, 1)
-            .tickFormat(d3.time.format('%B'))
-            .tickSize(10,2)
-            .tickPadding(25))}
 
     _lane_num() {
         var max = d3.max(this.props.issues, (issue) => issue.lane + 1);
