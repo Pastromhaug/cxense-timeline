@@ -42,7 +42,7 @@
 
 .sprintTextMain {
     fill: grey;
-    font-size: larger;
+    font-size: large;
 }
 
 .quarterRect {
@@ -59,7 +59,7 @@
 
 .quarterTextMain {
     fill: rgb(88,88,88);
-    font-size: larger;
+    font-size: large;
 }
 
 .quarterRectMain {

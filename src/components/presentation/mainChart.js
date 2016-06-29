@@ -203,7 +203,7 @@ class MainChart extends React.Component {
             .attr('class', 'sprintTextMain')
             .attr('x', (d) => (this._x1()(d.start) + this._x1()(d.end))/2)
             .attr('y', (d) => this._y1()(0) + this.sprint_height)
-            .attr('dy', -7)
+            .attr('dy', -6)
             .attr("text-anchor", "middle");
         sprintLabels.exit().remove();
 
