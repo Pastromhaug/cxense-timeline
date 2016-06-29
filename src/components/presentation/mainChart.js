@@ -185,17 +185,38 @@ class MainChart extends React.Component {
             .style('fill', (d) => {
                 return this.props.getColors(d).backgroundColor
             });
-        ;
 
         rects.exit().remove();
+
+        var clippaths = this._itemRects().selectAll('clipPath')
+            .data(visItems, d => d.name);
+
+        clippaths
+            .append('rect')
+            .attr("x", (d) => this._x1()(Math.max(d.start, this.props.brush_start)))
+            .attr("y", (d) => this._y1()(d.lane))
+            .attr('width', (d) =>
+            this._x1()(Math.min(d.end, this.props.brush_end )) -
+            this._x1()(Math.max(d.start, this.props.brush_start)))
+            .attr("height", (d) => .8 * this._y1()(1));
+
+        clippaths.enter().append('clipPath')
+            .attr( 'id', d => d.id)
+            .append('rect')
+            .attr("x", (d) => this._x1()(Math.max(d.start, this.props.brush_start)))
+            .attr("y", (d) => this._y1()(d.lane))
+            .attr('width', (d) =>
+                this._x1()(Math.min(d.end, this.props.brush_end )) -
+                this._x1()(Math.max(d.start, this.props.brush_start)))
+            .attr("height", (d) => .8 * this._y1()(1));
+
+        clippaths.exit().remove();
+
 
         //update the item labels
         var labels = this._itemRects().selectAll("text")
             .data(visItems, (d) => d.name)
             .attr("x", (d) => this._x1()(Math.max(d.start, this.props.brush_start) + 2))
-            .attr('width', (d) =>
-            this._x1()(Math.min(d.end, this.props.brush_end )) -
-            this._x1()(Math.max(d.start, this.props.brush_start)))
             .style('fill', (d) => {
                 return this.props.getColors(d).color
             });
@@ -205,9 +226,7 @@ class MainChart extends React.Component {
             .attr("x", (d) => this._x1()(Math.max(d.start, this.props.brush_end)))
             .attr("y", (d) => this._y1()(d.lane + .5))
             .attr("text-anchor", "start")
-            .attr('width', (d) =>
-            this._x1()(Math.min(d.end, this.props.brush_end )) -
-            this._x1()(Math.max(d.start, this.props.brush_start)));
+            .attr("clip-path", d => ("url(#" + d.id + ")"));
 
         labels.exit().remove();
     }
