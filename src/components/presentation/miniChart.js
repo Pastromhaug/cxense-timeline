@@ -24,17 +24,20 @@ class MiniChart extends React.Component {
         this._timeScale.bind(this);
         this._miniAxis.bind(this);
         this._svg_h.bind(this);
+        this._quarters.bind(this);
 
         this.top_pad =60;
         this.sprint_height = 20;
+        this.quarter_height = 20;
         this._brush = null;
         this.chartWidth = 0;
     }
     _w() { return  Math.max(this.chartWidth,0) }
     _chart_h() { return  this._lane_num() * 12 + 50}
-    _svg_h() { return this._chart_h() + this.top_pad + this.sprint_height}
+    _svg_h() { return this._chart_h() + this.top_pad + this.sprint_height + this.quarter_height}
     _mini() { return  d3.select('#mini') }
     _sprints() { return  d3.select('#sprints')}
+    _quarters() { return d3.select('#quarters')}
     _lane_num() {
         var max = d3.max(this.props.issues, (issue) => issue.lane + 1);
         if (typeof max === 'undefined') max = 0;
@@ -82,10 +85,18 @@ class MiniChart extends React.Component {
             .attr('class','sprints')
             .attr('id', 'sprints');
 
+        this._svg().append('g')
+            .attr('class','quarters')
+            .attr('id', 'quarters');
+
+
         this._sprints().append('g').attr('id','sprintRects');
         this._sprints().append('g').attr('id','sprintLabels');
-        this._sprints().attr('transform', 'translate(0,' + this.top_pad + ')');
+        this._sprints().attr('transform', 'translate(0,' + (this.top_pad + this.quarter_height) + ')');
 
+        this._quarters().append('g').attr('id','quarterRects');
+        this._quarters().append('g').attr('id','quarterLabels');
+        this._quarters().attr('transform', 'translate(0,' + this.top_pad + ')');
 
         this._svg().append("g")
             .attr("class", "mini")
@@ -95,7 +106,7 @@ class MiniChart extends React.Component {
         this._mini().append("g").attr("id", "miniItems");
         this._mini().append("g").attr("id", "miniRects");
         this._mini().append("g").attr("id", "miniLabels");
-        this._mini().attr('transform', 'translate(0,' + (this.top_pad + this.sprint_height) + ')');
+        this._mini().attr('transform', 'translate(0,' + (this.top_pad + this.sprint_height + this.quarter_height) + ')');
 
         this._brush = d3.svg.brush()
             .x(this._x0())
@@ -127,6 +138,34 @@ class MiniChart extends React.Component {
 
         this._mini()
             .attr("width", this._w() );
+
+
+        var quarterRects = this._quarters().select('#quarterRects').selectAll('.quarterRect')
+            .data(this.props.quarters, d => d.start);
+
+        quarterRects.enter().append('rect')
+            .attr('class', "quarterRect")
+            .attr('x', (d) => this._x0()(d.start))
+            .attr('y', (d) => this._y2()(0))
+            .attr('width', d => this._x0()(d.end) - this._x0()(d.start))
+            .attr('height', this.quarter_height);
+        quarterRects.exit().remove();
+
+        var quarterLabels = this._quarters().select('#quarterLabels').selectAll('text')
+            .data(this.props.quarters, d => d.start);
+
+        quarterLabels.enter().append('text')
+            .text(d => {
+                let year = moment.utc(d.start).year();
+                return 'Q' + d.quarter_num + '  ' + year;
+            })
+            .attr('class', 'quarterText')
+            .attr('x', (d) => (this._x0()(d.start) + this._x0()(d.end))/2)
+            .attr('y', (d) => this._y2()(0) + this.quarter_height)
+            .attr('dy', -5)
+            .attr("text-anchor", "middle");
+        quarterLabels.exit().remove();
+
 
         var sprintRects = this._sprints().select('#sprintRects').selectAll('.sprintRect')
             .data(this.props.sprints, d => d.start);

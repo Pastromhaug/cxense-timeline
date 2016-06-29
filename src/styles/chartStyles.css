@@ -44,3 +44,15 @@
     fill: white;
     font-size: larger;
 }
+
+.quarterRect {
+    fill: steelblue;
+    fill-opacity: .4;
+    stroke-width: 2;
+    stroke: white;
+}
+
+.quarterText {
+    fill: grey;
+    font-size: small;
+}
