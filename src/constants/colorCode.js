@@ -17,11 +17,11 @@ export const COLORS = {
     },
     d: {
         backgroundColor: '#FFE37A', // yellow
-        color: 'black' // black
+        color: 'rgb(88,88,88)' // black
     },
     e: {
         backgroundColor: '#a4efa4', // light green
-        color: 'black'
+        color: 'rgb(88,88,88)' // black
     },
     f: {
         backgroundColor: '#907090', // purple
@@ -29,6 +29,6 @@ export const COLORS = {
     },
     g: {
         backgroundColor: 'pink', // pink
-        color: '#FF4136' // red
+        color: '#bf0a00' // red
     }
 };
