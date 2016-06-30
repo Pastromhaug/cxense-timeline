@@ -48,8 +48,9 @@ class MainChart extends React.Component {
             .orient('top')
             .scale(this._timeScale())
             .ticks(10)
-            .tickFormat(d3.time.format('%d'))
-            .tickSize(10,2)
+            .tickFormat(d3.time.format("%d %b"))
+            .tickSize(2)
+            .innerTickSize(4)
             .tickPadding(3))
     }
 
