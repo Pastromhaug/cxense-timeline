@@ -26,13 +26,15 @@ app.get('/test', function (req, res) {
         })
 });
 
+app.get('/timeline*', function (req, res) {
+    res.sendFile(path.resolve(__dirname + '/../prod/prod-index.html'));
+});
+
 app.get('/', function (req, res) {
     res.sendFile(path.resolve(__dirname + '/../prod/prod-index.html'));
 });
 
-app.get('/timeline/*', function (req, res) {
-    res.sendFile(path.resolve(__dirname + '/../prod/prod-index.html'));
-});
+
 
 
 
