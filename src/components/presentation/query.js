@@ -79,7 +79,7 @@ const Query = ({query_temp, start_day, end_day, dispatchTempFixedOrRelative,
             </div>
             <RaisedButton style={button} lassName="MyButton" label="Cancel"
                 onClick={ () => dispatchCancelQuery()}/>
-            <Link to='/timeline'>
+            <Link to={'/timeline/'+ query_temp}>
                 <RaisedButton style={button} label="Apply"
                     onClick={ () => dispatchApplyQuery()}/>
             </Link>

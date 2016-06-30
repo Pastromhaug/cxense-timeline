@@ -45,7 +45,7 @@ class Routing extends React.Component {
             <Router history = {history}>
                 <Route path="/" component = {App}>
                     <IndexRoute component={VisibleCards}/>
-                    <Route path="/timeline" component={VisibleCards}/>
+                    <Route path="/timeline/:query" component={VisibleCards}/>
                     <Route path="/query" component={VisibleQuery}/>
                     <Route path="/columns" component={VisibleColumns}/>
                 </Route>

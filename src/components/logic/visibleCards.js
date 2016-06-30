@@ -6,6 +6,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Cards from '../presentation/cards'
 import {actionNewIntervals} from '../../actions/timeIntervals';
+import {actionApplyQuery} from '../../actions/query';
 
 const mapStateToProps = (state) => {
     return {
@@ -18,7 +19,10 @@ const mapDispatchToProps = (dispatch) => {
     return {
         dispatchNewIntervals: (sprints, quarters) => (
             dispatch(actionNewIntervals(sprints, quarters))
-        )
+        ),
+        dispatchApplyQuery: (query) => {
+            dispatch(actionApplyQuery(query))
+        }
     }
 };
 

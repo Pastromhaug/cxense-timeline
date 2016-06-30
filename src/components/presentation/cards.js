@@ -10,6 +10,7 @@ import VisibleMainChart from '../logic/visibleMainChart';
 import VisibleMiniChart from '../logic/visibleMiniChart';
 import {COLORS} from '../../constants/colorCode';
 var moment = require('moment');
+var _ = require('lodash');
 
 class  Cards extends React.Component {
 
@@ -42,6 +43,14 @@ class  Cards extends React.Component {
                 </Card>
             </div>
         );
+    }
+
+    componentDidMount() {
+        console.log('params:');
+        var params = this.props.params;
+        if (_.has(params, 'query')) {
+            this.props.dispatchApplyQuery(params.query);
+        }
     }
 
     componentDidUpdate() {
