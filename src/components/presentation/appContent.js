@@ -85,7 +85,7 @@ class AppContent extends React.Component {
 
     componentDidMount() {
         // console.log('initing card')
-        this._initIssues();
+        // this._initIssues();
     }
 
     componentDidUpdate() {
