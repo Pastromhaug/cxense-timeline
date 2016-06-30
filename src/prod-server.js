@@ -26,7 +26,7 @@ app.get('/test', function (req, res) {
         })
 });
 
-app.get('/', function (req, res) {
+app.get('/*', function (req, res) {
     res.sendFile(path.resolve(__dirname + '/../prod/prod-index.html'));
 });
 
