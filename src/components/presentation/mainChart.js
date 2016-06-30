@@ -220,14 +220,16 @@ class MainChart extends React.Component {
             .attr("width", (d) => this._x1()(d.end) - this._x1()(d.start))
             .on('mouseover', (d) => {
                 d3.select('#rect-' + d.id).attr('fill-opacity', 0.7);
-                console.log(d.id);
+                d3.select('#rect-' + d.id).attr('cursor','pointer');
                 this.props.dispatchHoverOnIssue(d.id);
             })
             .on('mouseout', (d) => {
                 d3.select('#rect-' + d.id).attr('fill-opacity', 1);
                 this.props.dispatchHoverOnIssue(null);
-            }
-        );
+            })
+            .on('click', (d) => {
+                window.open("https://jira.cxense.com/browse/" + d.id + "?jql=issue=" + d.id ,'_blank');
+            });
 
         rects.enter().append("rect")
             .attr("x", (d) => this._x1()(d.start))
@@ -275,12 +277,16 @@ class MainChart extends React.Component {
             })
             .on('mouseover', (d) => {
                 d3.select('#rect-' + d.id).attr('fill-opacity', 0.7);
+                d3.select('#rect-' + d.id).attr('cursor','pointer');
                 console.log(d.id);
                 this.props.dispatchHoverOnIssue(d.id);
             })
             .on('mouseout', (d) => {
                 d3.select('#rect-' + d.id).attr('fill-opacity', 1)
                 this.props.dispatchHoverOnIssue(null)
+            })
+            .on('click', (d) => {
+                window.open("https://jira.cxense.com/browse/" + d.id + "?jql=issue=" + d.id ,'_blank');
             });
 
         labels.enter().append("text")
