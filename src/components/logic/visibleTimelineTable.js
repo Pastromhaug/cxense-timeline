@@ -11,7 +11,8 @@ const mapStateToProps = (state) => {
         columns: state.columns.columns,
         issues: state.issues,
         brush_start: state.brush.start_time,
-        brush_end: state.brush.end_time
+        brush_end: state.brush.end_time,
+        hover: state.table
     }
 };
 

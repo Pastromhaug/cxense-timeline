@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import MainChart from '../presentation/mainChart';
 import {actionBrushInterval} from '../../actions/issues';
+import {actionHoverOnIssue} from '../../actions/table';
 
 const mapStateToProps = (state) => {
     return {
@@ -17,6 +18,9 @@ const mapDispatchToProps = (dispatch) => {
     return {
         dispatchBrushInterval: (start_time, end_time) => {
             dispatch( actionBrushInterval(start_time, end_time) )
+        },
+        dispatchHoverOnIssue: (id) => {
+            dispatch( actionHoverOnIssue(id))
         }
     }
 };

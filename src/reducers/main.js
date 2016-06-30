@@ -8,6 +8,7 @@ import columns from './columns';
 import issues from './issues';
 import brush from './brush';
 import timeIntervals from './timeIntervals';
+import table from './table';
 import {routerReducer} from 'react-router-redux';
 
 const mainReducer = combineReducers({
@@ -16,6 +17,7 @@ const mainReducer = combineReducers({
     issues,
     brush,
     timeIntervals,
+    table,
     routing: routerReducer
 });
 

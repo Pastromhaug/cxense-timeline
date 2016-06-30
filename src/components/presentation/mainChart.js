@@ -217,13 +217,24 @@ class MainChart extends React.Component {
         var rects = this._itemRects().selectAll("rect")
             .data(visItems, (d) => d.name)
             .attr("x", (d) => this._x1()(d.start))
-            .attr("width", (d) => this._x1()(d.end) - this._x1()(d.start));
+            .attr("width", (d) => this._x1()(d.end) - this._x1()(d.start))
+            .on('mouseover', (d) => {
+                d3.select('#rect-' + d.id).attr('fill-opacity', 0.7);
+                console.log(d.id);
+                this.props.dispatchHoverOnIssue(d.id);
+            })
+            .on('mouseout', (d) => {
+                d3.select('#rect-' + d.id).attr('fill-opacity', 1);
+                this.props.dispatchHoverOnIssue(null);
+            }
+        );
 
         rects.enter().append("rect")
             .attr("x", (d) => this._x1()(d.start))
             .attr("y", (d) => this._y1()(d.lane) + 10)
             .attr("width", (d) => this._x1()(d.end) - this._x1()(d.start))
             .attr("height", (d) => .8 * this._y1()(1))
+            .attr('id', d => 'rect-' + d.id)
             .style('fill', (d) => {
                 return this.props.getColors(d).backgroundColor
             });
@@ -261,6 +272,15 @@ class MainChart extends React.Component {
             .attr("x", (d) => this._x1()(Math.max(d.start, this.props.brush_start) + 2))
             .style('fill', (d) => {
                 return this.props.getColors(d).color
+            })
+            .on('mouseover', (d) => {
+                d3.select('#rect-' + d.id).attr('fill-opacity', 0.7);
+                console.log(d.id);
+                this.props.dispatchHoverOnIssue(d.id);
+            })
+            .on('mouseout', (d) => {
+                d3.select('#rect-' + d.id).attr('fill-opacity', 1)
+                this.props.dispatchHoverOnIssue(null)
             });
 
         labels.enter().append("text")
