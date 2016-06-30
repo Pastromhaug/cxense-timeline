@@ -50,7 +50,8 @@ class  Cards extends React.Component {
         var params = this.props.params;
         if (_.has(params, 'query')) {
             console.log(params.query);
-            this.props.dispatchApplyQuery(params.query);
+            this.props.dispatchTempQuery(params.query);
+            this.props.dispatchApplyQuery();
         }
     }
 
