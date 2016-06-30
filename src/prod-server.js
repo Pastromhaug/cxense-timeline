@@ -39,5 +39,5 @@ app.get('/', function (req, res) {
 
 
 server.listen(8001, function () {
-    console.log('Cxense-timeline listening on port 8001');
+    console.log('Cxense-timeline production listening on port 8001');
 });
