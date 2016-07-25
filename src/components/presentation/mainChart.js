@@ -28,6 +28,7 @@ class MainChart extends React.Component {
         this._updateSprints.bind(this);
         this._quarters.bind(this);
         this._updateQuarters.bind(this);
+        this._updateTodayLine.bind(this);
         this._brush = null;
         this.chartWidth = 0;
         this.axis_pad = 50;
@@ -118,6 +119,7 @@ class MainChart extends React.Component {
         this._updateSprints();
         this._updateQuarters();
         this._updateRectangles();
+        this._main().append("line");
     }
 
     componentDidUpdate() {
@@ -136,6 +138,20 @@ class MainChart extends React.Component {
         this._updateSprints();
         this._updateQuarters();
         this._updateRectangles();
+        this._updateTodayLine();
+    }
+
+    _updateTodayLine() {
+        var today = moment.utc().valueOf();
+        this._main().select("line")
+            .attr('class', 'todayLineMain')
+            .attr("x1", this._x1()(today))  //<<== change your code here
+            .attr("y1", -100)
+            .attr("x2", this._x1()(today))  //<<== and here
+            .attr("y2", this._chart_h() + 200)
+            .style("stroke-width", 2)
+            .style("stroke", "green")
+            .style("fill", "none");
     }
 
     _updateQuarters() {

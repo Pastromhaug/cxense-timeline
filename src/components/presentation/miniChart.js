@@ -120,7 +120,7 @@ class MiniChart extends React.Component {
         this._mini().select('#mybrush').select(".brush")
             .call(this._brush);
 
-
+        this._mini().append("line")
 
     }
 
@@ -220,6 +220,17 @@ class MiniChart extends React.Component {
 
         d3.selectAll("#miniAxis > .tick > text")
             .style("font-size", 12);
+
+        var today = moment.utc().valueOf();
+        this._mini().select("line")
+            .attr('class', 'todayLine')
+            .attr("x1", this._x0()(today))  //<<== change your code here
+            .attr("y1", -60)
+            .attr("x2", this._x0()(today))  //<<== and here
+            .attr("y2", this._chart_h() + 200)
+            .style("stroke-width", 2)
+            .style("stroke", "green")
+            .style("fill", "none");
     }
 
     _displayFromBrush() {
