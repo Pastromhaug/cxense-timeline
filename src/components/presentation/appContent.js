@@ -5,8 +5,10 @@
 import React from 'react';
 import {appbarStyles, headerButton} from '../../styles/componentStyles';
 import FlatButton from 'material-ui/FlatButton';
+import RaisedButton from 'material-ui/RaisedButton';
 import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
+import Divider from 'material-ui/Divider';
 import IconMenu from 'material-ui/IconMenu';
 import IconButton from 'material-ui/IconButton/IconButton';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
@@ -37,8 +39,9 @@ class AppContent extends React.Component {
                         backgroundColor: 'rgb(70,77,91)', textAlign: 'center',
                         display: 'flex', justifyContent: 'center'
                         }}>
-                        <h3>Projects </h3>
+                        <h3>Saved Queries </h3>
                     </div>
+                    <div style = {{height: '32px'}}/>
                     {PROJECTS.map( loc => {
                         return (
                             <div key={loc.name} style={{display: 'flex'}}>
@@ -56,7 +59,14 @@ class AppContent extends React.Component {
                             </div>
                         )
                     })}
+                    <div style={{width:'100%', marginTop: '32px', display:'flex', justifyContent:'center'}}>
+                        <RaisedButton label="Save Query"
+                                  onClick={() => this.props.dispatchOpenQueryDialog()}/>
+                    </div>
+
+
                 </Drawer>
+
                 <div style={{marginLeft: 256}}>
                     <div  style={appbarStyles.container}>
 

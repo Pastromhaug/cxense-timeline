@@ -7,7 +7,6 @@ import { connect } from 'react-redux';
 import Cards from '../presentation/cards'
 import {actionNewIntervals} from '../../actions/timeIntervals';
 import {actionApplyQuery, actionTempQuery} from '../../actions/query';
-import {actionOpenQueryDialog, actionCloseQueryDialog} from '../../actions/queryDialog'
 
 const mapStateToProps = (state) => {
     return {
@@ -26,12 +25,6 @@ const mapDispatchToProps = (dispatch) => {
         },
         dispatchTempQuery: (query) => {
             dispatch(actionTempQuery(query))
-        },
-        dispatchOpenQueryDialog: () => {
-            dispatch(actionOpenQueryDialog())
-        },
-        dispatchCloseQueryDialog: () => {
-            dispatch(actionCloseQueryDialog())
         }
     }
 };

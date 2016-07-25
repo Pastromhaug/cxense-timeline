@@ -18,7 +18,7 @@ class QueryDialog extends React.Component {
                 label="Submit"
                 primary={true}
                 onTouchTap={() =>this.props.dispatchCloseQueryDialog()}
-            />,
+            />
         ];
 
         return (
