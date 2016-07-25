@@ -62,7 +62,7 @@ class AppContent extends React.Component {
                 <div style={{marginLeft: 256}}>
                     <div  style={appbarStyles.container}>
 
-                        <Link className="MyLink" to="/timeline" >
+                        <Link className="MyLink" to={"/timeline/" + this.props.query}  >
                             <FlatButton style={headerButton.container}>Timeline</FlatButton>
                         </Link>
 
