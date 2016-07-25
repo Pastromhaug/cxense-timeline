@@ -9,6 +9,7 @@ import issues from './issues';
 import brush from './brush';
 import timeIntervals from './timeIntervals';
 import table from './table';
+import queryDialog from './queryDialog';
 import {routerReducer} from 'react-router-redux';
 
 const mainReducer = combineReducers({
@@ -18,6 +19,7 @@ const mainReducer = combineReducers({
     brush,
     timeIntervals,
     table,
+    queryDialog,
     routing: routerReducer
 });
 

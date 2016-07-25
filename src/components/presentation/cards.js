@@ -31,7 +31,8 @@ class  Cards extends React.Component {
                     <div
                         style={cardHeaderStyles}>
                         <CardTitle style={{padding: '0px', marginRight: '50px'}}> {this.props.query} </CardTitle>
-                        <RaisedButton label="Save" />
+                        <RaisedButton label="Save"
+                                      onClick={() => this.props.dispatchOpenQueryDialog()}/>
                     </div>
                     <div style={{padding: '16px'}}>
                         <VisibleMainChart getColors={Cards.getColors}/>

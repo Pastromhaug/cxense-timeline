@@ -10,7 +10,7 @@ import MenuItem from 'material-ui/MenuItem';
 import IconMenu from 'material-ui/IconMenu';
 import IconButton from 'material-ui/IconButton/IconButton';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
-import Dialog from 'material-ui/Dialog';
+import VisibleQueryDialog from '../logic/visibleQueryDialog'
 import {Link} from 'react-router';
 var moment = require('moment');
 var _ = require('lodash');
@@ -25,60 +25,13 @@ class AppContent extends React.Component {
         super();
         this._initIssues.bind(this);
         this._formatIssues.bind(this);
-        this._handleDrawerClick.bind(this);
-        this._handleClose.bind(this);
-        this._handleOpen.bind(this);
-        this.state = {
-            open: false
-        };
-
     }
-
-
-
-    _handleDrawerClick(data) {
-        // console.log(data);
-        // var con = /project IN ()/.test(this.props.query);
-        // console.log(con);
-    }
-
-
-
-    _handleOpen() {
-        this.setState({open: true});
-    };
-
-    _handleClose() {
-        this.setState({open: false});
-    };
 
     render() {
 
-        const actions = [
-            <FlatButton
-                label="Cancel"
-                primary={true}
-                onTouchTap={() => this._handleClose()}
-            />,
-            <FlatButton
-                label="Submit"
-                primary={true}
-                keyboardFocused={true}
-                onTouchTap={() => this._handleClose()}
-            />
-        ];
-
         return (
             <div>
-                <Dialog
-                    title="Dialog With Actions"
-                    actions={actions}
-                    modal={false}
-                    open={this.state.open}
-                    onRequestClose={() => this._handleClose()}
-                >
-                    The actions in this window were passed in as an array of React objects.
-                </Dialog>
+                <VisibleQueryDialog/>
                 <Drawer open={true} zDepth={1} docked={true} >
                     <div style={{height: '64px', width: '100%', color: 'rgb(243,243,243)',
                         backgroundColor: 'rgb(70,77,91)', textAlign: 'center',
@@ -89,7 +42,7 @@ class AppContent extends React.Component {
                     {PROJECTS.map( loc => {
                         return (
                             <div key={loc.name} style={{display: 'flex'}}>
-                                <MenuItem style={{width: '210'}} id={loc.name}> {loc.name} </MenuItem>
+                                <MenuItem style={{width: '210px'}} id={loc.name}> {loc.name} </MenuItem>
                                 <IconMenu
                                     iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
                                     anchorOrigin={{horizontal: 'left', vertical: 'top'}}
@@ -97,7 +50,8 @@ class AppContent extends React.Component {
                                     style={{marginLeft: 'auto'}}
                                 >
                                     <MenuItem primaryText="Delete"/>
-                                    <MenuItem primaryText="Edit" onClick={() => this._handleOpen()}/>
+                                    <MenuItem primaryText="Edit"
+                                        onClick={() => this.props.dispatchOpenQueryDialog()}/>
                                 </IconMenu>
                             </div>
                         )

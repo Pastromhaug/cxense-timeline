@@ -5,46 +5,30 @@
 import React from 'react';
 import FlatButton from 'material-ui/FlatButton';
 import Dialog from 'material-ui/Dialog';
-var injectTapEventPlugin = require("react-tap-event-plugin");
-injectTapEventPlugin();
 
-export default class QueryDialog extends React.Component {
-    state = {
-        open: false,
-    };
-
-    handleOpen = () => {
-        this.setState({open: true});
-    };
-
-    handleClose = () => {
-        this.setState({open: false});
-    };
-
+class QueryDialog extends React.Component {
     render() {
         const actions = [
             <FlatButton
                 label="Cancel"
                 primary={true}
-                onTouchTap={this.handleClose}
+                onTouchTap={() =>this.props.dispatchCloseQueryDialog()}
             />,
             <FlatButton
                 label="Submit"
                 primary={true}
-                keyboardFocused={true}
-                onTouchTap={this.handleClose}
+                onTouchTap={() =>this.props.dispatchCloseQueryDialog()}
             />,
         ];
 
         return (
             <div>
-                <RaisedButton label="Dialog" onTouchTap={this.handleOpen} />
                 <Dialog
                     title="Dialog With Actions"
                     actions={actions}
                     modal={false}
-                    open={this.state.open}
-                    onRequestClose={this.handleClose}
+                    open={this.props.queryDialog}
+                    onRequestClose={() =>this.props.dispatchCloseQueryDialog()}
                 >
                     The actions in this window were passed in as an array of React objects.
                 </Dialog>
@@ -52,3 +36,5 @@ export default class QueryDialog extends React.Component {
         );
     }
 }
+
+export default QueryDialog
