@@ -55,23 +55,6 @@ export const queryField = {
     maxWidth: '1200px'
 };
 
-export const radioButton = {
-    margin: '16px',
-    marginBottom: '100px',
-    maxWidth: '300px'
-};
-
-export const radioButtonGroup = {
-    marginRight: '48px',
-    float: 'left'
-};
-
-export const daysTextField = {
-    margin: '16px',
-    float: 'left',
-    marginTop: '35px'
-};
-
 export const colTable = {
     width: '250px',
     float: 'left',
@@ -93,5 +76,6 @@ export const cardHeaderStyles = {
     backgroundColor: 'rgb(232,232,232)',
     color: 'rgba(0,0,0,0.4)',
     padding: '16px',
-    textAlign: 'left'
+    textAlign: 'left',
+    display: 'flex'
 };

@@ -53,7 +53,7 @@ export const PROJECTS = [
         ]
     },
     {
-        name: 'Boston',
+        name: 'Boston fjkadl;fjda;lsfjajdfalk;sfd',
         projects: [
             {
                 name: 'Video',

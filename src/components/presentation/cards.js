@@ -11,6 +11,7 @@ import VisibleMiniChart from '../logic/visibleMiniChart';
 import {COLORS} from '../../constants/colorCode';
 var moment = require('moment');
 var _ = require('lodash');
+import RaisedButton from 'material-ui/RaisedButton';
 
 class  Cards extends React.Component {
 
@@ -29,7 +30,8 @@ class  Cards extends React.Component {
                 <Card style={cardStyles.container}>
                     <div
                         style={cardHeaderStyles}>
-                        <CardTitle style={{padding: '0px'}}> {this.props.query} </CardTitle>
+                        <CardTitle style={{padding: '0px', marginRight: '50px'}}> {this.props.query} </CardTitle>
+                        <RaisedButton label="Save" />
                     </div>
                     <div style={{padding: '16px'}}>
                         <VisibleMainChart getColors={Cards.getColors}/>

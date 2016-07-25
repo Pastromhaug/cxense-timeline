@@ -10,13 +10,9 @@
 import React from 'react';
 import {cardStyles} from '../../styles/componentStyles';
 import {Card} from 'material-ui/Card';
-import VisibleRangedDatePicker from '../logic/visibleRangedDatePicker';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
-import {button, queryField, radioButton, radioButtonGroup, daysTextField} from '../../styles/componentStyles';
-import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
-import ActionFavorite from 'material-ui/svg-icons/action/favorite';
-import ActionFavoriteBorder from 'material-ui/svg-icons/action/favorite-border';
+import {button, queryField} from '../../styles/componentStyles';
 import {Link} from 'react-router'
 
 
@@ -35,7 +31,7 @@ const Query = ({query_temp, start_day, end_day, dispatchTempFixedOrRelative,
                 onChange={(event, data) => dispatchTempQuery(data)}
                 value={query_temp}
             /><br />
-            
+
             <RaisedButton style={button} lassName="MyButton" label="Cancel"
                 onClick={ () => dispatchCancelQuery()}/>
             <Link to={'/timeline/'+ query_temp}>

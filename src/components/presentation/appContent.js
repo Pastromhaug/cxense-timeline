@@ -3,17 +3,20 @@
  */
 
 import React from 'react';
-import AppBar from 'material-ui/AppBar';
-import {appbarStyles, headerButton, headerTitle} from '../../styles/componentStyles';
+import {appbarStyles, headerButton} from '../../styles/componentStyles';
 import FlatButton from 'material-ui/FlatButton';
 import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
-import Divider from 'material-ui/Divider';
+import IconMenu from 'material-ui/IconMenu';
+import IconButton from 'material-ui/IconButton/IconButton';
+import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import {Link} from 'react-router';
 var moment = require('moment');
 var _ = require('lodash');
 import {PROJECTS} from '../../constants/projectConstants';
 var $ = require('jquery');
+var injectTapEventPlugin = require("react-tap-event-plugin");
+injectTapEventPlugin();
 
 
 class AppContent extends React.Component {
@@ -43,18 +46,17 @@ class AppContent extends React.Component {
                     </div>
                     {PROJECTS.map( loc => {
                         return (
-                            <div key={loc.name}>
-                                <MenuItem disabled={true} style={{paddingTop: '24px'}} id={loc.name}> {loc.name} </MenuItem>
-                                {loc.projects.map( proj => {
-                                    return (
-                                        <MenuItem key={proj.name} style={{paddingLeft: '24px'}} id={proj.name}
-                                            onClick={ (event) => {
-                                                var col = event.currentTarget.id;
-                                                this._handleDrawerClick(col)
-                                            }}> {proj.name} </MenuItem>
-                                    )
-                                })}
-                                <Divider/>
+                            <div key={loc.name} style={{display: 'flex'}}>
+                                <MenuItem style={{width: '210'}} id={loc.name}> {loc.name} </MenuItem>
+                                <IconMenu
+                                    iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
+                                    anchorOrigin={{horizontal: 'left', vertical: 'top'}}
+                                    targetOrigin={{horizontal: 'left', vertical: 'top'}}
+                                    style={{marginLeft: 'auto'}}
+                                >
+                                    <MenuItem primaryText="Delete"/>
+                                    <MenuItem primaryText="Edit"/>
+                                </IconMenu>
                             </div>
                         )
                     })}
