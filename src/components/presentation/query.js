@@ -35,48 +35,7 @@ const Query = ({query_temp, start_day, end_day, dispatchTempFixedOrRelative,
                 onChange={(event, data) => dispatchTempQuery(data)}
                 value={query_temp}
             /><br />
-            <div style={{display: 'inline-block', marginLeft:'auto', marginRight:'auto'}}>
-                <RadioButtonGroup
-                    name="shipSpeed"
-                    defaultSelected="light"
-                    style={radioButtonGroup}
-                    onChange={(event, data) => dispatchTempFixedOrRelative(data)}>
-                    <RadioButton
-                        value="light"
-                        label="Fixed Dates"
-                        style={radioButton}
-                    />
-                    <RadioButton
-                        value="not_light"
-                        label="Relative"
-                        style={radioButton}
-                    />
-                </RadioButtonGroup>
-                <div style={{display: 'inline'}}>
-                    <VisibleRangedDatePicker/>
-                    <div>
-                        <TextField
-                            style={daysTextField}
-                            hintText = "start days ago"
-                            floatingLabelText="start days ago"
-                            floatingLabelFixed={false}
-                            onChange={ (event, data) => dispatchTempStartDay(data)}
-                            value={start_day}
-                        /><br/>
-                        <TextField
-                            style={daysTextField}
-                            hintText = "end days ago"
-                            floatingLabelText="end days ago"
-                            floatingLabelFixed={false}
-                            onChange={ (event, data) => dispatchTempEndDay(data)}
-                            value={end_day}
-                        /><br/>
-                    </div>
-                </div>
-            </div>
-            <div style={{display:'block'}}>
-                <RaisedButton style={button} label="Test Query"/>
-            </div>
+            
             <RaisedButton style={button} lassName="MyButton" label="Cancel"
                 onClick={ () => dispatchCancelQuery()}/>
             <Link to={'/timeline/'+ query_temp}>
