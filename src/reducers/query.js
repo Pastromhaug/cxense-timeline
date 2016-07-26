@@ -88,7 +88,9 @@ const query_temp = (state = initial_state, action ) => {
         case APPLY_QUERY_CUSTOM:
             console.log('APPLY_QUERY_CUSTOM');
             console.log(action.query);
-            return Object.assign({}, sate, {query: action.query});
+            console.log(state.query);
+            return Object.assign({}, state, {query: Object.assign({},
+                state.query, {query: action.query})});
 
         default:
             return state
