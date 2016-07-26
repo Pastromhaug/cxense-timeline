@@ -8,17 +8,17 @@ import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
-import Divider from 'material-ui/Divider';
 import IconMenu from 'material-ui/IconMenu';
 import IconButton from 'material-ui/IconButton/IconButton';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import VisibleQueryDialog from '../logic/visibleQueryDialog'
 import {Link} from 'react-router';
+import FIREBASE from '../../constants/firebase';
 var moment = require('moment');
-var _ = require('lodash');
-import {PROJECTS} from '../../constants/projectConstants';
 var injectTapEventPlugin = require("react-tap-event-plugin");
 injectTapEventPlugin();
+var d3 = require('d3');
+var _ = require('lodash');
 
 
 class AppContent extends React.Component {
@@ -27,6 +27,23 @@ class AppContent extends React.Component {
         super();
         this._initIssues.bind(this);
         this._formatIssues.bind(this);
+        this.queriesRef = FIREBASE.database().ref('queries/');
+        this.queriesListener = null;
+    }
+
+    componentDidMount() {
+        this.queriesListener = this.queriesRef.on('value', (data) => {
+            console.log(data.val());
+            const ordered_saved_queries = _.values(data.val()).sort( (a,b) => {
+                return a.created_at < b.created_at
+            });
+            console.log(ordered_saved_queries);
+            this.props.dispatchSetSavedQueries(ordered_saved_queries)
+        });
+    }
+
+    componentWillUnmount() {
+        this.queriesListener.off()
     }
 
     render() {
@@ -41,27 +58,45 @@ class AppContent extends React.Component {
                         }}>
                         <h3>Saved Queries </h3>
                     </div>
-                    <div style = {{height: '32px'}}/>
-                    {PROJECTS.map( loc => {
-                        return (
-                            <div key={loc.name} style={{display: 'flex'}}>
-                                <MenuItem style={{width: '210px'}} id={loc.name}> {loc.name} </MenuItem>
-                                <IconMenu
-                                    iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
-                                    anchorOrigin={{horizontal: 'left', vertical: 'top'}}
-                                    targetOrigin={{horizontal: 'left', vertical: 'top'}}
-                                    style={{marginLeft: 'auto'}}
-                                >
-                                    <MenuItem primaryText="Delete"/>
-                                    <MenuItem primaryText="Edit"
-                                        onClick={() => this.props.dispatchOpenQueryDialog()}/>
-                                </IconMenu>
-                            </div>
-                        )
+                    <div style = {{height: '32px'}}></div>
+                    {
+                        this.props.saved_queries.map( loc => {
+                            let key = loc.key
+                            let query_item = this.props.saved_queries.filter(d => d.key == key)[0];
+                            console.log(query_item.query);
+                            var query = query_item.query;
+                            return (
+                                <div key={loc.name} style={{display: 'flex'}}>
+                                    <Link to={'/timeline/' + query}
+                                        style={{textDecoration: 'none'}}>
+                                    <MenuItem style={{width: '210px'}} id={loc.name}
+                                    > {loc.name} </MenuItem>
+                                    </Link>
+                                    <IconMenu
+                                        iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
+                                        anchorOrigin={{horizontal: 'left', vertical: 'top'}}
+                                        targetOrigin={{horizontal: 'left', vertical: 'top'}}
+                                        style={{marginLeft: 'auto'}}
+                                    >
+                                        <MenuItem primaryText="Delete"
+                                            onClick={() => {
+                                                FIREBASE.database().ref('/queries/'+key).remove()
+                                            }}/>
+                                        <MenuItem primaryText="Edit"
+                                                  onClick={() => {
+                                                    this.props.dispatchTempQuery(this.props.query);
+                                                    this.props.dispatchOpenQueryDialog()
+                                            }}/>
+                                    </IconMenu>
+                                </div>
+                            )
                     })}
                     <div style={{width:'100%', marginTop: '32px', display:'flex', justifyContent:'center'}}>
                         <RaisedButton label="Save Query"
-                                  onClick={() => this.props.dispatchOpenQueryDialog()}/>
+                                  onClick={() => {
+                                    this.props.dispatchTempQuery(this.props.query);
+                                    this.props.dispatchOpenQueryDialog()
+                                  }}/>
                     </div>
 
 

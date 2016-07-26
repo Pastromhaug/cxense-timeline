@@ -5,11 +5,18 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import QueryDialog from '../presentation/queryDialog';
-import {actionOpenQueryDialog, actionCloseQueryDialog} from '../../actions/queryDialog'
+import {actionOpenQueryDialog, actionCloseQueryDialog,
+    actionSetQueryName} from '../../actions/queryDialog';
+import {actionTempQuery} from '../../actions/query';
 
 const mapStateToProps = (state) => {
     return {
-        queryDialog: state.queryDialog.open
+        queryDialog: state.queryDialog.open,
+        query_temp : state.query.query_temp.query,
+        query: state.query.query.query,
+        name: state.queryDialog.name,
+        start_time: state.brush.start_time,
+        end_time: state.brush.end_time
     }
 };
 
@@ -20,6 +27,12 @@ const mapDispatchToProps = (dispatch) => {
         },
         dispatchCloseQueryDialog() {
             dispatch(actionCloseQueryDialog())
+        },
+        dispatchTempQuery(temp_query) {
+            dispatch(actionTempQuery(temp_query))
+        },
+        dispatchSetQueryName(name) {
+            dispatch(actionSetQueryName(name))
         }
     }
 };
