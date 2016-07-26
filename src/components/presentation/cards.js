@@ -47,6 +47,13 @@ class  Cards extends React.Component {
         );
     }
 
+    componentWillReceiveProps(nextProps) {
+        console.log('componentWillReceiveProps');
+        if (nextProps.query != this.props.query) {
+            this.forceUpdate()
+        }
+    }
+
     componentDidMount() {
         console.log('params:');
         var params = this.props.params;
