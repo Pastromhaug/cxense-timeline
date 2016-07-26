@@ -77,6 +77,7 @@ class MainChart extends React.Component {
     _itemRects() { return  d3.select('#itemRects')}
 
     componentDidMount() {
+        console.log('main componentdidmount');
         this.chartWidth = document.getElementById('mainChart').offsetWidth;
         var elem = ReactDOM.findDOMNode(this);
         d3.select(elem)

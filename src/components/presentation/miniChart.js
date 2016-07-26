@@ -79,6 +79,7 @@ class MiniChart extends React.Component {
     // }
 
     componentDidMount() {
+        console.log('mini componentdidmount');
         this.chartWidth = document.getElementById('miniChart').offsetWidth;
         var elem = ReactDOM.findDOMNode(this);
         // console.log(4);
