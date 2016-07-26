@@ -49,7 +49,8 @@ class  Cards extends React.Component {
 
     componentWillReceiveProps(nextProps) {
         console.log('componentWillReceiveProps');
-        if (nextProps.query != this.props.query) {
+        if (nextProps.issues != this.props.issues) {
+            console.log('forceupdate in cards');
             this.forceUpdate()
         }
     }
