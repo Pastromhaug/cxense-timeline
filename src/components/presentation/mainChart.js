@@ -122,6 +122,13 @@ class MainChart extends React.Component {
         this._main().append("line");
     }
 
+    componentWillReceiveProps(nextProps) {
+        console.log('componentWillReceiveProps mainChart');
+        if (nextProps.query != this.props.query) {
+            this.forceUpdate()
+        }
+    }
+
     componentDidUpdate() {
 
         this._axis()

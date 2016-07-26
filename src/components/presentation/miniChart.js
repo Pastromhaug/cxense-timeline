@@ -71,6 +71,13 @@ class MiniChart extends React.Component {
 
     _svg() { return d3.select('#mini_svg')}
 
+    componentWillReceiveProps(nextProps) {
+        console.log('componentWillReceiveProps miniChart');
+        if (nextProps.query != this.props.query) {
+            this.forceUpdate()
+        }
+    }
+
     componentDidMount() {
         this.chartWidth = document.getElementById('miniChart').offsetWidth;
         var elem = ReactDOM.findDOMNode(this);
