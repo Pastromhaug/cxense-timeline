@@ -67,11 +67,12 @@ class AppContent extends React.Component {
                             var query = query_item.query;
                             return (
                                 <div key={loc.name} style={{display: 'flex'}}>
-                                    <Link to={'/timeline/' + query}
-                                        style={{textDecoration: 'none'}}>
+                                    
                                     <MenuItem style={{width: '210px'}} id={loc.name}
+                                              onClick={() => {
+                                                this.props.dispatchApplyQueryCustom(query);
+                                              }}
                                     > {loc.name} </MenuItem>
-                                    </Link>
                                     <IconMenu
                                         iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
                                         anchorOrigin={{horizontal: 'left', vertical: 'top'}}

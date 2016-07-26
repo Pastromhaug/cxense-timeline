@@ -5,7 +5,8 @@
 import {TEMP_END_DATE, TEMP_START_DATE,
         TEMP_END_DAY, TEMP_START_DAY,
         TEMP_FIXED_OR_RELATIVE, TEMP_QUERY,
-        APPLY_QUERY, CANCEL_QUERY} from '../actions/query';
+        APPLY_QUERY, CANCEL_QUERY,
+        APPLY_QUERY_CUSTOM} from '../actions/query';
 
 const start_date = new Date();
 const end_date = new Date();
@@ -83,6 +84,9 @@ const query_temp = (state = initial_state, action ) => {
         case CANCEL_QUERY:
             console.log('CANCEL_QUERY');
             return Object.assign({}, state, {query_temp: state.query});
+
+        case APPLY_QUERY_CUSTOM:
+            return Object.assign({}, sate, {query: action.query})
 
         default:
             return state

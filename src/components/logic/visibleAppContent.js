@@ -8,7 +8,7 @@ import AppContent from '../presentation/appContent';
 import {actionReplaceIssues} from '../../actions/issues';
 import {actionOpenQueryDialog, actionCloseQueryDialog,
     actionSetSavedQueries} from '../../actions/queryDialog';
-import {actionTempQuery} from '../../actions/query';
+import {actionTempQuery, actionApplyQueryCustom} from '../../actions/query';
 
 const mapStateToProps = (state) => {
     return {
@@ -34,6 +34,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         dispatchSetSavedQueries(saved_queries) {
             dispatch(actionSetSavedQueries(saved_queries))
+        },
+        dispatchApplyQueryCustom(query) {
+            dispatch(actionApplyQueryCustom(query))
         }
     }
 };

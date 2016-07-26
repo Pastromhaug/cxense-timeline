@@ -43,5 +43,10 @@ export function actionCancelQuery() {
     return {type: CANCEL_QUERY}
 }
 
+export const APPLY_QUERY_CUSTOM = 'APPLY_QUERY_CUSTOM';
+export function actionApplyQueryCustom(query) {
+    return {type: APPLY_QUERY_CUSTOM, query: query}
+}
+
 
 
