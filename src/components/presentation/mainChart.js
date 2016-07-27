@@ -287,15 +287,12 @@ class MainChart extends React.Component {
         rects.exit().remove();
 
         var clippaths = this._itemRects().selectAll('clipPath')
-            .data(visItems, d => d.name);
-
-        clippaths
-            .append('rect')
+            .data(visItems, d => d.name)
             .attr("x", (d) => this._x1()(Math.max(d.start, this.props.brush_start)))
             .attr("y", (d) => this._y1()(d.lane))
             .attr('width', (d) =>
-            this._x1()(Math.min(d.end, this.props.brush_end )) -
-            this._x1()(Math.max(d.start, this.props.brush_start)) - 5)
+                this._x1()(Math.min(d.end, this.props.brush_end )) -
+                this._x1()(Math.max(d.start, this.props.brush_start)) - 5)
             .attr("height", (d) => .8 * this._y1()(1));
 
         clippaths.enter().append('clipPath')
@@ -343,7 +340,20 @@ class MainChart extends React.Component {
             .attr('dx', 5)
             .attr('dy', 7)
             .attr("text-anchor", "start")
-            .attr("clip-path", d => ("url(#" + d.id + ")"));
+            .attr("clip-path", d => ("url(#" + d.id + ")"))
+            .on('mouseover', (d) => {
+                d3.select('#rect-' + d.id).attr('fill-opacity', 0.7);
+                d3.select('#rect-' + d.id).attr('cursor','pointer !important');
+                console.log(d.id);
+                this.props.dispatchHoverOnIssue(d.id);
+            })
+            .on('mouseout', (d) => {
+                d3.select('#rect-' + d.id).attr('fill-opacity', 1);
+                this.props.dispatchHoverOnIssue(null)
+            })
+            .on('click', (d) => {
+                window.open("https://jira.cxense.com/browse/" + d.id + "?jql=issue=" + d.id ,'_blank');
+            });
 
         labels.exit().remove();
     }
