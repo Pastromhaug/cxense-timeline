@@ -315,7 +315,11 @@ class MainChart extends React.Component {
         var labels = this._itemRects().selectAll("text")
             .data(visItems, (d) => d.name)
             .text( (d) => d.name)
-            .attr("x", (d) => this._x1()(Math.max(d.start, this.props.brush_start) + 2))
+            .attr("x", (d) => {
+                console.log('d.start: ' + d.start);
+                console.log('brush start: ' + this.props.brush_start);
+                return this._x1()(Math.max(d.start, this.props.brush_start) + 2)
+            })
             .attr("y", (d) => this._y1()(d.lane + .5))
             .attr('dx', 5)
             .attr('dy', 7)
