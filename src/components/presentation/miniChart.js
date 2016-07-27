@@ -163,7 +163,8 @@ class MiniChart extends React.Component {
         quarterRects.exit().remove();
 
         var quarterLabels = this._quarters().select('#quarterLabels').selectAll('text')
-            .data(this.props.quarters, d => d.start);
+            .data(this.props.quarters, d => d.start)
+            .attr('x', (d) => (this._x0()(d.start) + this._x0()(d.end))/2);
 
         quarterLabels.enter().append('text')
             .text(d => {
@@ -179,7 +180,9 @@ class MiniChart extends React.Component {
 
 
         var sprintRects = this._sprints().select('#sprintRects').selectAll('.sprintRect')
-            .data(this.props.sprints, d => d.start);
+            .data(this.props.sprints, d => d.start)
+            .attr('x', (d) => this._x0()(d.start))
+            .attr('width', d => this._x0()(d.end) - this._x0()(d.start));
 
         sprintRects.enter().append('rect')
             .attr('class', "sprintRect")
@@ -190,7 +193,8 @@ class MiniChart extends React.Component {
         sprintRects.exit().remove();
 
         var sprintLabels = this._sprints().select('#sprintLabels').selectAll('text')
-            .data(this.props.sprints, d => d.start);
+            .data(this.props.sprints, d => d.start)
+            .attr('x', (d) => (this._x0()(d.start) + this._x0()(d.end))/2);
 
         sprintLabels.enter().append('text')
             .text(d => d.sprint_num)
@@ -202,18 +206,18 @@ class MiniChart extends React.Component {
         sprintLabels.exit().remove();
 
         var miniItems = this._mini().select("#miniItems").selectAll(".miniItems")
-            .data(this.props.issues, d => d.name);
+            .data(this.props.issues, d => d.name)
+            .attr("x", (d) => this._x0()(d.start))
+            .attr("y", (d) => this._y2()(d.lane + .5) - 5)
+            .attr("width", (d) => this._x0()(d.end) - this._x0()(d.start))
+            .style('fill', (d) => {
+                return this.props.getColors(d).backgroundColor
+            });
         miniItems.enter().append("rect")
             .attr("class", (d) => "miniItems miniItem")
             .attr("x", (d) => this._x0()(d.start))
             .attr("y", (d) => this._y2()(d.lane + .5) - 5)
-            .attr("width", (d) => {
-                // console.log(d.name);
-                // console.log('status: ' + d.status);
-                // console.log('res1: ' + d.resolution);
-                // console.log('res2: ' + d.resolution2);
-                return this._x0()(d.end) - this._x0()(d.start)
-            })
+            .attr("width", (d) => this._x0()(d.end) - this._x0()(d.start))
             .attr("height", 10)
             .style('fill', (d) => {
                 return this.props.getColors(d).backgroundColor
