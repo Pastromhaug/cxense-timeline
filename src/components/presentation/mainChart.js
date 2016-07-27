@@ -317,7 +317,7 @@ class MainChart extends React.Component {
             .text( (d) => d.name)
             .attr("x", (d) => {
                 console.log('start: ' + Math.max(d.start, this.props.brush_start) + 2 +
-                    " d.start: " + this._x1()(this._x1()(Math.max(d.start, this.props.brush_start) + 2)))
+                    " d.start: " + this._x1()(Math.max(d.start, this.props.brush_start) + 2))
                 return this._x1()(Math.max(d.start, this.props.brush_start) + 2)
             })
             .attr("y", (d) => this._y1()(d.lane + .5))
