@@ -316,7 +316,7 @@ class MainChart extends React.Component {
             .data(visItems, (d) => d.name)
             .text( (d) => d.name)
             .attr("x", (d) => {
-                console.log('start: ' + Math.max(d.start, this.props.brush_start) + 2);
+                console.log('start: ' + Math.max(d.start, this.props.brush_start) + 2 + " d.start: " + d.start + 'brush_start: ' + this.props.brush_start);
                 return this._x1()(Math.max(d.start, this.props.brush_start) + 2)
             })
             .attr("y", (d) => this._y1()(d.lane + .5))
