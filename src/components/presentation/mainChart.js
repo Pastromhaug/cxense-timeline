@@ -314,6 +314,7 @@ class MainChart extends React.Component {
         //update the item labels
         var labels = this._itemRects().selectAll("text")
             .data(visItems, (d) => d.name)
+            .text( (d) => d.name)
             .attr("x", (d) => this._x1()(Math.max(d.start, this.props.brush_start) + 2))
             .attr("y", (d) => this._y1()(d.lane + .5))
             .attr('dx', 5)
