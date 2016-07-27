@@ -130,23 +130,25 @@ class MiniChart extends React.Component {
 
         this._mini().append("line")
 
-    }
-
-    componentDidUpdate() {
-
         this._svg().append('g').attr('id','miniAxis')
             .attr('class', 'x axis')
             .attr('transform', 'translate(0, ' + 60  + ')')
             .attr('fontSize', 'smallest')
             .attr('fill','grey')
+
+    }
+
+    componentDidUpdate() {
+
+        this._svg().select('#miniAxis')
             .call(this._miniAxis());
 
+        console.log('svg_h: ' + this._svg_h());
         this._svg().attr("id", "svg")
             .attr("height", this._svg_h());
 
         this._mini()
             .attr("width", this._w() );
-
 
         var quarterRects = this._quarters().select('#quarterRects').selectAll('.quarterRect')
             .data(this.props.quarters, d => d.start);

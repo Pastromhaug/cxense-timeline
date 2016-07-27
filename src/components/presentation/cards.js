@@ -47,25 +47,17 @@ class  Cards extends React.Component {
         );
     }
 
-    componentWillReceiveProps(nextProps) {
-        console.log('componentWillReceiveProps');
-        if (nextProps.issues != this.props.issues) {
-            console.log('forceupdate in cards');
-            this.forceUpdate()
-        }
-    }
-
     componentDidMount() {
-        console.log('params:');
+        console.log('cards componentDidmount');
         var params = this.props.params;
         if (_.has(params, 'query')) {
-            console.log(params.query);
             this.props.dispatchTempQuery(params.query);
         }
         this.props.dispatchApplyQuery();
     }
 
     componentDidUpdate() {
+        console.log('cards componentDidupdate');
         this.timeBegin = Cards._timeBegin(this.props.issues);
         this.timeEnd = Cards._timeEnd(this.props.issues);
         var sprints = this.buildSprintIntervals();
