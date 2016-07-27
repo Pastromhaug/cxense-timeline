@@ -131,6 +131,7 @@ class MainChart extends React.Component {
     // }
 
     componentDidUpdate() {
+        console.log("mainchart componentdidupdate");
 
         this._axis()
             .call(this._mainAxis());
