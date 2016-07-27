@@ -139,6 +139,7 @@ class MiniChart extends React.Component {
 
     componentDidUpdate() {
 
+        this._displayFromBrush();
         console.log('num issues: ' + this.props.issues.length);
 
         this._svg().select('#miniAxis')
