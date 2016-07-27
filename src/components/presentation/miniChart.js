@@ -188,7 +188,7 @@ class MiniChart extends React.Component {
         sprintRects.exit().remove();
 
         var sprintLabels = this._sprints().select('#sprintLabels').selectAll('text')
-            .data(this.props.sprints, d => d.start);
+            .data(this.props.sprints, d => this._x0()(d.start));
 
         sprintLabels.enter().append('text')
             .text(d => d.sprint_num)
