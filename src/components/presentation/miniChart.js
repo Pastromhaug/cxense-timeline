@@ -82,12 +82,11 @@ class MiniChart extends React.Component {
         console.log('mini componentdidmount');
         this.chartWidth = document.getElementById('miniChart').offsetWidth;
         var elem = ReactDOM.findDOMNode(this);
-        // console.log(4);
+
         d3.select(elem)
             .append("svg")
             .attr("id", "mini_svg")
             .style('width', '100%');
-        // console.log(5);
 
         this._svg().append('g')
             .attr('class','sprints')
@@ -140,15 +139,15 @@ class MiniChart extends React.Component {
 
     componentDidUpdate() {
 
+        console.log('num issues: ' + this.props.issues.length);
+
         this._svg().select('#miniAxis')
             .call(this._miniAxis());
 
         console.log('svg_h: ' + this._svg_h());
-        this._svg().attr("id", "svg")
-            .attr("height", this._svg_h());
+        this._svg().attr("height", this._svg_h());
 
-        this._mini()
-            .attr("width", this._w() );
+        this._mini().attr("width", this._w() );
 
         var quarterRects = this._quarters().select('#quarterRects').selectAll('.quarterRect')
             .data(this.props.quarters, d => d.start);
