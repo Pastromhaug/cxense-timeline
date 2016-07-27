@@ -242,7 +242,13 @@ class MainChart extends React.Component {
         var rects = this._itemRects().selectAll("rect")
             .data(visItems, (d) => d.name)
             .attr("x", (d) => this._x1()(d.start))
+            .attr("y", (d) => this._y1()(d.lane) + 10)
             .attr("width", (d) => this._x1()(d.end) - this._x1()(d.start))
+            .attr("height", (d) => .8 * this._y1()(1))
+            .attr('id', d => 'rect-' + d.id)
+            .style('fill', (d) => {
+                return this.props.getColors(d).backgroundColor
+            })
             .on('mouseover', (d) => {
                 d3.select('#rect-' + d.id).attr('fill-opacity', 0.7);
                 d3.select('#rect-' + d.id).attr('cursor','pointer');
@@ -264,6 +270,18 @@ class MainChart extends React.Component {
             .attr('id', d => 'rect-' + d.id)
             .style('fill', (d) => {
                 return this.props.getColors(d).backgroundColor
+            })
+            .on('mouseover', (d) => {
+                d3.select('#rect-' + d.id).attr('fill-opacity', 0.7);
+                d3.select('#rect-' + d.id).attr('cursor','pointer');
+                this.props.dispatchHoverOnIssue(d.id);
+            })
+            .on('mouseout', (d) => {
+                d3.select('#rect-' + d.id).attr('fill-opacity', 1);
+                this.props.dispatchHoverOnIssue(null);
+            })
+            .on('click', (d) => {
+                window.open("https://jira.cxense.com/browse/" + d.id + "?jql=issue=" + d.id ,'_blank');
             });
 
         rects.exit().remove();
@@ -297,6 +315,10 @@ class MainChart extends React.Component {
         var labels = this._itemRects().selectAll("text")
             .data(visItems, (d) => d.name)
             .attr("x", (d) => this._x1()(Math.max(d.start, this.props.brush_start) + 2))
+            .attr("y", (d) => this._y1()(d.lane + .5))
+            .attr('dx', 5)
+            .attr('dy', 7)
+            .attr("clip-path", d => ("url(#" + d.id + ")"));
             .style('fill', (d) => {
                 return this.props.getColors(d).color
             })
