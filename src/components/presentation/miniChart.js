@@ -150,7 +150,9 @@ class MiniChart extends React.Component {
         this._mini().attr("width", this._w() );
 
         var quarterRects = this._quarters().select('#quarterRects').selectAll('.quarterRect')
-            .data(this.props.quarters, d => d.start);
+            .data(this.props.quarters, d => d.start)
+            .attr('x', (d) => this._x0()(d.start))
+            .attr('width', d => this._x0()(d.end) - this._x0()(d.start));
 
         quarterRects.enter().append('rect')
             .attr('class', "quarterRect")
@@ -188,7 +190,7 @@ class MiniChart extends React.Component {
         sprintRects.exit().remove();
 
         var sprintLabels = this._sprints().select('#sprintLabels').selectAll('text')
-            .data(this.props.sprints, d => this._x0()(d.start));
+            .data(this.props.sprints, d => d.start);
 
         sprintLabels.enter().append('text')
             .text(d => d.sprint_num)

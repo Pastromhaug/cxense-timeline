@@ -11,7 +11,6 @@ import VisibleMiniChart from '../logic/visibleMiniChart';
 import {COLORS} from '../../constants/colorCode';
 var moment = require('moment');
 var _ = require('lodash');
-import RaisedButton from 'material-ui/RaisedButton';
 
 class  Cards extends React.Component {
 
@@ -61,10 +60,6 @@ class  Cards extends React.Component {
         this.timeBegin = Cards._timeBegin(this.props.issues);
         this.timeEnd = Cards._timeEnd(this.props.issues);
         var sprints = this.buildSprintIntervals();
-        console.log(sprints.map( sprint => ( {
-            start: moment.utc(sprint.start).format(),
-            end: moment.utc(sprint.end).format()}
-        )));
         var quarters = this.buildQuarterIntervals(sprints);
         this.props.dispatchNewIntervals(sprints, quarters);
     }
