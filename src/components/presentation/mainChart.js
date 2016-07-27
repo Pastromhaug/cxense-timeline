@@ -318,7 +318,7 @@ class MainChart extends React.Component {
             .attr("y", (d) => this._y1()(d.lane + .5))
             .attr('dx', 5)
             .attr('dy', 7)
-            .attr("clip-path", d => ("url(#" + d.id + ")"));
+            .attr("clip-path", d => ("url(#" + d.id + ")"))
             .style('fill', (d) => {
                 return this.props.getColors(d).color
             })
@@ -329,7 +329,7 @@ class MainChart extends React.Component {
                 this.props.dispatchHoverOnIssue(d.id);
             })
             .on('mouseout', (d) => {
-                d3.select('#rect-' + d.id).attr('fill-opacity', 1)
+                d3.select('#rect-' + d.id).attr('fill-opacity', 1);
                 this.props.dispatchHoverOnIssue(null)
             })
             .on('click', (d) => {
