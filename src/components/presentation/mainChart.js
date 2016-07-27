@@ -287,7 +287,10 @@ class MainChart extends React.Component {
         rects.exit().remove();
 
         var clippaths = this._itemRects().selectAll('clipPath')
-            .data(visItems, d => d.name)
+            .data(visItems, d => d.name);
+
+        clippaths
+            .append('rect')
             .attr("x", (d) => this._x1()(Math.max(d.start, this.props.brush_start)))
             .attr("y", (d) => this._y1()(d.lane))
             .attr('width', (d) =>
