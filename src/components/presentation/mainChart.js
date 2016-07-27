@@ -77,7 +77,6 @@ class MainChart extends React.Component {
     _itemRects() { return  d3.select('#itemRects')}
 
     componentDidMount() {
-        console.log('main componentdidmount');
         this.chartWidth = document.getElementById('mainChart').offsetWidth;
         var elem = ReactDOM.findDOMNode(this);
         d3.select(elem)
@@ -123,16 +122,7 @@ class MainChart extends React.Component {
         this._main().append("line");
     }
 
-    // componentWillReceiveProps(nextProps) {
-    //     console.log('componentWillReceiveProps mainChart');
-    //     if (nextProps.query != this.props.query) {
-    //         this.forceUpdate()
-    //     }
-    // }
-
     componentDidUpdate() {
-        console.log("mainchart componentdidupdate");
-
         this._axis()
             .call(this._mainAxis());
 
@@ -316,8 +306,6 @@ class MainChart extends React.Component {
             .data(visItems, (d) => d.name)
             .text( (d) => d.name)
             .attr("x", (d) => {
-                console.log('start: ' + Math.max(d.start, this.props.brush_start) + 2 +
-                    " d.start: " + this._x1()(Math.max(d.start, this.props.brush_start) + 2))
                 return this._x1()(Math.max(d.start, this.props.brush_start) + 2)
             })
             .attr("y", (d) => this._y1()(d.lane + .5))
@@ -330,7 +318,6 @@ class MainChart extends React.Component {
             .on('mouseover', (d) => {
                 d3.select('#rect-' + d.id).attr('fill-opacity', 0.7);
                 d3.select('#rect-' + d.id).attr('cursor','pointer !important');
-                console.log(d.id);
                 this.props.dispatchHoverOnIssue(d.id);
             })
             .on('mouseout', (d) => {
@@ -352,7 +339,6 @@ class MainChart extends React.Component {
             .on('mouseover', (d) => {
                 d3.select('#rect-' + d.id).attr('fill-opacity', 0.7);
                 d3.select('#rect-' + d.id).attr('cursor','pointer !important');
-                console.log(d.id);
                 this.props.dispatchHoverOnIssue(d.id);
             })
             .on('mouseout', (d) => {
