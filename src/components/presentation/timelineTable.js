@@ -8,16 +8,12 @@ import {COLUMNS} from '../../constants/columnConstants';
 var moment = require('moment');
 
 
-const TimelineTable = ({columns, issues, brush_start, brush_end, hover}) => {
+const TimelineTable = ({columns, issues, hover}) => {
 
     function makeIssueRows() {
-        var vis_issues = issues.filter(  (d) =>  (
-            d.start < brush_end && d.end > brush_start)
-        );
-
 
         var col_info = COLUMNS.filter( (COL) => columns.indexOf(COL.name) !== -1);
-        return vis_issues.map( (issue) => {
+        return issues.map( (issue) => {
             var bgcolor = 'white';
             if (issue.id === hover) {
                 bgcolor = 'yellow'

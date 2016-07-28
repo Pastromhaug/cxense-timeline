@@ -7,7 +7,6 @@ import {cardStyles, cardHeaderStyles} from '../../styles/componentStyles';
 import {Card, CardTitle} from 'material-ui/Card';
 import VisibleTimelineTable from './../logic/visibleTimelineTable';
 import VisibleMainChart from '../logic/visibleMainChart';
-import VisibleMiniChart from '../logic/visibleMiniChart';
 import {COLORS} from '../../constants/colorCode';
 var moment = require('moment');
 var _ = require('lodash');
@@ -33,14 +32,15 @@ class  Cards extends React.Component {
                         
                     </div>
                     <div style={{padding: '16px'}}>
-                        <VisibleMainChart getColors={Cards.getColors}/>
-                        <VisibleMiniChart getColors={Cards.getColors}
-                                        _timeBegin = {Cards._timeBegin}
-                                        _timeEnd = {Cards._timeEnd}/>
+                        <VisibleMainChart getColors={Cards.getColors}
+                                          _timeBegin = {Cards._timeBegin}
+                                          _timeEnd = {Cards._timeEnd}/>
                     </div>
                 </Card>
                 <Card style={cardStyles.container}>
-                    <VisibleTimelineTable/>
+                    <VisibleTimelineTable
+                        _timeBegin = {Cards._timeBegin}
+                        _timeEnd = {Cards._timeEnd}/>
                 </Card>
             </div>
         );

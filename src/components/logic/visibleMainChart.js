@@ -8,17 +8,12 @@ const mapStateToProps = (state) => {
     return {
         issues: state.issues,
         sprints: state.timeIntervals.sprints,
-        quarters: state.timeIntervals.quarters,
-        brush_start: state.brush.start_time,
-        brush_end: state.brush.end_time
+        quarters: state.timeIntervals.quarters
     }
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        dispatchBrushInterval: (start_time, end_time) => {
-            dispatch( actionBrushInterval(start_time, end_time) )
-        },
         dispatchHoverOnIssue: (id) => {
             dispatch( actionHoverOnIssue(id))
         }

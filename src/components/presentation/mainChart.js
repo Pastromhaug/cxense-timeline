@@ -5,6 +5,7 @@ import React from 'react';
 import ReactDOM from 'react-dom'
 var d3 = require('d3');
 var moment = require('moment');
+require('../../styles/chartStyles.css');
 
 
 class MainChart extends React.Component {
@@ -34,6 +35,8 @@ class MainChart extends React.Component {
         this.axis_pad = 50;
         this.sprint_height = 25;
         this.quarter_height = 25;
+        this.time_start = null;
+        this.time_end = null;
     }
     _axis() { return d3.select('#mainAxis')}
     _quarters() {return d3.select('#quartersMain')}
@@ -41,7 +44,7 @@ class MainChart extends React.Component {
     _timeScale() {
         return  (
             d3.time.scale.utc()
-                .domain([new Date(this.props.brush_start), new Date(this.props.brush_end)] )
+                .domain([new Date(this.time_start), new Date(this.time_end)] )
                 .range([0, this._w()])
         )}
     _mainAxis() { return (
@@ -64,7 +67,7 @@ class MainChart extends React.Component {
     _w() { return  Math.max(this.chartWidth,0) }
     _x1() { return (
                 d3.scale.linear()
-                    .domain( [this.props.brush_start, this.props.brush_end])
+                    .domain( [this.time_start, this.time_end])
                     .range( [0, this._w() ] )
         )}
     _y1() { return (
@@ -123,6 +126,8 @@ class MainChart extends React.Component {
     }
 
     componentDidUpdate() {
+        this.time_start = this.props._timeBegin(this.props.issues);
+        this.time_end = this.props._timeEnd(this.props.issues);
         this._axis()
             .call(this._mainAxis());
 
@@ -154,11 +159,8 @@ class MainChart extends React.Component {
     }
 
     _updateQuarters() {
-        var visItems = this.props.quarters.filter(  (d) =>  (
-            d.start < this.props.brush_end && d.end > this.props.brush_start)
-        );
         var quarterRects = this._quarters().select('#quarterRectsMain').selectAll('.quarterRectMain')
-            .data(visItems, d => d.start)
+            .data(this.props.quarters, d => d.start)
             .attr('x', (d) =>  this._x1()(d.start))
             .attr('width', d => this._x1()(d.end) - this._x1()(d.start));
 
@@ -173,7 +175,7 @@ class MainChart extends React.Component {
         quarterRects.exit().remove();
 
         var quarterLabels = this._quarters().select('#quarterLabelsMain').selectAll('text')
-            .data(visItems, d => d.start)
+            .data(this.props.quarters, d => d.start)
             .attr('x', (d) => (this._x1()(d.start) + this._x1()(d.end))/2);
 
         quarterLabels.enter().append('text')
@@ -190,11 +192,8 @@ class MainChart extends React.Component {
     }
 
     _updateSprints() {
-        var visItems = this.props.sprints.filter(  (d) =>  (
-            d.start < this.props.brush_end && d.end > this.props.brush_start)
-        );
         var sprintRects = this._sprints().select('#sprintRectsMain').selectAll('.sprintRectMain')
-            .data(visItems, d => d.start)
+            .data(this.props.sprints, d => d.start)
             .attr('x', (d) =>  this._x1()(d.start))
             .attr('width', d => this._x1()(d.end) - this._x1()(d.start));
 
@@ -209,7 +208,7 @@ class MainChart extends React.Component {
         sprintRects.exit().remove();
 
         var sprintLabels = this._sprints().select('#sprintLabelsMain').selectAll('text')
-            .data(visItems, d => d.start)
+            .data(this.props.sprints, d => d.start)
             .attr('x', (d) => (this._x1()(d.start) + this._x1()(d.end))/2);
 
         sprintLabels.enter().append('text')
@@ -224,11 +223,8 @@ class MainChart extends React.Component {
     }
 
     _updateRectangles() {
-        var visItems = this.props.issues.filter(  (d) =>  (
-            d.start < this.props.brush_end && d.end > this.props.brush_start)
-        );
         var rects = this._itemRects().selectAll("rect")
-            .data(visItems, (d) => d.name)
+            .data(this.props.issues, (d) => d.name)
             .attr("x", (d) => this._x1()(d.start))
             .attr("y", (d) => this._y1()(d.lane) + 10)
             .attr("width", (d) => this._x1()(d.end) - this._x1()(d.start))
@@ -275,25 +271,25 @@ class MainChart extends React.Component {
         rects.exit().remove();
 
         var clippaths = this._itemRects().selectAll('clipPath')
-            .data(visItems, d => d.name);
+            .data(this.props.issues, d => d.name);
 
         clippaths
             .append('rect')
-            .attr("x", (d) => this._x1()(Math.max(d.start, this.props.brush_start)))
+            .attr("x", (d) => this._x1()(Math.max(d.start, this.time_start)))
             .attr("y", (d) => this._y1()(d.lane))
             .attr('width', (d) =>
-                this._x1()(Math.min(d.end, this.props.brush_end )) -
-                this._x1()(Math.max(d.start, this.props.brush_start)) - 5)
+                this._x1()(Math.min(d.end, this.time_end )) -
+                this._x1()(Math.max(d.start, this.time_start)) - 5)
             .attr("height", (d) => .8 * this._y1()(1));
 
         clippaths.enter().append('clipPath')
             .attr( 'id', d => d.id)
             .append('rect')
-            .attr("x", (d) => this._x1()(Math.max(d.start, this.props.brush_start)))
+            .attr("x", (d) => this._x1()(Math.max(d.start, this.time_start)))
             .attr("y", (d) => this._y1()(d.lane))
             .attr('width', (d) =>
-                this._x1()(Math.min(d.end, this.props.brush_end )) -
-                this._x1()(Math.max(d.start, this.props.brush_start)))
+                this._x1()(Math.min(d.end, this.time_end )) -
+                this._x1()(Math.max(d.start, this.time_start)))
             .attr("height", (d) => .8 * this._y1()(1));
 
         clippaths.exit().remove();
@@ -301,10 +297,10 @@ class MainChart extends React.Component {
 
         //update the item labels
         var labels = this._itemRects().selectAll("text")
-            .data(visItems, (d) => d.name)
+            .data(this.props.issues, (d) => d.name)
             .text( (d) => d.name)
             .attr("x", (d) => {
-                return this._x1()(Math.max(d.start, this.props.brush_start) + 2)
+                return this._x1()(Math.max(d.start, this.time_start) + 2)
             })
             .attr("y", (d) => this._y1()(d.lane + .5))
             .attr('dx', 5)
@@ -329,7 +325,7 @@ class MainChart extends React.Component {
 
         labels.enter().append("text")
             .text( (d) => d.name)
-            .attr("x", (d) => this._x1()(Math.max(d.start, this.props.brush_end)))
+            .attr("x", (d) => this._x1()(Math.max(d.start, this.time_end)))
             .attr("y", (d) => this._y1()(d.lane + .5))
             .attr('dx', 5)
             .attr('dy', 7)
