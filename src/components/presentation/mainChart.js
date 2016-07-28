@@ -309,6 +309,7 @@ class MainChart extends React.Component {
             .attr("y", (d) => this._y1()(d.lane + .5))
             .attr('dx', 5)
             .attr('dy', 7)
+            .attr("text-anchor", "start")
             .attr("clip-path", d => ("url(#" + d.id + ")"))
             .style('fill', (d) => {
                 return this.props.getColors(d).color
@@ -334,6 +335,9 @@ class MainChart extends React.Component {
             .attr('dy', 7)
             .attr("text-anchor", "start")
             .attr("clip-path", d => ("url(#" + d.id + ")"))
+            .style('fill', (d) => {
+                return this.props.getColors(d).color
+            })
             .on('mouseover', (d) => {
                 d3.select('#rect-' + d.id).attr('fill-opacity', 0.7);
                 d3.select('#rect-' + d.id).attr('cursor','pointer !important');
