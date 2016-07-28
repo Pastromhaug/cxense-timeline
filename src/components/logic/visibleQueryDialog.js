@@ -16,7 +16,9 @@ const mapStateToProps = (state) => {
         query: state.query.query.query,
         name: state.queryDialog.name,
         start_time: state.brush.start_time,
-        end_time: state.brush.end_time
+        end_time: state.brush.end_time,
+        is_edit: state.queryDialog.is_edit,
+        edit_json: state.queryDialog.edit_json
     }
 };
 

@@ -79,8 +79,6 @@ const columns_temp = (state = initial_state, action) => {
             );
 
         case APPLY_COLUMNS:
-            console.log('APPLY COLUMNS');
-            console.log(state.columns_temp);
             return Object.assign({}, state,
                 {
                     columns : state.columns_temp

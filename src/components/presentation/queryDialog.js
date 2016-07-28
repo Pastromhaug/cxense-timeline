@@ -26,15 +26,22 @@ class QueryDialog extends React.Component {
                 label="Submit"
                 primary={true}
                 onTouchTap={() =>{
-                    let key = md5(this.props.name);
-                    FIREBASE.database().ref('queries/' + key).set({
-                        query: this.props.query,
-                        name: this.props.name,
-                        start_time: this.props.start_time,
-                        end_time: this.props.end_time,
-                        created_at: moment.utc().valueOf(),
-                        key: key
-                    });
+                    if (this.props.is_edit) {
+                        let key = this.props.edit_json.key;
+                        FIREBASE.database().ref('queries/' + key + '/query').set(this.props.query_temp);
+                        FIREBASE.database().ref('queries/' + key + '/name').set(this.props.name);
+                    } else {
+                        let key = md5(moment.utc().valueOf().toString() + this.props.name);
+                        FIREBASE.database().ref('queries/' + key).set({
+                            query: this.props.query,
+                            name: this.props.name,
+                            start_time: this.props.start_time,
+                            end_time: this.props.end_time,
+                            created_at: moment.utc().valueOf(),
+                            key: key
+                        });
+                    }
+
                     this.props.dispatchCloseQueryDialog()
                 }}
             />
@@ -64,6 +71,7 @@ class QueryDialog extends React.Component {
                         floatingLabelText="Name"
                         floatingLabelFixed={false}
                         onChange={(event, data) => this.props.dispatchSetQueryName(data)}
+                        value={this.props.name}
                     /><br />
 
                 </Dialog>

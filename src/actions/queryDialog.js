@@ -21,3 +21,13 @@ export const SET_SAVED_QUERIES = 'SET_SAVED_QUERIES';
 export function actionSetSavedQueries(queries) {
     return {type: SET_SAVED_QUERIES, queries: queries}
 }
+
+export const SET_EDIT_MODE = 'SET_EDIT_MODE';
+export function actionSetEditMode(isEdit) {
+    return {type: SET_EDIT_MODE, isEdit: isEdit}
+}
+
+export const SET_EDIT_JSON = 'SET_EDIT_JSON';
+export function actionSetEditJson(Json) {
+    return {type: SET_EDIT_JSON, edit_json: Json}
+}

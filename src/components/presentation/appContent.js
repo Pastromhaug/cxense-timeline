@@ -86,7 +86,11 @@ class AppContent extends React.Component {
                                             }}/>
                                         <MenuItem primaryText="Edit"
                                                   onClick={() => {
-                                                    this.props.dispatchTempQuery(this.props.query);
+                                                    console.log(loc.name)
+                                                    this.props.dispatchTempQuery(loc.query);
+                                                    this.props.dispatchSetQueryName(loc.name);
+                                                    this.props.dispatchSetEditMode(true);
+                                                    this.props.dispatchSetEditJson(loc);
                                                     this.props.dispatchOpenQueryDialog()
                                             }}/>
                                     </IconMenu>
@@ -97,6 +101,8 @@ class AppContent extends React.Component {
                         <RaisedButton label="Save Query"
                                   onClick={() => {
                                     this.props.dispatchTempQuery(this.props.query);
+                                    this.props.dispatchSetQueryName("");
+                                    this.props.dispatchSetEditMode(false);
                                     this.props.dispatchOpenQueryDialog()
                                   }}/>
                     </div>

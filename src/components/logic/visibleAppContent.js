@@ -7,7 +7,8 @@ import { connect } from 'react-redux';
 import AppContent from '../presentation/appContent';
 import {actionReplaceIssues} from '../../actions/issues';
 import {actionOpenQueryDialog, actionCloseQueryDialog,
-    actionSetSavedQueries} from '../../actions/queryDialog';
+    actionSetSavedQueries, actionSetEditJson,
+    actionSetEditMode, actionSetQueryName} from '../../actions/queryDialog';
 import {actionTempQuery, actionApplyQueryCustom} from '../../actions/query';
 
 const mapStateToProps = (state) => {
@@ -37,6 +38,15 @@ const mapDispatchToProps = (dispatch) => {
         },
         dispatchApplyQueryCustom(query) {
             dispatch(actionApplyQueryCustom(query))
+        },
+        dispatchSetEditJson(edit_json) {
+            dispatch(actionSetEditJson(edit_json))
+        },
+        dispatchSetEditMode(to_edit) {
+            dispatch(actionSetEditMode(to_edit))
+        },
+        dispatchSetQueryName(name) {
+            dispatch(actionSetQueryName(name))
         }
     }
 };

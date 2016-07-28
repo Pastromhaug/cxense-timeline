@@ -39,13 +39,11 @@ const query_temp = (state = initial_state, action ) => {
     switch( action.type ) {
 
         case TEMP_START_DATE:
-            console.log(action.start_date);
             return Object.assign({}, state, {
                 query_temp: Object.assign({}, state.query_temp, {start_date: action.start_date})
             });
 
         case TEMP_END_DATE:
-            console.log(action.end_date);
             return Object.assign({}, state, {
                 query_temp: Object.assign({}, state.query_temp, {end_date: action.end_date})
             });
@@ -53,42 +51,32 @@ const query_temp = (state = initial_state, action ) => {
         case TEMP_FIXED_OR_RELATIVE:
             let is_fixed = true;
             if (action.is_fixed == 'not_light') is_fixed = false;
-            console.log(is_fixed);
             return Object.assign({}, state, {
                 query_temp: Object.assign({}, state.query_temp, {is_fixed: is_fixed})
             });
 
         case TEMP_START_DAY:
-            console.log(action.start_day);
             return Object.assign({}, state, {
                 query_temp: Object.assign({}, state.query_temp, {start_day: action.start_day})
             });
 
         case TEMP_END_DAY:
-            console.log(action.end_day);
             return Object.assign({}, state, {
                 query_temp: Object.assign({}, state.query_temp, {end_day: action.end_day})
             });
 
         case TEMP_QUERY:
-            console.log(action.temp_query);
             return Object.assign({}, state, {
                 query_temp: Object.assign({}, state.query_temp, {query: action.temp_query})
             });
 
         case APPLY_QUERY:
-            console.log('APPLY QUERY');
-            console.log(state.query_temp);
             return Object.assign({}, state, {query: state.query_temp});
 
         case CANCEL_QUERY:
-            console.log('CANCEL_QUERY');
             return Object.assign({}, state, {query_temp: state.query});
 
         case APPLY_QUERY_CUSTOM:
-            console.log('APPLY_QUERY_CUSTOM');
-            console.log(action.query);
-            console.log(state.query);
             return Object.assign({}, state, {query: Object.assign({},
                 state.query, {query: action.query})});
 

@@ -47,7 +47,6 @@ class  Cards extends React.Component {
     }
 
     componentDidMount() {
-        console.log('cards componentDidmount');
         var params = this.props.params;
         if (_.has(params, 'query')) {
             this.props.dispatchTempQuery(params.query);
@@ -56,7 +55,6 @@ class  Cards extends React.Component {
     }
 
     componentDidUpdate() {
-        console.log('cards componentDidupdate');
         this.timeBegin = Cards._timeBegin(this.props.issues);
         this.timeEnd = Cards._timeEnd(this.props.issues);
         var sprints = this.buildSprintIntervals();
@@ -99,8 +97,6 @@ class  Cards extends React.Component {
 
     }
     buildQuarterIntervals(sprints) {
-        // console.log('sprints');
-        // console.log(sprints);
         var quarters = [];
         var prev_start = sprints[0].start;
         for (let i = 0; i < sprints.length; i++) {
@@ -108,14 +104,7 @@ class  Cards extends React.Component {
             let curr_end = moment.utc(curr_sprint.end);
             let end_month = curr_end.clone().month();
             let dayOfMonth = (curr_end.clone().dayOfYear() - curr_end.clone().startOf('month').dayOfYear());
-            // console.log('next');
-            // console.log(curr_end.clone().dayOfYear() + ' - ' + curr_end.clone().startOf('month').dayOfYear());
-            // console.log(curr_end.format() + ' - ' + curr_end.startOf('month').format());
             if ( (end_month) % 3 === 0 && dayOfMonth < 14) {
-                // console.log('end month: ' + end_month);
-                // console.log('new quarter!!');
-                // console.log(curr_end.clone().dayOfYear() + ' - ' + curr_end.clone().startOf('month').dayOfYear());
-                // console.log(curr_end.format() + ' - ' + curr_end.startOf('month').format());
                 let quarter_num = (end_month)/3;
                 if (quarter_num === 0) quarter_num = 4;
                 let new_quarter = {
@@ -141,15 +130,6 @@ class  Cards extends React.Component {
             };
             quarters = quarters.concat([last_quarter]);
         }
-
-        console.log('quarters:');
-        console.log(quarters.map(q => {
-            return ({
-                start: moment.utc(q.start).format(),
-                end: moment.utc(q.end).format(),
-                num: q.quarter_num
-            })
-        }));
         return quarters
     }
 

@@ -71,15 +71,7 @@ class MiniChart extends React.Component {
 
     _svg() { return d3.select('#mini_svg')}
 
-    // componentWillReceiveProps(nextProps) {
-    //     console.log('componentWillReceiveProps miniChart');
-    //     if (nextProps.issues != this.props.query) {
-    //         this.forceUpdate()
-    //     }
-    // }
-
     componentDidMount() {
-        console.log('mini componentdidmount');
         this.chartWidth = document.getElementById('miniChart').offsetWidth;
         var elem = ReactDOM.findDOMNode(this);
 
@@ -109,7 +101,6 @@ class MiniChart extends React.Component {
             .attr("class", "mini")
             .attr("id","mini");
 
-        // console.log(6);
         this._mini().append("g").attr("id", "miniItems");
         this._mini().append("g").attr("id", "miniRects");
         this._mini().append("g").attr("id", "miniLabels");
@@ -119,9 +110,7 @@ class MiniChart extends React.Component {
             .x(this._x0())
             .on("brush", this._displayFromBrush.bind(this ));
 
-        // console.log(8);
         this._mini().append("g").attr('id','mybrush').attr("class", "x brush");
-        // console.log(9);
 
         this._brush.extent([this.props.brush_start, this.props.brush_end]);
         this._mini().select('#mybrush').select(".brush")
@@ -140,12 +129,10 @@ class MiniChart extends React.Component {
     componentDidUpdate() {
 
         this._displayFromBrush();
-        console.log('num issues: ' + this.props.issues.length);
 
         this._svg().select('#miniAxis')
             .call(this._miniAxis());
 
-        console.log('svg_h: ' + this._svg_h());
         this._svg().attr("height", this._svg_h());
 
         this._mini().attr("width", this._w() );
