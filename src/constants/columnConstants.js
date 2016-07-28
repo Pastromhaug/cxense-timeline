@@ -40,23 +40,28 @@ export const COLUMNS = [
     },{
         name: 'ID',
         jira_name: 'ID',
-        field_name: 'id'
+        field_name: 'id',
+        width: '100px'
     },{
         name: 'Status',
         jira_name: 'status',
-        field_name: 'status'
+        field_name: 'status',
+        width: '50px'
     },{
-        name: 'Remaining Estimate',
+        name: 'Rem Est',
         jira_name: 'Remaining Estimate',
-        field_name: 'remaining_estimate'
+        field_name: 'remaining_estimate',
+        width: '50px'
     },{
         name: 'Planned Start',
         jira_name: 'Planned Start',
-        field_name: 'start'
+        field_name: 'start',
+        width: '100px'
     },{
         name: 'Planned End',
         jira_name: 'Planned End',
-        field_name: 'end'
+        field_name: 'end',
+        width: '100px'
     },{
         name: 'Planning Status',
         jira_name: 'Planning Status',
@@ -68,7 +73,7 @@ export const DEFAULT_COLUMNS = [
     'Name (Type)',
     'ID',
     'Status',
-    'Remaining Estimate',
+    'Rem Est',
     'Planned Start',
     'Planned End',
     'Planning Status'

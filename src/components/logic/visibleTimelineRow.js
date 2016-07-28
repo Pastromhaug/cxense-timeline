@@ -8,7 +8,6 @@ import TimelineRow from '../presentation/timelineRow';
 
 const mapStateToProps = (state) => {
     return {
-        columns: state.columns.columns,
         issues: state.issues,
         hover: state.table
     }

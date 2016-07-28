@@ -26,6 +26,7 @@ const Query = ({query_temp, start_day, end_day, dispatchTempFixedOrRelative,
                 style={queryField}
                 hintText="Query"
                 floatingLabelText="Query"
+                multiLine={true}
                 floatingLabelFixed={false}
                 fullWidth={true}
                 onChange={(event, data) => dispatchTempQuery(data)}

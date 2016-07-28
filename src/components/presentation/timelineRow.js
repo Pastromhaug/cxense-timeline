@@ -6,11 +6,12 @@ import React from 'react';
 import { TableRow, TableRowColumn} from 'material-ui/Table';
 import {COLUMNS} from '../../constants/columnConstants';
 var moment = require('moment');
+var _ = require('lodash');
 
 
 class TimelineRow extends React.Component {
 
-    shouldComponentUpdate(nextProps,nextState) {
+    shouldComponentUpdate(nextProps) {
         // console.log('componentShouldUpdate');
         if ( !(((this.props.hover == this.props.issue.id) && (nextProps.hover != this.props.issue.id)) ||
              ((this.props.hover != this.props.issue.id) && (nextProps.hover == this.props.issue.id)))){
@@ -20,20 +21,19 @@ class TimelineRow extends React.Component {
     }
 
     render() {
-        var col_info = COLUMNS.filter( (COL) => this.props.columns.indexOf(COL.name) !== -1);
         var bgcolor = 'white';
         if (this.props.issue.id === this.props.hover) {
             bgcolor = 'yellow'
         }
         return (
             <TableRow key={this.props.issue.name} style={{backgroundColor: bgcolor}}>
-                {col_info.map( (col) => {
+                {this.props.col_info.map( (col) => {
                     var field_name = col.field_name;
                     var text = this.props.issue[field_name];
                     if (col.name === 'Planned End' || col.name === 'Planned Start') {
                         text = moment.utc(text).format('MMM D, YYYY');
                     }
-                    else if (col.name == 'Remaining Estimate') {
+                    else if (col.name == 'Rem Est') {
                         text = moment.utc(text).diff(0, 'days') + ' days'
                     }
                     else if (col.name == 'ID') {
@@ -41,8 +41,12 @@ class TimelineRow extends React.Component {
                         let link = "https://jira.cxense.com/browse/" + id + "?jql=issue=" + id;
                         text = <a href={link}  target="_blank"> {id} </a>
                     }
+                    let colStyle = {}
+                    if (_.has(col, 'width')) {
+                        colStyle.width = col.width;
+                    }
                     return (
-                        <TableRowColumn key={field_name}> {text} </TableRowColumn>
+                        <TableRowColumn key={field_name} style={colStyle}> {text} </TableRowColumn>
                     )
                 })}
             </TableRow>
