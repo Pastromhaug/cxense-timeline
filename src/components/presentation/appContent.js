@@ -71,6 +71,7 @@ class AppContent extends React.Component {
                                     <MenuItem style={{width: '210px'}} id={loc.name}
                                               onClick={() => {
                                                 this.props.dispatchApplyQueryCustom(query);
+                                                this.props.dispatchBrushInterval(loc.start_time, loc.end_time);
                                               }}
                                     > {loc.name} </MenuItem>
                                     </Link>
@@ -86,7 +87,6 @@ class AppContent extends React.Component {
                                             }}/>
                                         <MenuItem primaryText="Edit"
                                                   onClick={() => {
-                                                    console.log(loc.name)
                                                     this.props.dispatchTempQuery(loc.query);
                                                     this.props.dispatchSetQueryName(loc.name);
                                                     this.props.dispatchSetEditMode(true);

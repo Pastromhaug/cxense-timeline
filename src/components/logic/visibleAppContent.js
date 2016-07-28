@@ -10,6 +10,7 @@ import {actionOpenQueryDialog, actionCloseQueryDialog,
     actionSetSavedQueries, actionSetEditJson,
     actionSetEditMode, actionSetQueryName} from '../../actions/queryDialog';
 import {actionTempQuery, actionApplyQueryCustom} from '../../actions/query';
+import {actionBrushInterval} from '../../actions/issues';
 
 const mapStateToProps = (state) => {
     return {
@@ -47,6 +48,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         dispatchSetQueryName(name) {
             dispatch(actionSetQueryName(name))
+        },
+        dispatchBrushInterval: (start_time, end_time) => {
+            dispatch( actionBrushInterval(start_time, end_time) )
         }
     }
 };
