@@ -30,13 +30,16 @@ class MainChart extends React.Component {
         this._quarters.bind(this);
         this._updateQuarters.bind(this);
         this._updateTodayLine.bind(this);
-        this._brush = null;
-        this.chartWidth = 0;
+        this._updateDimensions.bind(this);
         this.axis_pad = 50;
         this.sprint_height = 25;
         this.quarter_height = 25;
         this.time_start = null;
         this.time_end = null;
+
+        this.state = {
+            width: 0
+        };
     }
     _axis() { return d3.select('#mainAxis')}
     _quarters() {return d3.select('#quartersMain')}
@@ -64,7 +67,7 @@ class MainChart extends React.Component {
         return max  }
     _svg_h() { return this._chart_h() + this.axis_pad + this.sprint_height + this.quarter_height}
     _chart_h() { return  this._lane_num() * 60 }
-    _w() { return  Math.max(this.chartWidth,0) }
+    _w() { return  Math.max(this.state.width,0) }
     _x1() { return (
                 d3.scale.linear()
                     .domain( [this.time_start, this.time_end])
@@ -80,7 +83,7 @@ class MainChart extends React.Component {
     _itemRects() { return  d3.select('#itemRects')}
 
     componentDidMount() {
-        this.chartWidth = document.getElementById('mainChart').offsetWidth;
+        this._updateDimensions();
         var elem = ReactDOM.findDOMNode(this);
         d3.select(elem)
             .append("svg")
@@ -123,6 +126,11 @@ class MainChart extends React.Component {
         this._updateQuarters();
         this._updateRectangles();
         this._main().append("line");
+        window.addEventListener("resize", this._updateDimensions.bind(this));
+    }
+
+    _updateDimensions() {
+        this.setState({width: document.getElementById('mainChart').offsetWidth});
     }
 
     componentDidUpdate() {
@@ -154,7 +162,7 @@ class MainChart extends React.Component {
             .attr("x2", this._x1()(today))  //<<== and here
             .attr("y2", this._chart_h() + 200)
             .style("stroke-width", 2)
-            .style("stroke", "green")
+            .style("stroke", "steelblue")
             .style("fill", "none");
     }
 
