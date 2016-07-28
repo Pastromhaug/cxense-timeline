@@ -4,17 +4,18 @@
 
 import React from 'react';
 import {connect} from 'react-redux';
-import TimelineTable from '../presentation/timelineTable';
+import TimelineRow from '../presentation/timelineRow';
 
 const mapStateToProps = (state) => {
     return {
         columns: state.columns.columns,
-        issues: state.issues
+        issues: state.issues,
+        hover: state.table
     }
 };
 
-const VisibleTimelineTable = connect (
+const VisibleTimelineRow = connect (
     mapStateToProps
-)(TimelineTable);
+)(TimelineRow);
 
-export default VisibleTimelineTable
+export default VisibleTimelineRow

@@ -4,43 +4,15 @@
 
 import React from 'react';
 import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
+import VisibleTimelineRow from '../logic/visibleTimelineRow';
 import {COLUMNS} from '../../constants/columnConstants';
 var moment = require('moment');
 
 
-const TimelineTable = ({columns, issues, hover}) => {
+const TimelineTable = ({columns, issues}) => {
 
     function makeIssueRows() {
-
-        var col_info = COLUMNS.filter( (COL) => columns.indexOf(COL.name) !== -1);
-        return issues.map( (issue) => {
-            var bgcolor = 'white';
-            if (issue.id === hover) {
-                bgcolor = 'yellow'
-            }
-            return (
-                <TableRow key={issue.name} style={{backgroundColor: bgcolor}}>
-                    {col_info.map( (col) => {
-                        var field_name = col.field_name;
-                        var text = issue[field_name];
-                        if (col.name === 'Planned End' || col.name === 'Planned Start') {
-                            text = moment.utc(text).format('MMM D, YYYY');
-                        }
-                        else if (col.name == 'Remaining Estimate') {
-                            text = moment.utc(text).diff(0, 'days') + ' days'
-                        }
-                        else if (col.name == 'ID') {
-                            let id = issue[field_name];
-                            let link = "https://jira.cxense.com/browse/" + id + "?jql=issue=" + id;
-                            text = <a href={link}> {id} </a>
-                        }
-                        return (
-                            <TableRowColumn key={field_name}> {text} </TableRowColumn>
-                        )
-                    })}
-                </TableRow>
-            )
-        })
+        return issues.map( (issue) => <VisibleTimelineRow key={issue.name} issue={issue} />)
     }
 
     return (
