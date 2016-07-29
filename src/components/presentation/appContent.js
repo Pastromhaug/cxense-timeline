@@ -201,6 +201,16 @@ class AppContent extends React.Component {
             if (resolution2 !== null && typeof resolution2 !== 'undefined') {
                 resname2 = resolution2.value;
             }
+            var labels = ""
+            if (_.has(d.fields, 'labels')){
+                for (let i = 0; i < d.fields.labels.length; i++){
+                    let label = d.fields.labels[i];
+                    if (labels !== "") {
+                        labels = labels + ", ";
+                    }
+                    labels = labels + label;
+                }
+            }
 
             return {
                 lane: 0,
@@ -212,7 +222,16 @@ class AppContent extends React.Component {
                 remaining_estimate: time_left,
                 planning_status: d.fields.status.description,
                 resolution: resname,
-                resolution2: resname2
+                resolution2: resname2,
+                reporter: d.fields.reporter.displayName,
+                reporter_email: d.fields.reporter.emailAddress,
+                created_at: d.fields.created,
+                updated_at: d.fields.updated,
+                priority: d.fields.priority.name,
+                labels: labels,
+                security: d.fields.security.name,
+                security_description: d.fields.security.description
+
 
             };});
 

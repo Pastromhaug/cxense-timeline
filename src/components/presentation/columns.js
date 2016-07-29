@@ -11,7 +11,7 @@ import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColu
 import {COLUMNS} from '../../constants/columnConstants';
 import {Link} from 'react-router'
 
-const Columns = ({columns_temp, to_add, to_remove, dispatchAddAllColumns,
+const Columns = ({columns_temp, to_add, to_remove,query, dispatchAddAllColumns,
         dispatchAddColumns, dispatchRemoveColumns, dispatchRemoveAllColumns,
         dispatchAddGroup, dispatchRemoveGroup, dispatchApplyColumns}) => {
 
@@ -52,7 +52,7 @@ const Columns = ({columns_temp, to_add, to_remove, dispatchAddAllColumns,
                               onClick={ () => dispatchRemoveColumns()}/>
                 <RaisedButton style={colButton} label="Remove All"
                               onClick={ () => dispatchRemoveAllColumns()}/>
-                <Link to="/timeline">
+                <Link to={"/timeline/" + query}>
                     <RaisedButton style={colButton} label="Apply"
                                   onClick={ () => dispatchApplyColumns()}/>
                 </Link>

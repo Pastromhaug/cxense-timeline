@@ -13,7 +13,8 @@ const mapStateToProps = (state) => {
     return {
         columns_temp: state.columns.columns_temp,
         to_add: state.columns.to_add,
-        to_remove: state.columns.to_remove
+        to_remove: state.columns.to_remove,
+        query: state.query.query.query
     }
 };
 

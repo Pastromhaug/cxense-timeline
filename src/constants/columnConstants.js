@@ -4,36 +4,6 @@
 
 export const COLUMNS = [
     {
-        name: 'yeee',
-        jire_name: 'fdka;fad'
-    },{
-        name: 'yefdae',
-        jire_name: 'fdka;fad'
-    },{
-        name: 'of course',
-        jire_name: 'fdka;fad'
-    },{
-        name: 'another one',
-        jire_name: 'fdka;fad'
-    },{
-        name: 'fdafs',
-        jire_name: 'fdka;fad'
-    },{
-        name: 'they don',
-        jire_name: 'fdka;fad'
-    },{
-        name: 'fdafsd',
-        jire_name: 'fdka;fad'
-    },{
-        name: 'Per Andre',
-        jire_name: 'fdka;fad'
-    },{
-        name: 'oh yeah',
-        jire_name: 'fdka;fad'
-    },{
-        name: 'pew pwe',
-        jire_name: 'fdka;fad'
-    },{
         name: 'Name (Type)',
         jira_name: 'Name (Type)',
         field_name: 'name'
@@ -66,6 +36,35 @@ export const COLUMNS = [
         name: 'Planning Status',
         jira_name: 'Planning Status',
         field_name: 'planning_status'
+    },{
+        name: 'Reporter',
+        field_name: 'reporter',
+        width: '100px'
+    },{
+        name: 'Reporter Email',
+        field_name: 'reporter_email',
+        width: '150px'
+    },{
+        name: 'Created',
+        field_name: 'created_at',
+        width: '150px'
+    },{
+        name: 'Updated',
+        field_name: 'updated_at',
+        width: '150px'
+    },{
+        name: 'Priority',
+        field_name: 'priority',
+        width: '100px'
+    },{
+        name: 'Labels',
+        field_name: 'labels',
+    },{
+        name: 'Security',
+        field_name: 'security'
+    },{
+        name: 'Security Description',
+        field_name: 'security_description'
     }
 ];
 
