@@ -28,6 +28,7 @@ class AppContent extends React.Component {
         this._initIssues.bind(this);
         this._formatIssues.bind(this);
         this.queriesRef = FIREBASE.database().ref('queries/');
+        this.columnsRef = FIREBASE.database().ref('columns/');
         this.queriesListener = null;
     }
 
@@ -40,10 +41,15 @@ class AppContent extends React.Component {
             console.log(ordered_saved_queries);
             this.props.dispatchSetSavedQueries(ordered_saved_queries)
         });
+        this.columnsListener = this.columnsRef.on('value', (data) => {
+            this.props.dispatchAddColumnsCustom(data.val());
+            this.props.dispatchApplyColumns()
+        })
     }
 
     componentWillUnmount() {
-        this.queriesListener.off()
+        this.queriesListener.off();
+        this.columnsListener.off();
     }
 
     render() {

@@ -69,11 +69,11 @@ export const COLUMNS = [
 ];
 
 export const DEFAULT_COLUMNS = [
-    'Name (Type)',
-    'ID',
-    'Status',
-    'Rem Est',
-    'Planned Start',
-    'Planned End',
-    'Planning Status'
+    // 'Name (Type)',
+    // 'ID',
+    // 'Status',
+    // 'Rem Est',
+    // 'Planned Start',
+    // 'Planned End',
+    // 'Planning Status'
 ];

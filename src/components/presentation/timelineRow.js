@@ -13,6 +13,7 @@ class TimelineRow extends React.Component {
 
     shouldComponentUpdate(nextProps) {
         // console.log('componentShouldUpdate');
+        
         if ( !(((this.props.hover == this.props.issue.id) && (nextProps.hover != this.props.issue.id)) ||
              ((this.props.hover != this.props.issue.id) && (nextProps.hover == this.props.issue.id)))){
             return false

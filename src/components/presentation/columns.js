@@ -3,13 +3,13 @@
  */
 
 import React from 'react';
-import {cardStyles} from '../../styles/componentStyles';
 import {Card} from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
 import {colTable, colButton, applyColButton} from '../../styles/componentStyles';
 import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
 import {COLUMNS} from '../../constants/columnConstants';
-import {Link} from 'react-router'
+import {Link} from 'react-router';
+import FIREBASE from '../../constants/firebase';
 
 const Columns = ({columns_temp, to_add, to_remove,query, dispatchAddAllColumns,
         dispatchAddColumns, dispatchRemoveColumns, dispatchRemoveAllColumns,
@@ -17,6 +17,10 @@ const Columns = ({columns_temp, to_add, to_remove,query, dispatchAddAllColumns,
 
     var available_cols = COLUMNS.filter( (col) => columns_temp.indexOf(col.name) == -1)
                                 .map( (col) => col.name);
+
+    function pushColsToFirebase() {
+        FIREBASE.database().ref('columns/').set(columns_temp);
+    }
 
     return (
         <div
@@ -55,6 +59,14 @@ const Columns = ({columns_temp, to_add, to_remove,query, dispatchAddAllColumns,
                 <Link to={"/timeline/" + query}>
                     <RaisedButton style={colButton} label="Apply"
                                   onClick={ () => dispatchApplyColumns()}/>
+                </Link>
+
+                <Link to={"/timeline/" + query}>
+                    <RaisedButton style={colButton} label="Set As Defaults"
+                                  onClick={ () => {
+                                  dispatchApplyColumns();
+                                  pushColsToFirebase();
+                                  }}/>
                 </Link>
             </div>
             <Card style={colTable}>

@@ -6,6 +6,7 @@ import React from 'react';
 import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
 import VisibleTimelineRow from '../logic/visibleTimelineRow';
 import {COLUMNS} from '../../constants/columnConstants';
+var moment = require('moment');
 
 
 class TimelineTable extends React.Component {
@@ -27,7 +28,7 @@ class TimelineTable extends React.Component {
                     </TableRow>
                 </TableHeader>
                 <TableBody displayRowCheckbox={false}>
-                    {this.props.issues.map( (issue) => <VisibleTimelineRow key={issue.name}
+                    {this.props.issues.map( (issue) => <VisibleTimelineRow key={moment.utc().valueOf() + issue.name}
                                                                            col_info={col_info} issue={issue} />)}
                 </TableBody>
             </Table>

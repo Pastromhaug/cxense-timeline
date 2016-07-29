@@ -36,3 +36,8 @@ export const APPLY_COLUMNS = 'APPLY_COLUMNS';
 export function actionApplyColumns() {
     return( {type: APPLY_COLUMNS})
 }
+
+export const ADD_COLUMNS_CUSTOM = 'ADD_COLUMNS_CUSTOM';
+export function actionAddColumnsCustom(columns_list) {
+    return {type: ADD_COLUMNS_CUSTOM, columns_list:columns_list}
+}

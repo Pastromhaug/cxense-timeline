@@ -11,6 +11,7 @@ import {actionOpenQueryDialog, actionCloseQueryDialog,
     actionSetEditMode, actionSetQueryName} from '../../actions/queryDialog';
 import {actionTempQuery, actionApplyQueryCustom} from '../../actions/query';
 import {actionBrushInterval} from '../../actions/issues';
+import {actionApplyColumns, actionAddColumnsCustom} from '../../actions/columns';
 
 const mapStateToProps = (state) => {
     return {
@@ -51,6 +52,12 @@ const mapDispatchToProps = (dispatch) => {
         },
         dispatchBrushInterval: (start_time, end_time) => {
             dispatch( actionBrushInterval(start_time, end_time) )
+        },
+        dispatchApplyColumns: () => {
+            dispatch(actionApplyColumns())
+        },
+        dispatchAddColumnsCustom(columns_list) {
+            dispatch(actionAddColumnsCustom(columns_list))
         }
     }
 };

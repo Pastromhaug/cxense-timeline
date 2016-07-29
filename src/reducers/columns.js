@@ -5,7 +5,8 @@
 import {COLUMNS, DEFAULT_COLUMNS} from '../constants/columnConstants';
 import {REMOVE_ALL_COLUMNS, ADD_ALL_COLUMNS,
         ADD_COLUMNS, REMOVE_COLUMNS,
-        ADD_GROUP, REMOVE_GROUP, APPLY_COLUMNS} from '../actions/columns';
+        ADD_GROUP, REMOVE_GROUP, APPLY_COLUMNS,
+        ADD_COLUMNS_CUSTOM} from '../actions/columns';
 
 
 const initial_state = {
@@ -83,6 +84,13 @@ const columns_temp = (state = initial_state, action) => {
                 {
                     columns : state.columns_temp
                 });
+
+        case ADD_COLUMNS_CUSTOM:
+            return Object.assign({}, state,
+                {
+                    columns_temp: action.columns_list
+                }
+            );
 
         default:
             return state;
