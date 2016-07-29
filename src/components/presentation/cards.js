@@ -8,6 +8,10 @@ import {Card, CardTitle} from 'material-ui/Card';
 import VisibleTimelineTable from './../logic/visibleTimelineTable';
 import VisibleMainChart from '../logic/visibleMainChart';
 import {COLORS} from '../../constants/colorCode';
+import MenuItem from 'material-ui/MenuItem';
+import IconMenu from 'material-ui/IconMenu';
+import IconButton from 'material-ui/IconButton/IconButton';
+import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 var moment = require('moment');
 var _ = require('lodash');
 
@@ -28,8 +32,20 @@ class  Cards extends React.Component {
                 <Card style={cardStyles.container}>
                     <div
                         style={cardHeaderStyles}>
-                        <CardTitle style={{padding: '0px', marginRight: '50px'}}> {this.props.query} </CardTitle>
-                        
+                        <CardTitle style={{padding: '0px', margin: '16px', marginRight: '50px'}}> {this.props.query} </CardTitle>
+                        <IconMenu
+                            iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
+                            anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
+                            targetOrigin={{horizontal: 'left', vertical: 'top'}}
+                            style={{marginLeft: 'auto'}}
+                        >
+                            <MenuItem primaryText="download as png"
+                                      onClick={() => {
+                                            }}/>
+                            <MenuItem primaryText="Edit"
+                                      onClick={() => {
+                                            }}/>
+                        </IconMenu>
                     </div>
                     <div style={{padding: '16px'}}>
                         <VisibleMainChart getColors={Cards.getColors}

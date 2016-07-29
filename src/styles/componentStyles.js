@@ -75,7 +75,6 @@ export const applyColButton = {
 export const cardHeaderStyles = {
     backgroundColor: 'rgb(232,232,232)',
     color: 'rgba(0,0,0,0.4)',
-    padding: '16px',
     textAlign: 'left',
     display: 'flex'
 };
