@@ -139,6 +139,7 @@ class AppContent extends React.Component {
     }
 
     componentDidUpdate() {
+        console.log('AppContent updating');
         this._initIssues();
     }
 

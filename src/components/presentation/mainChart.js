@@ -135,6 +135,7 @@ class MainChart extends React.Component {
     }
 
     componentDidUpdate() {
+        console.log('mainChat updating');
         this.time_start = this.props._timeBegin(this.props.issues);
         this.time_end = this.props._timeEnd(this.props.issues);
 
