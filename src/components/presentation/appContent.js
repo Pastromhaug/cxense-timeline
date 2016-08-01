@@ -78,6 +78,7 @@ class AppContent extends React.Component {
                                                 console.log('query1: ' + this.props.query);
                                                 this.props.dispatchApplyQueryCustom(query);
                                                 console.log('query2: ' + this.props.query);
+                                                this.forceUpdate()
                                               }}
                                     > {loc.name} </MenuItem>
                                     </Link>
