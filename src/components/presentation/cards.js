@@ -24,14 +24,19 @@ class  Cards extends React.Component {
         super();
         this._buildSprintIntervals.bind(this);
         this._buildQuarterIntervals.bind(this);
-        this._downloadSvg.bind(this);
+        this._downloadSvgAsPng.bind(this);
+        this._downloadSvgAsXLSX.bind(this);
         this.sprintOrigin = moment.utc("2016-01-01");
         this.timeBegin = moment.utc().valueOf();
         this.timeEnd = moment.utc().valueOf();
     }
 
-    _downloadSvg() {
+    _downloadSvgAsPng() {
         savesvg.saveSvgAsPng(document.getElementById("svg"), "timeline.png");
+    }
+
+    _downloadSvgAsXLSX() {
+        console.log('eyy');
     }
 
     render() {
@@ -49,8 +54,12 @@ class  Cards extends React.Component {
                         >
                         <MenuItem primaryText="download as png"
                                   onClick={() => {
-                                        this._downloadSvg()
+                                        this._downloadSvgAsPng()
                                     }}/>
+                        <MenuItem primaryText="export to XLSX"
+                                  onClick={() => {
+                                    this._downloadSvgAsXLSX()
+                                }}/>
                         </IconMenu>
                     </div>
                     <div style={{padding: '16px'}}>

@@ -66,7 +66,7 @@ class AppContent extends React.Component {
                     <div style = {{height: '32px'}}></div>
                     {
                         this.props.saved_queries.map( loc => {
-                            let key = loc.key
+                            let key = loc.key;
                             let query_item = this.props.saved_queries.filter(d => d.key == key)[0];
                             var query = query_item.query;
                             return (
