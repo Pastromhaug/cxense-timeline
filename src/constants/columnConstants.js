@@ -35,7 +35,8 @@ export const COLUMNS = [
     },{
         name: 'Planning Status',
         jira_name: 'Planning Status',
-        field_name: 'planning_status'
+        field_name: 'planning_status',
+        width: '200px'
     },{
         name: 'Reporter',
         field_name: 'reporter',
