@@ -34,11 +34,9 @@ class AppContent extends React.Component {
 
     componentDidMount() {
         this.queriesListener = this.queriesRef.on('value', (data) => {
-            console.log(data.val());
             const ordered_saved_queries = _.values(data.val()).sort( (a,b) => {
-                return a.created_at < b.created_at
+                return a.created_at > b.created_at
             });
-            console.log(ordered_saved_queries);
             this.props.dispatchSetSavedQueries(ordered_saved_queries)
         });
         this.columnsListener = this.columnsRef.on('value', (data) => {
@@ -69,7 +67,6 @@ class AppContent extends React.Component {
                         this.props.saved_queries.map( loc => {
                             let key = loc.key
                             let query_item = this.props.saved_queries.filter(d => d.key == key)[0];
-                            console.log(query_item.query);
                             var query = query_item.query;
                             return (
                                 <div key={loc.name} style={{display: 'flex'}}>
