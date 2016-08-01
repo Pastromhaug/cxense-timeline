@@ -1,6 +1,6 @@
 
 var _ = require('lodash');
-var XLSX = require('xlsx');
+var XLSX = require('xlsx-style');
 var fileSaver = require('filesaver.js');
 var moment = require('moment');
 
@@ -126,7 +126,7 @@ class XL {
             for (var i = 0; i !== wbout.length; ++i) {
                 view[i] = wbout.charCodeAt(i) & 0xFF;
             }
-            fileSaver.saveAs(new Blob([buffer], {type: "application/octet-stream"}), name);
+            fileSaver.saveAs(new Blob([buffer], {type: "application/octet-stream"}), name + '.xlsx');
         });
     }
     
@@ -193,7 +193,10 @@ class XL {
         }
         cell = {
             t: type,
-            v: value
+            v: value,
+            s: {
+                fgColor: { rgb: "00FF00" }
+            }
         };
         if (format) {
             cell.z = format;
