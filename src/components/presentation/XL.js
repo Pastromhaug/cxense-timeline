@@ -195,7 +195,18 @@ class XL {
             t: type,
             v: value,
             s: {
-                fgColor: { rgb: "00FF00" }
+                fill: {
+                    patternType: 'solid',
+                    fgColor: {rgb: "00FF00"}
+                },
+                border: {
+                    right: {
+                        style: 'medium',
+                        color: {
+                            rgb: '#FFFFFFFF'
+                        }
+                    }
+                }
             }
         };
         if (format) {
