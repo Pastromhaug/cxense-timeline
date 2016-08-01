@@ -75,7 +75,9 @@ class AppContent extends React.Component {
                                     <MenuItem style={{width: '210px'}} id={loc.name}
                                               onClick={() => {
                                                 console.log('menuItem clicked');
+                                                console.log('query1: ' + this.props.query);
                                                 this.props.dispatchApplyQueryCustom(query);
+                                                console.log('query2: ' + this.props.query);
                                               }}
                                     > {loc.name} </MenuItem>
                                     </Link>
