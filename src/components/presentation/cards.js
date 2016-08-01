@@ -93,7 +93,6 @@ class  Cards extends React.Component {
     }
 
     componentDidUpdate() {
-        console.log('Cards updating');
         this.timeBegin = Cards._timeBegin(this.props.issues);
         this.timeEnd = Cards._timeEnd(this.props.issues);
         var sprints = this._buildSprintIntervals();

@@ -74,11 +74,7 @@ class AppContent extends React.Component {
                                     <Link to={'/timeline/'+ query} style={{textDecoration: 'none'}}>
                                     <MenuItem style={{width: '210px'}} id={loc.name}
                                               onClick={() => {
-                                                console.log('menuItem clicked');
-                                                console.log('query1: ' + this.props.query);
                                                 this.props.dispatchApplyQueryCustom(query);
-                                                console.log('query2: ' + this.props.query);
-                                                this.forceUpdate()
                                               }}
                                     > {loc.name} </MenuItem>
                                     </Link>
@@ -142,7 +138,6 @@ class AppContent extends React.Component {
     }
 
     componentDidUpdate() {
-        console.log('AppContent updating');
         this._initIssues();
     }
 
