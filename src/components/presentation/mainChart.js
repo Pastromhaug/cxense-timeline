@@ -88,7 +88,7 @@ class MainChart extends React.Component {
         d3.select('#mainSvg')
             .style('width', '100%');
 
-        this._svg().append('rect').attr('id','background').attr('height', '100%')
+        this._svg().append('rect').attr('id','background').attr('height', this._svg_h())
             .attr('width','100%').attr('fill','white');
 
         this._svg().append('g')
