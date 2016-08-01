@@ -80,7 +80,7 @@ const query_temp = (state = initial_state, action ) => {
             var newstate = Object.assign({}, state, {query: Object.assign({},
             state.query, {query: action.query})});
             console.log('new state query: ');
-            console.log(newstate.query.query.query);
+            console.log(newstate.query.query);
             return Object.assign({}, state, {query: Object.assign({},
                 state.query, {query: action.query})});
 
