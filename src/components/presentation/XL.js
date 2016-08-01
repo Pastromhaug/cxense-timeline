@@ -1,10 +1,9 @@
-/* jscs:disable requireCamelCaseOrUpperCaseIdentifiers */
+
 var _ = require('lodash');
 var XLSX = require('xlsx');
-var fileSaver = rquire('filesaver');
+var fileSaver = require('filesaver.js');
 var moment = require('moment');
 
-"use strict";
 
 /* Purpose: Convert 2-dimensional arrays into XLSX workbook. */
 
@@ -17,7 +16,6 @@ var moment = require('moment');
 class XL {
 
     constructor(){
-        super();
         this.createWorkbook.bind(this);
         this.createSheet.bind(this);
         this.addSheetToWorkbook.bind(this);
@@ -128,10 +126,10 @@ class XL {
             for (var i = 0; i !== wbout.length; ++i) {
                 view[i] = wbout.charCodeAt(i) & 0xFF;
             }
-            fileSaver(new Blob([buffer], {type: "application/octet-stream"}), name);
+            fileSaver.saveAs(new Blob([buffer], {type: "application/octet-stream"}), name);
         });
     }
-
+    
     /* jshint bitwise:true */
 
     /**

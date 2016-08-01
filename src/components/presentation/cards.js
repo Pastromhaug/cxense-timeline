@@ -12,6 +12,7 @@ import MenuItem from 'material-ui/MenuItem';
 import IconMenu from 'material-ui/IconMenu';
 import IconButton from 'material-ui/IconButton/IconButton';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
+import XL from './XL';
 // import saveSvgAsPng from 'save-svg-as-png';
 var savesvg = require('save-svg-as-png');
 var moment = require('moment');
@@ -37,6 +38,12 @@ class  Cards extends React.Component {
 
     _downloadSvgAsXLSX() {
         console.log('eyy');
+        var xl = new XL();
+        var workbook = xl.createWorkbook();
+        var data = [['hey','hows','it','going'],['not','bad','how','bout you?']];
+        var sheet = xl.createSheet(data);
+        workbook = xl.addSheetToWorkbook(workbook,'timeline',sheet)
+        xl.saveWorkbook(workbook,'timeline');
     }
 
     render() {

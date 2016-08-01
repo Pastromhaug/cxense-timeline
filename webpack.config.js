@@ -28,5 +28,13 @@ module.exports = {
                 loader: "style-loader!css-loader"
             }
         ]
-    }
+    },
+    node: {
+        fs: 'empty'
+    },
+    externals: [
+        {
+            './cptable': 'var cptable'
+        }
+    ]
 };
