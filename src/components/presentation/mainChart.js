@@ -138,7 +138,7 @@ class MainChart extends React.Component {
         this.time_start = this.props._timeBegin(this.props.issues);
         this.time_end = this.props._timeEnd(this.props.issues);
 
-        d3.select('#background').attr('height', '100%')
+        d3.select('#background').attr('height', this._svg_h())
             .attr('width','100%').attr('fill','white');
 
         this._svg().attr("id", "svg")
