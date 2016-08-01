@@ -79,13 +79,13 @@ class MainChart extends React.Component {
                     .range([0, this._chart_h() ])
         )}
     _main() { return d3.select('#main_el') }
-    _svg() { return d3.select('#mainSvg')}
+    _svg() { return d3.select('#svg')}
     _itemRects() { return  d3.select('#itemRects')}
 
     componentDidMount() {
         this._updateDimensions();
         var elem = ReactDOM.findDOMNode(this);
-        d3.select('#mainSvg')
+        d3.select('#svg')
             .style('width', '100%');
 
         this._svg().append('rect').attr('id','background').attr('height', this._svg_h())
@@ -370,7 +370,7 @@ class MainChart extends React.Component {
     render() {
         return(
             <div id="mainChart" style={{width:'100%'}}>
-                <svg id="mainSvg"></svg>
+                <svg id="svg"></svg>
             </div>
         )
     }
