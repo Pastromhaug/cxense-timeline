@@ -222,7 +222,7 @@ class AppContent extends React.Component {
             var reporter = this._getJsonFieldOrNull(d.fields, ['reporter','displayName']);
             var reporter_email = this._getJsonFieldOrNull(d.fields, ['reporter','emailAddress']);
             var status = this._getJsonFieldOrNull(d.fields, ['status','name']);
-            var planning_status = this._getJsonFieldOrNull(d.fields, ['status','description']);
+            var planning_status = this._getJsonFieldOrNull(d.fields, ['customfield_10955','value']);
             var id = this._getJsonFieldOrNull(d, ['key']);
             var created_at = this._getJsonFieldOrNull(d.fields, ['created']);
             var updated_at = this._getJsonFieldOrNull(d.fields, ['updated']);
