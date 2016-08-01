@@ -77,6 +77,10 @@ const query_temp = (state = initial_state, action ) => {
             return Object.assign({}, state, {query_temp: state.query});
 
         case APPLY_QUERY_CUSTOM:
+            var newstate = Object.assign({}, state, {query: Object.assign({},
+            state.query, {query: action.query})});
+            console.log('new state query: ');
+            console.log(newstate.query.query.query);
             return Object.assign({}, state, {query: Object.assign({},
                 state.query, {query: action.query})});
 
