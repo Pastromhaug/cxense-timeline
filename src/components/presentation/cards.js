@@ -31,10 +31,6 @@ class  Cards extends React.Component {
     }
 
     _downloadSvg() {
-        console.log('mainSvg element with document:');
-        console.log(document.getElementById("svg"));
-        console.log('mainSvg element with d3:');
-        // console.log(d3.select("svg")[0][0]);
         savesvg.saveSvgAsPng(document.getElementById("svg"), "timeline.png");
     }
 

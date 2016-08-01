@@ -27,6 +27,7 @@ class AppContent extends React.Component {
         super();
         this._initIssues.bind(this);
         this._formatIssues.bind(this);
+        this._getJsonFieldOrNull.bind(this);
         this.queriesRef = FIREBASE.database().ref('queries/');
         this.columnsRef = FIREBASE.database().ref('columns/');
         this.queriesListener = null;
@@ -215,27 +216,38 @@ class AppContent extends React.Component {
                 }
             }
 
+            var priority = this._getJsonFieldOrNull(d.fields, ['priority','name']);
+            var security = this._getJsonFieldOrNull(d.fields, ['security','name']);
+            var security_description = this._getJsonFieldOrNull(d.fields, ['security', 'description']);
+            var reporter = this._getJsonFieldOrNull(d.fields, ['reporter','displayName']);
+            var reporter_email = this._getJsonFieldOrNull(d.fields, ['reporter','emailAddress']);
+            var status = this._getJsonFieldOrNull(d.fields, ['status','name']);
+            var planning_status = this._getJsonFieldOrNull(d.fields, ['status','description']);
+            var id = this._getJsonFieldOrNull(d, ['key']);
+            var created_at = this._getJsonFieldOrNull(d.fields, ['created']);
+            var updated_at = this._getJsonFieldOrNull(d.fields, ['updated']);
+            var summary = this._getJsonFieldOrNull(d.fields, ['summary']);
+            var name = this._getJsonFieldOrNull(d.fields, ['issuetype','name']);
+
             return {
                 lane: 0,
-                name: d.fields.summary + " (" + d.fields.issuetype.name + ")",
+                name: summary + " (" + name + ")",
                 start: start,
                 end: end,
-                id: d.key,
-                status: d.fields.status.name,
+                id: id,
+                status: status,
                 remaining_estimate: time_left,
-                planning_status: d.fields.status.description,
+                planning_status: planning_status,
                 resolution: resname,
                 resolution2: resname2,
-                reporter: d.fields.reporter.displayName,
-                reporter_email: d.fields.reporter.emailAddress,
-                created_at: d.fields.created,
-                updated_at: d.fields.updated,
-                priority: d.fields.priority.name,
+                reporter: reporter,
+                reporter_email: reporter_email,
+                created_at: created_at,
+                updated_at: updated_at,
+                priority: priority,
                 labels: labels,
-                security: d.fields.security.name,
-                security_description: d.fields.security.description
-
-
+                security: security,
+                security_description: security_description
             };});
 
         items = items.sort( (a,b) => d3.ascending(a.start, b.start));
@@ -261,6 +273,18 @@ class AppContent extends React.Component {
                 }
             }});
         return items;
+    }
+
+    _getJsonFieldOrNull(json, fields){
+        var tempjson = json;
+        for (let i = 0; i < fields.length; i++) {
+            if (_.has(tempjson,fields[i])){
+                tempjson = tempjson[fields[i]]
+            } else{
+                return null
+            }
+        }
+        return tempjson;
     }
 }
 
