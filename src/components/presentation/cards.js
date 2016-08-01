@@ -12,18 +12,30 @@ import MenuItem from 'material-ui/MenuItem';
 import IconMenu from 'material-ui/IconMenu';
 import IconButton from 'material-ui/IconButton/IconButton';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
+// import saveSvgAsPng from 'save-svg-as-png';
+var savesvg = require('save-svg-as-png');
 var moment = require('moment');
 var _ = require('lodash');
+var d3 = require('d3');
 
 class  Cards extends React.Component {
 
     constructor() {
         super();
-        this.buildSprintIntervals.bind(this);
-        this.buildQuarterIntervals.bind(this);
+        this._buildSprintIntervals.bind(this);
+        this._buildQuarterIntervals.bind(this);
+        this._downloadSvg.bind(this);
         this.sprintOrigin = moment.utc("2016-01-01");
         this.timeBegin = moment.utc().valueOf();
         this.timeEnd = moment.utc().valueOf();
+    }
+
+    _downloadSvg() {
+        console.log('mainSvg element with document:');
+        console.log(document.getElementById("svg"));
+        console.log('mainSvg element with d3:');
+        // console.log(d3.select("svg")[0][0]);
+        savesvg.saveSvgAsPng(document.getElementById("svg"), "timeline.png");
     }
 
     render() {
@@ -39,12 +51,10 @@ class  Cards extends React.Component {
                             targetOrigin={{horizontal: 'left', vertical: 'top'}}
                             style={{marginLeft: 'auto'}}
                         >
-                            <MenuItem primaryText="download as png"
-                                      onClick={() => {
-                                            }}/>
-                            <MenuItem primaryText="Edit"
-                                      onClick={() => {
-                                            }}/>
+                        <MenuItem primaryText="download as png"
+                                  onClick={() => {
+                                        this._downloadSvg()
+                                    }}/>
                         </IconMenu>
                     </div>
                     <div style={{padding: '16px'}}>
@@ -73,12 +83,12 @@ class  Cards extends React.Component {
     componentDidUpdate() {
         this.timeBegin = Cards._timeBegin(this.props.issues);
         this.timeEnd = Cards._timeEnd(this.props.issues);
-        var sprints = this.buildSprintIntervals();
-        var quarters = this.buildQuarterIntervals(sprints);
+        var sprints = this._buildSprintIntervals();
+        var quarters = this._buildQuarterIntervals(sprints);
         this.props.dispatchNewIntervals(sprints, quarters);
     }
 
-    buildSprintIntervals() {
+    _buildSprintIntervals() {
         var sprints = [];
         var forwardOrigin = this.sprintOrigin.clone();
         while (forwardOrigin.isBefore(this.timeEnd)) {
@@ -112,7 +122,7 @@ class  Cards extends React.Component {
         return sprints;
 
     }
-    buildQuarterIntervals(sprints) {
+    _buildQuarterIntervals(sprints) {
         var quarters = [];
         var prev_start = sprints[0].start;
         for (let i = 0; i < sprints.length; i++) {

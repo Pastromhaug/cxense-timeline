@@ -79,16 +79,17 @@ class MainChart extends React.Component {
                     .range([0, this._chart_h() ])
         )}
     _main() { return d3.select('#main_el') }
-    _svg() { return d3.select('#svg')}
+    _svg() { return d3.select('#mainSvg')}
     _itemRects() { return  d3.select('#itemRects')}
 
     componentDidMount() {
         this._updateDimensions();
         var elem = ReactDOM.findDOMNode(this);
-        d3.select(elem)
-            .append("svg")
-            .attr("id", "svg")
+        d3.select('#mainSvg')
             .style('width', '100%');
+
+        this._svg().append('rect').attr('id','background').attr('height', '100%')
+            .attr('width','100%').attr('fill','white');
 
         this._svg().append('g')
             .attr('class','sprintsMain')
@@ -136,11 +137,18 @@ class MainChart extends React.Component {
     componentDidUpdate() {
         this.time_start = this.props._timeBegin(this.props.issues);
         this.time_end = this.props._timeEnd(this.props.issues);
+
+        d3.select('#background').attr('height', '100%')
+            .attr('width','100%').attr('fill','white');
+
+        this._svg().attr("id", "svg")
+            .attr("height", this._svg_h() )
+            .attr('fill', 'white');
+
         this._axis()
             .call(this._mainAxis());
 
-        this._svg().attr("id", "svg")
-            .attr("height", this._svg_h() );
+
 
         this._main()
             .attr("width", this._w() )
@@ -361,7 +369,9 @@ class MainChart extends React.Component {
 
     render() {
         return(
-            <div id="mainChart" style={{width:'100%'}}></div>
+            <div id="mainChart" style={{width:'100%'}}>
+                <svg id="mainSvg"></svg>
+            </div>
         )
     }
 }
