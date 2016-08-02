@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import SetIssuesSprintsQuarters from '../presentation/setIssuesSprintsQuarters';
+import ChartStateController from '../presentation/chartStateController';
 import {connect} from 'react-redux';
 
 import {actionSetAllChartState} from '../../actions/chart';
@@ -29,9 +29,9 @@ function mapDispatchToProps(dispatch) {
     }
 }
 
-const VisibleSetIssuesSprintsQuarters = connect(
+const VisibleChartStateController = connect(
     mapStateToProps,
     mapDispatchToProps
-)(SetIssuesSprintsQuarters);
+)(ChartStateController);
 
-export default VisibleSetIssuesSprintsQuarters
+export default VisibleChartStateController

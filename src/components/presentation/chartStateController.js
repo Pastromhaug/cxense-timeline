@@ -10,7 +10,7 @@ var moment = require('moment');
 var _ = require('lodash');
 var d3 = require('d3');
 
-export default class SetIssuesSprintsQuarters extends Component {
+export default class ChartStateController extends Component {
     render() {return (<div></div>)}
 
     constructor() {
