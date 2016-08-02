@@ -1,14 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import MainChart from '../presentation/mainChart';
-import {actionBrushInterval} from '../../actions/issues';
 import {actionHoverOnIssue} from '../../actions/table';
 
 const mapStateToProps = (state) => {
     return {
-        issues: state.issues,
-        sprints: state.timeIntervals.sprints,
-        quarters: state.timeIntervals.quarters
+        chart: state.chart
     }
 };
 

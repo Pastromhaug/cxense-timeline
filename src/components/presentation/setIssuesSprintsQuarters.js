@@ -20,8 +20,6 @@ export default class SetIssuesSprintsQuarters extends Component {
         this._buildSprintIntervals.bind(this);
 
         this.sprintOrigin = moment.utc("2016-01-01");
-        this.timeBegin = moment.utc().valueOf();
-        this.timeEnd = moment.utc().valueOf();
     }
 
     componentDidMount() {
@@ -33,21 +31,22 @@ export default class SetIssuesSprintsQuarters extends Component {
     }
 
     componentDidUpdate() {
+        console.log('setIssuesSprintsQuarters updated');
         this._initIssuesSprintsAndQuarters(this.props.query)
     }
 
     _initIssuesSprintsAndQuarters(query) {
-        // console.log('initIssues()');
         var url = 'http://localhost:8001/sample';
         fetch(url).then((data) => data.json())
             .then( (data) => {
+
                 const issues = this._formatIssues(data);
-                this.timeBegin = Utils.timeBegin(issues);
-                this.timeEnd = Utils.timeEnd(issues);
-                const sprints = this._buildSprintIntervals();
-                const quarters = this._buildQuarterIntervals(sprints);
-                this.props.dispatchReplaceIssues(issues);
-                this.props.dispatchNewIntervals(sprints, quarters);
+                const timeBegin = Utils.timeBegin(issues);
+                const timeEnd = Utils.timeEnd(issues);
+                const sprints = this._buildSprintIntervals(timeBegin, timeEnd);
+                const quarters = this._buildQuarterIntervals(timeBegin, timeEnd, sprints);
+
+                this.props.dispatchSetAllChartState(issues, sprints, quarters, timeBegin, timeEnd)
             });
         // var stem = 'https://jira.cxense.com/rest/api/2/search?jql='
         // var url = stem + this.props.query;
@@ -74,14 +73,14 @@ export default class SetIssuesSprintsQuarters extends Component {
         // xhr.send();
     }
 
-    _buildSprintIntervals() {
+    _buildSprintIntervals(timeBegin, timeEnd) {
         var sprints = [];
         var forwardOrigin = this.sprintOrigin.clone();
-        while (forwardOrigin.isBefore(this.timeEnd)) {
+        while (forwardOrigin.isBefore(timeEnd)) {
             let begin = forwardOrigin.clone();
             let end = forwardOrigin.add(14, 'days').clone();
             let sprint_num = Math.ceil(end.clone().subtract(1,'day').dayOfYear()/14);
-            if (end.isAfter(this.timeBegin)){
+            if (end.isAfter(timeBegin)){
                 let new_interval = {
                     start: begin.valueOf(),
                     end: end.valueOf(),
@@ -92,11 +91,11 @@ export default class SetIssuesSprintsQuarters extends Component {
 
         }
         var backwardOrigin = this.sprintOrigin.clone();
-        while(backwardOrigin.isAfter(this.timeBegin)) {
+        while(backwardOrigin.isAfter(timeBegin)) {
             let end = backwardOrigin.clone();
             let begin = backwardOrigin.subtract(14, 'days').clone();
             let sprint_num = Math.ceil(end.clone().subtract(1,'day').dayOfYear()/14);
-            if (begin.isBefore(this.timeEnd)) {
+            if (begin.isBefore(timeEnd)) {
                 let new_interval = {
                     start: begin.valueOf(),
                     end: end.valueOf(),
@@ -109,7 +108,7 @@ export default class SetIssuesSprintsQuarters extends Component {
     }
 
 
-    _buildQuarterIntervals(sprints) {
+    _buildQuarterIntervals(timeBegin, timeEnd, sprints) {
         var quarters = [];
         var prev_start = sprints[0].start;
         for (let i = 0; i < sprints.length; i++) {

@@ -9,7 +9,7 @@ import TimelineTable from '../presentation/timelineTable';
 const mapStateToProps = (state) => {
     return {
         columns: state.columns.columns,
-        issues: state.issues
+        issues: state.chart.issues
     }
 };
 

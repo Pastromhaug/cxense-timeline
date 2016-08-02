@@ -33,8 +33,10 @@ class App extends React.Component {
         return (
             <Provider store={store}>
                 <MuiThemeProvider muiTheme={getMuiTheme()}>
-                    <VisibleAppContent children={this.props.children}/>
-                    {/*<VisibleSetIssuesSprintsQuarters/>*/}
+                    <div>
+                        <VisibleAppContent children={this.props.children}/>
+                        <VisibleSetIssuesSprintsQuarters/>
+                    </div>
                 </MuiThemeProvider>
             </Provider>
         )
@@ -48,10 +50,10 @@ class Routing extends React.Component {
         return (
             <Router history = {history}>
                 <Route path="/" component = {App}>
-                    {/*<IndexRoute component={Cards}/>
+                    <IndexRoute component={Cards}/>
                     <Route path="/timeline/:query" component={Cards}/>
                     <Route path="/query" component={VisibleQuery}/>
-                    <Route path="/columns" component={VisibleColumns}/>*/}
+                    <Route path="/columns" component={VisibleColumns}/>
                 </Route>
             </Router>
         )

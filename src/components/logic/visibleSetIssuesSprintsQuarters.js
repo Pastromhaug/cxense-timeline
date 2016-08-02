@@ -6,8 +6,7 @@ import React from 'react';
 import SetIssuesSprintsQuarters from '../presentation/setIssuesSprintsQuarters';
 import {connect} from 'react-redux';
 
-import {actionNewIntervals} from '../../actions/timeIntervals';
-import {actionReplaceIssues} from '../../actions/issues';
+import {actionSetAllChartState} from '../../actions/chart';
 import {actionApplyQuery, actionTempQuery} from '../../actions/query';
 
 function mapStateToProps(state) {
@@ -18,12 +17,9 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        dispatchReplaceIssues: (issues) => {
-            dispatch( actionReplaceIssues(issues) )
+        dispatchSetAllChartState: (issues, sprints, quarters, timeBegin, timeEnd) => {
+            dispatch(actionSetAllChartState(issues, sprints, quarters, timeBegin, timeEnd))
         },
-        dispatchNewIntervals: (sprints, quarters) => (
-            dispatch(actionNewIntervals(sprints, quarters))
-        ),
         dispatchApplyQuery: () => {
             dispatch(actionApplyQuery())
         },

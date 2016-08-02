@@ -15,8 +15,8 @@ class  Cards extends React.Component {
     render() {
         return(
             <div>
-                <VisibleCardTitleAndOptions/>
                 <Card style={cardStyles.container}>
+                    <VisibleCardTitleAndOptions/>
                     <div style={{padding: '16px'}}>
                         <VisibleMainChart/>
                     </div>

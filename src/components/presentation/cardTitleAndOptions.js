@@ -23,6 +23,10 @@ export default class cardTitleAndOptions extends Component {
         this._downloadSvgAsPng.bind(this);
     }
 
+    componentDidUpdate() {
+        console.log('cardTitleAndOptions updated');
+    }
+
     render() {
         return (
             <div
