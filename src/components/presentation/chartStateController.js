@@ -25,10 +25,10 @@ export default class ChartStateController extends Component {
     componentDidMount() {
         var params = this.props.params;
         if (_.has(params, 'query')) {
-            console.log('has param query: ' + params.query);
+            console.log('chartController: has param query: ' + params.query);
             this.props.dispatchTempQuery(params.query);
         } else {
-            console.log('no param query');
+            console.log('chartController: no param query');
         }
         this.props.dispatchApplyQuery();
     }
