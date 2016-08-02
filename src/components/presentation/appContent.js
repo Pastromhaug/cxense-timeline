@@ -40,15 +40,6 @@ class AppContent extends React.Component {
             this.props.dispatchAddColumnsCustom(data.val());
             this.props.dispatchApplyColumns()
         })
-
-        var params = this.props.params;
-        if (_.has(params, 'query')) {
-            console.log('appContent: has param query: ' + params.query);
-            this.props.dispatchTempQuery(params.query);
-        } else {
-            console.log('appContent: no param query');
-        }
-        // this.props.dispatchApplyQuery();
     }
 
     componentWillUnmount() {

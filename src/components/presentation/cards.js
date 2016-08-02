@@ -27,6 +27,17 @@ class  Cards extends React.Component {
             </div>
         );
     }
+
+    componentDidMount() {
+        var params = this.props.params;
+        if (_.has(params, 'query')) {
+            console.log('Cards: has param query: ' + params.query);
+            this.props.dispatchTempQuery(params.query);
+        } else {
+            console.log('Cards: no param query');
+        }
+        this.props.dispatchApplyQuery();
+    }
 }
 
 export default Cards

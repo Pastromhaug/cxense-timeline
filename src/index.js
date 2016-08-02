@@ -9,12 +9,12 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { Router, Route, Link, browserHistory, IndexRoute } from 'react-router';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
-import Cards from './components/presentation/cards';
+import VisibleCards from './components/logic/visibleCards';
 import VisibleQuery from './components/logic/visibleQuery';
 import VisibleColumns from './components/logic/visibleColumns';
 import mainReducer from './reducers/main';
 import VisibleAppContent from './components/logic/visibleAppContent';
-import VisibleChartStateController from './components/logic/visiblechartStateController';
+import VisibleSetIssuesSprintsQuarters from './components/logic/visiblechartStateController';
 import { syncHistoryWithStore } from 'react-router-redux';
 
 var injectTapEventPlugin = require("react-tap-event-plugin");
@@ -33,10 +33,10 @@ class App extends React.Component {
         return (
             <Provider store={store}>
                 <MuiThemeProvider muiTheme={getMuiTheme()}>
-                    {/*<div>*/}
+                    <div>
                         <VisibleAppContent children={this.props.children}/>
-                    {/*<VisibleChartStateController/>
-                    </div>*/}
+                        <VisibleSetIssuesSprintsQuarters/>
+                    </div>
                 </MuiThemeProvider>
             </Provider>
         )
@@ -50,8 +50,8 @@ class Routing extends React.Component {
         return (
             <Router history = {history}>
                 <Route path="/" component = {App}>
-                    <IndexRoute component={Cards}/>
-                    <Route path="/timeline/:query" component={Cards}/>
+                    <IndexRoute component={VisibleCards}/>
+                    <Route path="/timeline/:query" component={VisibleCards}/>
                     <Route path="/query" component={VisibleQuery}/>
                     <Route path="/columns" component={VisibleColumns}/>
                 </Route>

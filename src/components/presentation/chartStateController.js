@@ -22,17 +22,6 @@ export default class ChartStateController extends Component {
         this.sprintOrigin = moment.utc("2016-01-01");
     }
 
-    componentDidMount() {
-        var params = this.props.params;
-        if (_.has(params, 'query')) {
-            console.log('chartController: has param query: ' + params.query);
-            this.props.dispatchTempQuery(params.query);
-        } else {
-            console.log('chartController: no param query');
-        }
-        this.props.dispatchApplyQuery();
-    }
-
     componentDidUpdate() {
         console.log('setIssuesSprintsQuarters updated');
         this._initIssuesSprintsAndQuarters(this.props.query)
