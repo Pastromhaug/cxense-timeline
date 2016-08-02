@@ -33,10 +33,10 @@ class App extends React.Component {
         return (
             <Provider store={store}>
                 <MuiThemeProvider muiTheme={getMuiTheme()}>
-                    <div>
+                    {/*<div>*/}
                         <VisibleAppContent children={this.props.children}/>
-                        <VisibleChartStateController/>
-                    </div>
+                    {/*<VisibleChartStateController/>
+                    </div>*/}
                 </MuiThemeProvider>
             </Provider>
         )
