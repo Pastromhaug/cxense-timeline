@@ -18,6 +18,7 @@ class XL {
     constructor(){
         this.createWorkbook.bind(this);
         this.createSheet.bind(this);
+        this.createSheet2.bind(this);
         this.addSheetToWorkbook.bind(this);
         this._cleanUpSheetName.bind(this);
         this._noEqualSheetNames.bind(this);
@@ -129,7 +130,7 @@ class XL {
             fileSaver.saveAs(new Blob([buffer], {type: "application/octet-stream"}), name + '.xlsx');
         });
     }
-    
+
     /* jshint bitwise:true */
 
     /**
@@ -149,6 +150,34 @@ class XL {
                         r: rowIndex
                     });
                     worksheet[cellRef] = this._generateCell(cellData);
+                }
+            });
+        });
+        if (data.length > 0) {
+            // Must tell Excel the range to work with (this case, the whole
+            // sheet)
+            const finalCell = {
+                c: _.max(data, "length").length - 1,
+                r: data.length - 1
+            };
+            worksheet["!ref"] = XLSX.utils.encode_range({
+                s: {c: 0, r: 0},
+                e: finalCell
+            });
+        }
+        return worksheet;
+    }
+
+    createSheet2(data) {
+        let worksheet = {};
+        data.forEach((row, rowIndex) => {
+            row.forEach((cellData, colIndex) => {
+                if (!_.isUndefined(cellData)) {
+                    const cellRef = XLSX.utils.encode_cell({
+                        c: colIndex,
+                        r: rowIndex
+                    });
+                    worksheet[cellRef] = cellData;
                 }
             });
         });
