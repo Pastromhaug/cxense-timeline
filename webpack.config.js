@@ -7,6 +7,7 @@ module.exports = {
         javascript: "./src/index.js",
         html: "./src/index.html"
     },
+    devtool: 'source-map',
     output: {
         publicPath: "http://localhost:8000/assets/",
         filename: "bundle.js",

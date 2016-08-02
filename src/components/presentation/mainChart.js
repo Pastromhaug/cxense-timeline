@@ -20,8 +20,12 @@ class MainChart extends React.Component {
         this._y1.bind(this);
         this._main.bind(this);
         this._svg.bind(this);
-        this._itemRects.bind(this);
-        this. _updateRectangles.bind(this);
+        this._issueRects.bind(this);
+        this._issueClipPaths.bind(this)
+        this._issueLabels.bind(this);
+        this._updateIssueRects.bind(this);
+        this._updateIssueLabels.bind(this);
+        this._updateIssueClipPaths.bind(this);
         this._svg_h.bind(this);
         this._timeScale.bind(this);
         this._mainAxis.bind(this);
@@ -79,7 +83,9 @@ class MainChart extends React.Component {
         )}
     _main() { return d3.select('#main_el') }
     _svg() { return d3.select('#svg')}
-    _itemRects() { return  d3.select('#itemRects')}
+    _issueRects() { return  d3.select('#issueRects')}
+    _issueLabels() { return d3.select('#issueLabels')}
+    _issueClipPaths() { return d3.select('#issueClipPaths')}
 
     componentDidMount() {
         this._updateDimensions();
@@ -87,16 +93,9 @@ class MainChart extends React.Component {
         d3.select('#svg')
             .style('width', '100%');
 
-        this._svg().append('rect').attr('id','background').attr('height', this._svg_h())
-            .attr('width','100%').attr('fill','white');
-
-        this._svg().append('g')
-            .attr('class','sprintsMain')
-            .attr('id', 'sprintsMain');
-
-        this._svg().append('g')
-            .attr('class','quartersMain')
-            .attr('id', 'quartersMain');
+        this._svg().append('rect').attr('id','background').attr('height', this._svg_h()).attr('width','100%').attr('fill','white');
+        this._svg().append('g').attr('class','sprintsMain').attr('id', 'sprintsMain');
+        this._svg().append('g').attr('class','quartersMain').attr('id', 'quartersMain');
 
         this._sprints().append('g').attr('id','sprintRectsMain');
         this._sprints().append('g').attr('id','sprintLabelsMain');
@@ -106,9 +105,7 @@ class MainChart extends React.Component {
         this._quarters().append('g').attr('id', 'quarterLabelsMain');
         this._quarters().attr('transform', 'translate(0,' + this.axis_pad + ')');
 
-        this._svg().append('g').attr('id', 'mainAxis')
-            .attr('class', 'x axis')
-            .attr('fill','grey');
+        this._svg().append('g').attr('id', 'mainAxis').attr('class', 'x axis').attr('fill','grey');
 
         this._svg().select('#mainAxis').attr('transform', 'translate(0, ' + 50  + ')');
         this._svg().select('#mainAxis2').attr('transform', 'translate(0, ' + 50  + ')');
@@ -119,18 +116,20 @@ class MainChart extends React.Component {
             .attr('transform', 'translate(0,' + (this.axis_pad + this.sprint_height + this.quarter_height) + ')')
             .attr("height", this._chart_h() );
 
-        this._main().append("g")
-            .attr("id", "itemRects");
+        this._main().append("g").attr("id", "issueRects");
+        this._main().append("g").attr("id", "issueClipPaths");
+        this._main().append("g").attr("id", "issueLabels");
 
         this._updateSprints();
         this._updateQuarters();
-        this._updateRectangles();
+        this._updateIssueRects();
         this._main().append("line");
         window.addEventListener("resize", this._updateDimensions.bind(this));
     }
 
 
     _updateDimensions() {
+        console.log('window resize event listener here');
         this.setState({width: document.getElementById('mainChart').offsetWidth});
     }
 
@@ -153,7 +152,9 @@ class MainChart extends React.Component {
 
         this._updateSprints();
         this._updateQuarters();
-        this._updateRectangles();
+        this._updateIssueRects();
+        this._updateIssueClipPaths();
+        this._updateIssueLabels();
         this._updateTodayLine();
     }
 
@@ -237,8 +238,8 @@ class MainChart extends React.Component {
     }
     
 
-    _updateRectangles() {
-        var rects = this._itemRects().selectAll("rect")
+    _updateIssueRects() {
+        var rects = this._issueRects().selectAll("rect")
             .data(this.props.chart.issues, (d) => d.name)
             .attr("x", (d) => this._x1()(d.start))
             .attr("y", (d) => this._y1()(d.lane) + 10)
@@ -284,34 +285,13 @@ class MainChart extends React.Component {
             });
 
         rects.exit().remove();
+    }
 
-        var clippaths = this._itemRects().selectAll('clipPath')
-            .data(this.props.chart.issues, d => d.name);
 
-        clippaths
-            .append('rect')
-            .attr("x", (d) => this._x1()(Math.max(d.start, this.props.chart.timeBegin)))
-            .attr("y", (d) => this._y1()(d.lane))
-            .attr('width', (d) =>
-                this._x1()(Math.min(d.end, this.props.chart.timeEnd )) -
-                this._x1()(Math.max(d.start, this.props.chart.timeBegin)) - 5)
-            .attr("height", (d) => .8 * this._y1()(1));
-
-        clippaths.enter().append('clipPath')
-            .attr( 'id', d => d.id)
-            .append('rect')
-            .attr("x", (d) => this._x1()(Math.max(d.start, this.props.chart.timeBegin)))
-            .attr("y", (d) => this._y1()(d.lane))
-            .attr('width', (d) =>
-                this._x1()(Math.min(d.end, this.props.chart.timeEnd )) -
-                this._x1()(Math.max(d.start, this.props.chart.timeBegin)))
-            .attr("height", (d) => .8 * this._y1()(1));
-
-        clippaths.exit().remove();
-
+    _updateIssueLabels() {
 
         //update the item labels
-        var labels = this._itemRects().selectAll("text")
+        var labels = this._issueRects().selectAll("text")
             .data(this.props.chart.issues, (d) => d.name)
             .text( (d) => d.name)
             .attr("x", (d) => {
@@ -348,7 +328,7 @@ class MainChart extends React.Component {
             .attr("clip-path", d => ("url(#" + d.id + ")"))
             .style('fill', (d) => {
                 return Utils.getColors(d).color
-            })  
+            })
             .on('mouseover', (d) => {
                 d3.select('#rect-' + d.id).attr('fill-opacity', 0.7);
                 d3.select('#rect-' + d.id).attr('cursor','pointer !important');
@@ -363,6 +343,33 @@ class MainChart extends React.Component {
             });
 
         labels.exit().remove();
+    }
+
+
+    _updateIssueClipPaths() {
+        var clippaths = this._issueRects().selectAll('clipPath')
+            .data(this.props.chart.issues, d => d.name);
+
+        clippaths
+            .append('rect')
+            .attr("x", (d) => this._x1()(Math.max(d.start, this.props.chart.timeBegin)))
+            .attr("y", (d) => this._y1()(d.lane))
+            .attr('width', (d) =>
+            this._x1()(Math.min(d.end, this.props.chart.timeEnd )) -
+            this._x1()(Math.max(d.start, this.props.chart.timeBegin)) - 5)
+            .attr("height", (d) => .8 * this._y1()(1));
+
+        clippaths.enter().append('clipPath')
+            .attr( 'id', d => d.id)
+            .append('rect')
+            .attr("x", (d) => this._x1()(Math.max(d.start, this.props.chart.timeBegin)))
+            .attr("y", (d) => this._y1()(d.lane))
+            .attr('width', (d) =>
+            this._x1()(Math.min(d.end, this.props.chart.timeEnd )) -
+            this._x1()(Math.max(d.start, this.props.chart.timeBegin)))
+            .attr("height", (d) => .8 * this._y1()(1));
+
+        clippaths.exit().remove();
     }
 
 

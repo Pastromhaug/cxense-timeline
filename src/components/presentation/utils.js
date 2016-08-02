@@ -27,7 +27,7 @@ export default class Utils {
     static getColors(issue) {
         var status1 = ['Resolved', 'Closed'];
         var group1 = ['None', 'Not started' + 'Functional spec in progress'];
-        var group2 = ['Functional spec done', 'Dev plan in progress']
+        var group2 = ['Functional spec done', 'Dev plan in progress'];
         if (status1.indexOf(issue.status) != -1 && issue.resolution === 'Fixed') {
             return COLORS.a;
         }
