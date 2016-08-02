@@ -286,7 +286,7 @@ class MainChart extends React.Component {
     _updateIssueLabels() {
 
         //update the item labels
-        var labels = this._issueLabels().selectAll("text")
+        var labels = this._issueRects().selectAll("text")
             .data(this.props.chart.issues, (d) => d.id)
             .attr("x", (d) => this._x1()(Math.max(d.start, this.props.chart.timeBegin) + 2));
 
