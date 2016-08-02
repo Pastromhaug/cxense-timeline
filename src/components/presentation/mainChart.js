@@ -119,17 +119,12 @@ class MainChart extends React.Component {
         this._main().append("g").attr("id", "issueRects");
         this._main().append("g").attr("id", "issueClipPaths");
         this._main().append("g").attr("id", "issueLabels");
-
-        this._updateSprints();
-        this._updateQuarters();
-        this._updateIssueRects();
         this._main().append("line");
         window.addEventListener("resize", this._updateDimensions.bind(this));
     }
 
 
     _updateDimensions() {
-        console.log('window resize event listener here');
         this.setState({width: document.getElementById('mainChart').offsetWidth});
     }
 
@@ -291,7 +286,7 @@ class MainChart extends React.Component {
     _updateIssueLabels() {
 
         //update the item labels
-        var labels = this._issueRects().selectAll("text")
+        var labels = this._issueLabels().selectAll("text")
             .data(this.props.chart.issues, (d) => d.name)
             .text( (d) => d.name)
             .attr("x", (d) => {
