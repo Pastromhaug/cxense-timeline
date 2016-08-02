@@ -15,8 +15,7 @@ import VisibleQueryDialog from '../logic/visibleQueryDialog'
 import {Link} from 'react-router';
 import FIREBASE from '../../constants/firebase';
 var moment = require('moment');
-var injectTapEventPlugin = require("react-tap-event-plugin");
-injectTapEventPlugin();
+
 var d3 = require('d3');
 var _ = require('lodash');
 
@@ -25,9 +24,6 @@ class AppContent extends React.Component {
 
     constructor() {
         super();
-        this._initIssues.bind(this);
-        this._formatIssues.bind(this);
-        this._getJsonFieldOrNull.bind(this);
         this.queriesRef = FIREBASE.database().ref('queries/');
         this.columnsRef = FIREBASE.database().ref('columns/');
         this.queriesListener = null;

@@ -3,7 +3,7 @@
  */
 import React from 'react';
 import { connect } from 'react-redux';
-import CardTitleWithOptions from '../presentation/cardTitleAndOptions';
+import CardTitleAndOptions from '../presentation/cardTitleAndOptions';
 import {actionNewIntervals} from '../../actions/timeIntervals';
 import {actionApplyQuery, actionTempQuery} from '../../actions/query';
 
@@ -28,9 +28,9 @@ const mapDispatchToProps = (dispatch) => {
     }
 };
 
-const VisibleCards = connect (
+const VisibleCardTitleAndOptions = connect (
     mapStateToProps,
     mapDispatchToProps
-)(Cards);
+)(CardTitleAndOptions);
 
-export default VisibleCards
+export default VisibleCardTitleAndOptions

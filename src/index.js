@@ -17,6 +17,8 @@ import VisibleAppContent from './components/logic/visibleAppContent';
 import VisibleSetIssuesSprintsQuarters from './components/logic/visibleSetIssuesSprintsQuarters';
 import { syncHistoryWithStore } from 'react-router-redux';
 
+var injectTapEventPlugin = require("react-tap-event-plugin");
+injectTapEventPlugin();
 
 require('./styles/general.css');
 
@@ -32,7 +34,7 @@ class App extends React.Component {
             <Provider store={store}>
                 <MuiThemeProvider muiTheme={getMuiTheme()}>
                     <VisibleAppContent children={this.props.children}/>
-                    <VisibleSetIssuesSprintsQuarters/>
+                    {/*<VisibleSetIssuesSprintsQuarters/>*/}
                 </MuiThemeProvider>
             </Provider>
         )
@@ -46,10 +48,10 @@ class Routing extends React.Component {
         return (
             <Router history = {history}>
                 <Route path="/" component = {App}>
-                    <IndexRoute component={Cards}/>
+                    {/*<IndexRoute component={Cards}/>
                     <Route path="/timeline/:query" component={Cards}/>
                     <Route path="/query" component={VisibleQuery}/>
-                    <Route path="/columns" component={VisibleColumns}/>
+                    <Route path="/columns" component={VisibleColumns}/>*/}
                 </Route>
             </Router>
         )
