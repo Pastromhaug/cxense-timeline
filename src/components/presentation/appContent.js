@@ -48,7 +48,7 @@ class AppContent extends React.Component {
         } else {
             console.log('appContent: no param query');
         }
-        this.props.dispatchApplyQuery();
+        // this.props.dispatchApplyQuery();
     }
 
     componentWillUnmount() {
