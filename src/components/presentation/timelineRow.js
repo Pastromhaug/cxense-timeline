@@ -4,7 +4,6 @@
 
 import React from 'react';
 import { TableRow, TableRowColumn} from 'material-ui/Table';
-import {COLUMNS} from '../../constants/columnConstants';
 var moment = require('moment');
 var _ = require('lodash');
 

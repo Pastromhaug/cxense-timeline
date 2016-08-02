@@ -1,22 +1,26 @@
 /**
- * Created by perandre on 6/23/16.
+ * Created by perandre on 02.08.16.
  */
 
 import React from 'react';
-import { connect } from 'react-redux';
-import Cards from '../presentation/cards'
+import SetIssuesSprintsQuarters from '../presentation/setIssuesSprintsQuarters';
+import {connect} from 'react-redux';
+
 import {actionNewIntervals} from '../../actions/timeIntervals';
+import {actionReplaceIssues} from '../../actions/issues';
 import {actionApplyQuery, actionTempQuery} from '../../actions/query';
 
-const mapStateToProps = (state) => {
+function mapStateToProps(state) {
     return {
-        query: state.query.query.query,
-        issues: state.issues
+        query: state.query.query.query
     }
-};
+}
 
-const mapDispatchToProps = (dispatch) => {
+function mapDispatchToProps(dispatch) {
     return {
+        dispatchReplaceIssues: (issues) => {
+            dispatch( actionReplaceIssues(issues) )
+        },
         dispatchNewIntervals: (sprints, quarters) => (
             dispatch(actionNewIntervals(sprints, quarters))
         ),
@@ -27,11 +31,11 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(actionTempQuery(query))
         }
     }
-};
+}
 
-const VisibleCards = connect (
+const VisibleSetIssuesSprintsQuarters = connect(
     mapStateToProps,
     mapDispatchToProps
-)(Cards);
+)(SetIssuesSprintsQuarters);
 
-export default VisibleCards
+export default VisibleSetIssuesSprintsQuarters

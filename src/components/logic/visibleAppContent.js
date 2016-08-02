@@ -5,12 +5,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import AppContent from '../presentation/appContent';
-import {actionReplaceIssues} from '../../actions/issues';
 import {actionOpenQueryDialog, actionCloseQueryDialog,
     actionSetSavedQueries, actionSetEditJson,
     actionSetEditMode, actionSetQueryName} from '../../actions/queryDialog';
 import {actionTempQuery, actionApplyQueryCustom} from '../../actions/query';
-import {actionBrushInterval} from '../../actions/issues';
 import {actionApplyColumns, actionAddColumnsCustom} from '../../actions/columns';
 
 const mapStateToProps = (state) => {
@@ -23,9 +21,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        dispatchReplaceIssues: (issues) => {
-            dispatch( actionReplaceIssues(issues) )
-        },
         dispatchOpenQueryDialog: () => {
             dispatch(actionOpenQueryDialog())
         },
@@ -49,9 +44,6 @@ const mapDispatchToProps = (dispatch) => {
         },
         dispatchSetQueryName(name) {
             dispatch(actionSetQueryName(name))
-        },
-        dispatchBrushInterval: (start_time, end_time) => {
-            dispatch( actionBrushInterval(start_time, end_time) )
         },
         dispatchApplyColumns: () => {
             dispatch(actionApplyColumns())

@@ -3,6 +3,7 @@
  */
 import React from 'react';
 import ReactDOM from 'react-dom'
+import Utils from './utils';
 var d3 = require('d3');
 var moment = require('moment');
 require('../../styles/chartStyles.css');
@@ -130,13 +131,15 @@ class MainChart extends React.Component {
         window.addEventListener("resize", this._updateDimensions.bind(this));
     }
 
+
     _updateDimensions() {
         this.setState({width: document.getElementById('mainChart').offsetWidth});
     }
 
+
     componentDidUpdate() {
-        this.time_start = this.props._timeBegin(this.props.issues);
-        this.time_end = this.props._timeEnd(this.props.issues);
+        this.time_start = Utils.timeBegin(this.props.issues);
+        this.time_end = Utils.props.timeEnd(this.props.issues);
 
         d3.select('#background').attr('height', this._svg_h())
             .attr('width','100%').attr('fill','white');
@@ -148,18 +151,16 @@ class MainChart extends React.Component {
         this._axis()
             .call(this._mainAxis());
 
-
-
         this._main()
             .attr("width", this._w() )
             .attr("height", this._chart_h() )
-
 
         this._updateSprints();
         this._updateQuarters();
         this._updateRectangles();
         this._updateTodayLine();
     }
+
 
     _updateTodayLine() {
         var today = moment.utc().valueOf();
@@ -173,6 +174,7 @@ class MainChart extends React.Component {
             .style("stroke", "steelblue")
             .style("fill", "none");
     }
+
 
     _updateQuarters() {
         var quarterRects = this._quarters().select('#quarterRectsMain').selectAll('.quarterRectMain')
@@ -207,6 +209,7 @@ class MainChart extends React.Component {
         quarterLabels.exit().remove();
     }
 
+
     _updateSprints() {
         var sprintRects = this._sprints().select('#sprintRectsMain').selectAll('.sprintRectMain')
             .data(this.props.sprints, d => d.start)
@@ -235,8 +238,8 @@ class MainChart extends React.Component {
             .attr('dy', -6)
             .attr("text-anchor", "middle");
         sprintLabels.exit().remove();
-
     }
+    
 
     _updateRectangles() {
         var rects = this._itemRects().selectAll("rect")
@@ -247,7 +250,7 @@ class MainChart extends React.Component {
             .attr("height", (d) => .8 * this._y1()(1))
             .attr('id', d => 'rect-' + d.id)
             .style('fill', (d) => {
-                return this.props.getColors(d).backgroundColor
+                return Utils.getColors(d).backgroundColor
             })
             .on('mouseover', (d) => {
                 d3.select('#rect-' + d.id).attr('fill-opacity', 0.7);
@@ -269,7 +272,7 @@ class MainChart extends React.Component {
             .attr("height", (d) => .8 * this._y1()(1))
             .attr('id', d => 'rect-' + d.id)
             .style('fill', (d) => {
-                return this.props.getColors(d).backgroundColor
+                return Utils.getColors(d).backgroundColor
             })
             .on('mouseover', (d) => {
                 d3.select('#rect-' + d.id).attr('fill-opacity', 0.7);

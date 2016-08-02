@@ -19,18 +19,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToPRops = (dispatch) => {
     return {
-        dispatchTempFixedOrRelative (is_fixed) {
-            dispatch(actionTempFixedOrRelative(is_fixed))
-        },
-
-        dispatchTempStartDay(start_day) {
-            dispatch(actionTempStartDay(start_day))
-        },
-
-        dispatchTempEndDay(end_day) {
-            dispatch(actionTempEndDay(end_day))
-        },
-
         dispatchTempQuery(temp_query) {
             dispatch(actionTempQuery(temp_query))
         },

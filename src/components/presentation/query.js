@@ -16,9 +16,8 @@ import {button, queryField} from '../../styles/componentStyles';
 import {Link} from 'react-router'
 
 
-const Query = ({query_temp, start_day, end_day, dispatchTempFixedOrRelative,
-    dispatchTempStartDay, dispatchTempEndDay, dispatchTempQuery,
-    dispatchApplyQuery, dispatchCancelQuery}) => (
+const Query = ({query_temp, start_day, end_day,
+    dispatchTempQuery, dispatchApplyQuery, dispatchCancelQuery}) => (
 
     <div>
         <Card style={cardStyles.container} >

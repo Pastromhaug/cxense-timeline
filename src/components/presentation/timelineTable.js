@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
+import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow} from 'material-ui/Table';
 import VisibleTimelineRow from '../logic/visibleTimelineRow';
 import {COLUMNS} from '../../constants/columnConstants';
 var moment = require('moment');
