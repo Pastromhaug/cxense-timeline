@@ -286,9 +286,30 @@ class MainChart extends React.Component {
     _updateIssueLabels() {
 
         //update the item labels
-        var labels = this._issueRects().selectAll("text")
+        var labels = this._issueLabels().selectAll("text")
             .data(this.props.chart.issues, (d) => d.id)
-            .attr("x", (d) => this._x1()(Math.max(d.start, this.props.chart.timeBegin) + 2));
+            .text( (d) => d.name)
+            .attr("x", (d) => this._x1()(Math.max(d.start, this.props.chart.timeBegin) + 2))
+            .attr("y", (d) => this._y1()(d.lane + .5))
+            .attr('dx', 5)
+            .attr('dy', 7)
+            .attr("text-anchor", "start")
+            .attr("clip-path", d => ("url(#" + d.id + ")"))
+            .style('fill', (d) => {
+                return Utils.getColors(d).color
+            })
+            .on('mouseover', (d) => {
+                d3.select('#rect-' + d.id).attr('fill-opacity', 0.7);
+                d3.select('#rect-' + d.id).attr('cursor','pointer !important');
+                this.props.dispatchHoverOnIssue(d.id);
+            })
+            .on('mouseout', (d) => {
+                d3.select('#rect-' + d.id).attr('fill-opacity', 1);
+                this.props.dispatchHoverOnIssue(null)
+            })
+            .on('click', (d) => {
+                window.open("https://jira.cxense.com/browse/" + d.id + "?jql=issue=" + d.id ,'_blank');
+            });
 
         labels.enter().append("text")
             .text( (d) => d.name)
