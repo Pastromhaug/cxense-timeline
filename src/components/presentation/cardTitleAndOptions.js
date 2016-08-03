@@ -12,6 +12,7 @@ import XL from './XL';
 
 import {cardHeaderStyles} from '../../styles/componentStyles';
 import {CardTitle} from 'material-ui/Card';
+import Utils from './utils';
 
 var savesvg = require('save-svg-as-png');
 var moment = require('moment');
@@ -31,7 +32,9 @@ export default class cardTitleAndOptions extends Component {
         this._firstQuarterCellText.bind(this);
         this._lastQuarterCell.bind(this);
         this._lastQuarterCellText.bind(this);
-        // this.msIn2Weeks = 1.21e+9
+        this._generateAxisCells.bind(this);
+        this._generateTitleCells.bind(this);
+        this._generateBlankCells.bind(this);
         this.msIn2Weeks = 1210000000;
     }
 
@@ -72,10 +75,16 @@ export default class cardTitleAndOptions extends Component {
 
         var xl = new XL();
         var workbook = xl.createWorkbook();
-        var data = [[{t: 's', v: this.props.query}]];
+        var data = [];
 
+        var axisCells = this._generateAxisCells();
         var quarterCells = this._generateQuarterCells();
         var sprintCells = this._generateSprintCells();
+
+        data = data.concat([this._generateBlankCells()]);
+        data = data.concat([this._generateTitleCells()]);
+        data = data.concat([this._generateBlankCells()]);
+        data = data.concat([axisCells]);
         data = data.concat([quarterCells]);
         data = data.concat([sprintCells]);
 
@@ -85,8 +94,35 @@ export default class cardTitleAndOptions extends Component {
     }
 
 
+    _generateTitleCells() {
+        var titleCells = [];
+        for (let i = 0; i < this.props.chart.sprints.length; i++) {
+            let cell = this._cell('', "FFFFFFFF", "FF808080", false,false,false);
+            if (i == 1) {
+                cell = this._cell(this.props.query, "FFFFFFFF", "FF000000", false,false,false);
+            }
+            titleCells = titleCells.concat([cell]);
+        }
+        return titleCells;
+    }
+
+    _generateBlankCells() {
+        var blankCells = [];
+        for (let i = 0; i < this.props.chart.sprints.length; i++) {
+            let cell = this._cell('', "FFFFFFFF", "FF808080", false,false,false);
+            blankCells = blankCells.concat([cell]);
+        }
+        return blankCells;
+    }
+
     _generateAxisCells() {
-        
+        var axisCells = [];
+        for (let i = 0; i < this.props.chart.sprints.length; i++) {
+            let sprint = this.props.chart.sprints[i];
+            let cell = this._cell(Utils.getDate(sprint.start), "FFFFFFFF", "FF808080", false,false,false);
+            axisCells = axisCells.concat([cell]);
+        }
+        return axisCells;
     }
 
     _generateQuarterCells() {
