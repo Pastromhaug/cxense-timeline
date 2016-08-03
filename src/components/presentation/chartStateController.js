@@ -105,15 +105,19 @@ export default class ChartStateController extends Component {
         var prev_start = sprints[0].start;
         for (let i = 0; i < sprints.length; i++) {
             let curr_sprint = sprints[i];
-            let curr_end = moment.utc(curr_sprint.end).subtract(1,'day');
+            let curr_end = moment.utc(curr_sprint.end);
             let end_month = curr_end.clone().month();
             let dayOfMonth = (curr_end.clone().dayOfYear() - curr_end.clone().startOf('month').dayOfYear());
             if ( (end_month) % 3 === 0 && dayOfMonth < 14) {
                 let quarter_num = (end_month)/3;
                 if (quarter_num === 0) quarter_num = 4;
+                var end = curr_sprint.start;
+                if (dayOfMonth == 0) {
+                    end = curr_sprint.end;
+                }
                 let new_quarter = {
                     start: prev_start,
-                    end: curr_sprint.start,
+                    end: end,
                     quarter_num: quarter_num
                 };
                 prev_start = new_quarter.end;
