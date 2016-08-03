@@ -14,6 +14,7 @@ import {cardHeaderStyles} from '../../styles/componentStyles';
 import {CardTitle} from 'material-ui/Card';
 
 var savesvg = require('save-svg-as-png');
+var moment = require('moment');
 
 export default class cardTitleAndOptions extends Component {
 
@@ -21,7 +22,17 @@ export default class cardTitleAndOptions extends Component {
         super();
         this._downloadSvgAsXLSX.bind(this);
         this._downloadSvgAsPng.bind(this);
+        this._generateSprintCells.bind(this);
+        this._generateQuarterCells.bind(this);
         this._cell.bind(this);
+        this._middleQuarterCell.bind(this);
+        this._middleQuarterCellText.bind(this);
+        this._firstQuarterCell.bind(this);
+        this._firstQuarterCellText.bind(this);
+        this._lastQuarterCell.bind(this);
+        this._lastQuarterCellText.bind(this);
+        // this.msIn2Weeks = 1.21e+9
+        this.msIn2Weeks = 1210000000;
     }
 
     componentDidUpdate() {
@@ -58,34 +69,100 @@ export default class cardTitleAndOptions extends Component {
 
     
     _downloadSvgAsXLSX() {
-        const issues = this.props.chart.issues;
-        const quarters = this.props.chart.quarters;
-        const sprints = this.props.chart.sprints;
+
         var xl = new XL();
         var workbook = xl.createWorkbook();
         var data = [[{t: 's', v: this.props.query}]];
+
+        var quarterCells = this._generateQuarterCells();
+        var sprintCells = this._generateSprintCells();
+        data = data.concat([quarterCells]);
+        data = data.concat([sprintCells]);
+
+        var sheet = xl.createSheet2(data);
+        workbook = xl.addSheetToWorkbook(workbook,'timeline',sheet);
+        xl.saveWorkbook(workbook,'timeline');
+    }
+
+
+    _generateAxisCells() {
+        
+    }
+
+    _generateQuarterCells() {
+        var quarterCells = [];
+        for (let i = 0; i < this.props.chart.quarters.length; i++){
+            let quarter = this.props.chart.quarters[i];
+            let sprintsInQuarter = Math.ceil((quarter.end - quarter.start)/this.msIn2Weeks);
+            console.log('sprintsInQuarter: ' + sprintsInQuarter);
+
+            let year = moment.utc(quarter.end).year();
+            let text =  'Q' + quarter.quarter_num + '  ' + year;
+
+            if (sprintsInQuarter == 1) { // quarter is 1 sprint long
+                let onlyCell = this._firstQuarterCellText(text);
+                quarterCells = quarterCells.concat([onlyCell]);
+            }
+            else { // quarter is at least 2 sprints long
+                let textCellIdx = Math.floor(sprintsInQuarter/2); // id of cell to put text. ideally middle
+                let firstCell = this._firstQuarterCell();
+                quarterCells = quarterCells.concat([firstCell]);
+
+                for (let j = 1; j < sprintsInQuarter-1; j++) {
+                    if (j == textCellIdx) {
+                        let middleTextCell = this._middleQuarterCellText(text);
+                        quarterCells = quarterCells.concat([middleTextCell]);
+                    }
+                    else {
+                        let middleCell = this._middleQuarterCell();
+                        quarterCells = quarterCells.concat([middleCell]);
+                    }
+                }
+                if (textCellIdx == sprintsInQuarter) {
+                    let lastCellText = this._lastQuarterCellText(text);
+                    quarterCells = quarterCells.concat([lastCellText]);
+                }
+                else {
+                    let lastCell = this._lastQuarterCell();
+                    quarterCells = quarterCells.concat([lastCell]);
+                }
+            }
+        }
+        return quarterCells;
+    }
+
+    _lastQuarterCell() {
+        return this._cell('', "FFb5cde3", "FF585858",false,true,false);
+    }
+    _lastQuarterCellText(text) {
+        return this._cell(text, "FFb5cde3", "FF585858",false,true,false);
+    }
+    _firstQuarterCell() {
+        return this._cell('', "FFb5cde3", "FF585858",true,false,false);
+    }
+    _firstQuarterCellText(text) {
+        this._cell(text, "FFb5cde3", "FF585858",true,true,true);
+    }
+    _middleQuarterCell() {
+        return this._cell('', "FFb5cde3", "FF585858", false, false, false);
+    }
+    _middleQuarterCellText(text) {
+        return this._cell(text, "FFb5cde3", "FF585858", false, false, false);
+    }
+
+
+    _generateSprintCells() {
         var sprintCells = [];
-        for (let i = 0; i < sprints.length; i++) {
-            let sprint = sprints[i];
+        for (let i = 0; i < this.props.chart.sprints.length; i++) {
+            let sprint = this.props.chart.sprints[i];
             let cell = this._cell('T' + sprint.sprint_num, "FFdae6f1", "FF808080", true, true, true);
-            console.log('cell:');
-            console.log(cell);
             sprintCells = sprintCells.concat([cell]);
         }
-        console.log('sprints: ');
-        console.log(sprints);
-        console.log('sprintCells: ');
-        console.log(sprintCells);
-        data = data.concat([sprintCells]);
-        console.log('data: ');
-        console.log(data);
-        var sheet = xl.createSheet2(data);
-        workbook = xl.addSheetToWorkbook(workbook,'timeline',sheet)
-        xl.saveWorkbook(workbook,'timeline');
+        return sprintCells;
     }
     
     
-    _cell(value='', color=null, textColor=null, rightBorder=false, leftBorder=false, center=false){
+    _cell(value='', color=null, textColor=null, leftBorder=false, rightBorder=false, center=false){
         var cell = {
             t: 's',
             v: value,
@@ -107,7 +184,8 @@ export default class cardTitleAndOptions extends Component {
                     }
                 },
                 alignment: {
-                    horizontal: 'bottom'
+                    horizontal: 'bottom',
+                    vertical: 'center'
                 }
             }
         };

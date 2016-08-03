@@ -170,7 +170,7 @@ class MainChart extends React.Component {
 
         quarterLabels.enter().append('text')
             .text(d => {
-                let year = moment.utc(d.start).year();
+                let year = moment.utc(d.end).year();
                 return 'Q' + d.quarter_num + '  ' + year;
             })
             .attr('class', 'quarterTextMain')
@@ -196,7 +196,7 @@ class MainChart extends React.Component {
         axisLabels.exit().remove();
     }
 
-    
+
     _updateSprints() {
         var sprintRects = this._sprints().select('#sprintRectsMain').selectAll('.sprintRectMain')
             .data(this.props.chart.sprints, d => d.start + '' + d.end)
