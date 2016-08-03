@@ -122,7 +122,7 @@ class MainChart extends React.Component {
 
         this._main()
             .attr("width", this._w() )
-            .attr("height", this._chart_h() )
+            .attr("height", this._chart_h() );
 
         this._updateAxis();
         this._updateSprints();
@@ -181,6 +181,7 @@ class MainChart extends React.Component {
         quarterLabels.exit().remove();
     }
 
+
     _updateAxis() {
         var axisLabels = this._axis().select('#axisLabels').selectAll('text')
             .data(this.props.chart.sprints, d => d.start + '' + d.end)
@@ -195,6 +196,7 @@ class MainChart extends React.Component {
         axisLabels.exit().remove();
     }
 
+    
     _updateSprints() {
         var sprintRects = this._sprints().select('#sprintRectsMain').selectAll('.sprintRectMain')
             .data(this.props.chart.sprints, d => d.start + '' + d.end)

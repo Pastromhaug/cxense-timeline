@@ -21,6 +21,7 @@ export default class cardTitleAndOptions extends Component {
         super();
         this._downloadSvgAsXLSX.bind(this);
         this._downloadSvgAsPng.bind(this);
+        this._createCell.bind(this);
     }
 
     componentDidUpdate() {
@@ -55,14 +56,56 @@ export default class cardTitleAndOptions extends Component {
         savesvg.saveSvgAsPng(document.getElementById("svg"), "timeline.png");
     }
 
+    
     _downloadSvgAsXLSX() {
         console.log('eyy');
         var xl = new XL();
         var workbook = xl.createWorkbook();
-        var data = [];
-
+        var data = [[this.props.query],[this._createCell('hey',"FF4682B4", "FF808080", true)]];
         var sheet = xl.createSheet2(data);
         workbook = xl.addSheetToWorkbook(workbook,'timeline',sheet)
         xl.saveWorkbook(workbook,'timeline');
     }
+    
+    
+    _createCell(value='', color=null, textColor=null, rightBorder=false, leftBorder=false){
+        var cell = {
+            t: 's',
+            v: value,
+            s: {
+                fill: {
+                    fgColor: {}
+                },
+                font: {
+                    color: {}
+                },
+                border: {
+                    right: {
+                        color: {}
+                    },
+                    left: {
+                        color: {}
+                    }
+                }
+            }
+        };
+        if (color != null) {
+            cell.s.fill.patternType = 'solid';
+            cell.s.fill.fgColor.rgb = color;
+        }
+        if (textColor != null) {
+            cell.s.font.color.rgb = textColor;
+        }
+        if (rightBorder == true) {
+            cell.s.border.right.style = 'medium';
+            cell.s.border.right.color.rbg = 'FFFFAA00';
+        }
+        if (leftBorder == true) {
+            cell.s.border.left.style = 'medium';
+            cell.s.border.left.color.rgb = 'FFFFFFFF';
+        }
+        return cell;
+    }
+    
+    
 }

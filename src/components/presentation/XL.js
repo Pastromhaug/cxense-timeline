@@ -232,7 +232,7 @@ class XL {
                     right: {
                         style: 'medium',
                         color: {
-                            rgb: '#FFFFFFFF'
+                            rgb: 'FFFFFFFF'
                         }
                     }
                 }
