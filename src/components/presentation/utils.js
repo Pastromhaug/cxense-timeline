@@ -53,4 +53,8 @@ export default class Utils {
         else return COLORS.g;
     }
 
+    static openIssueInNewTab(issueId){
+        window.open("https://jira.cxense.com/browse/" + issueId,'_blank');
+    }
+
 }

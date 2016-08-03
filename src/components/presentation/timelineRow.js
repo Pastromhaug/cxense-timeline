@@ -36,7 +36,7 @@ class TimelineRow extends React.Component {
                     }
                     else if (col.name == 'ID') {
                         let id = this.props.issue[field_name];
-                        let link = "https://jira.cxense.com/browse/" + id + "?jql=issue=" + id;
+                        let link = "https://jira.cxense.com/browse/" + id;
                         text = <a href={link}  target="_blank"> {id} </a>
                     }
                     let colStyle = {}

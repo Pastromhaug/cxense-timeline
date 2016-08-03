@@ -253,9 +253,7 @@ class MainChart extends React.Component {
                 d3.select('#rect-' + d.id).attr('fill-opacity', 1);
                 this.props.dispatchHoverOnIssue(null);
             })
-            .on('click', (d) => {
-                window.open("https://jira.cxense.com/browse/" + d.id + "?jql=issue=" + d.id ,'_blank');
-            });
+            .on('click', (d) => {Utils.openIssueInNewTab(d.id)});
 
         rects.enter().append("rect")
             .attr("x", (d) => this._x1()(d.start))
@@ -275,9 +273,7 @@ class MainChart extends React.Component {
                 d3.select('#rect-' + d.id).attr('fill-opacity', 1);
                 this.props.dispatchHoverOnIssue(null);
             })
-            .on('click', (d) => {
-                window.open("https://jira.cxense.com/browse/" + d.id + "?jql=issue=" + d.id ,'_blank');
-            });
+            .on('click', (d) => {Utils.openIssueInNewTab(d.id)});
 
         rects.exit().remove();
     }
@@ -307,9 +303,7 @@ class MainChart extends React.Component {
                 d3.select('#rect-' + d.id).attr('fill-opacity', 1);
                 this.props.dispatchHoverOnIssue(null)
             })
-            .on('click', (d) => {
-                window.open("https://jira.cxense.com/browse/" + d.id + "?jql=issue=" + d.id ,'_blank');
-            });
+            .on('click', (d) => {Utils.openIssueInNewTab(did)});
 
         labels.enter().append("text")
             .text( (d) => d.name)
@@ -331,9 +325,7 @@ class MainChart extends React.Component {
                 d3.select('#rect-' + d.id).attr('fill-opacity', 1);
                 this.props.dispatchHoverOnIssue(null)
             })
-            .on('click', (d) => {
-                window.open("https://jira.cxense.com/browse/" + d.id + "?jql=issue=" + d.id ,'_blank');
-            });
+            .on('click', (d) => {Utils.openIssueInNewTab(d.id)});
 
         labels.exit().remove();
     }
