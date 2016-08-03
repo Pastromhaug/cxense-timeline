@@ -9,7 +9,7 @@ import {actionApplyQuery, actionTempQuery} from '../../actions/query';
 const mapStateToProps = (state) => {
     return {
         query: state.query.query.query,
-        chart: state.chart.issues,
+        chart: state.chart
     }
 };
 

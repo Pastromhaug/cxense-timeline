@@ -21,7 +21,7 @@ export default class cardTitleAndOptions extends Component {
         super();
         this._downloadSvgAsXLSX.bind(this);
         this._downloadSvgAsPng.bind(this);
-        this._createCell.bind(this);
+        this._cell.bind(this);
     }
 
     componentDidUpdate() {
@@ -58,18 +58,34 @@ export default class cardTitleAndOptions extends Component {
 
     
     _downloadSvgAsXLSX() {
-        console.log('eyy');
+        const issues = this.props.chart.issues;
+        const quarters = this.props.chart.quarters;
+        const sprints = this.props.chart.sprints;
         var xl = new XL();
         var workbook = xl.createWorkbook();
-        var data = [[{t: 's', v: this.props.query}],[{t: 's', v: ''},
-            this._createCell('hey',"FF4682B4", "FF808080", true)]];
+        var data = [[{t: 's', v: this.props.query}]];
+        var sprintCells = [];
+        for (let i = 0; i < sprints.length; i++) {
+            let sprint = sprints[i];
+            let cell = this._cell('T' + sprint.sprint_num, "FFdae6f1", "FF808080", true, true, true);
+            console.log('cell:');
+            console.log(cell);
+            sprintCells = sprintCells.concat([cell]);
+        }
+        console.log('sprints: ');
+        console.log(sprints);
+        console.log('sprintCells: ');
+        console.log(sprintCells);
+        data = data.concat([sprintCells]);
+        console.log('data: ');
+        console.log(data);
         var sheet = xl.createSheet2(data);
         workbook = xl.addSheetToWorkbook(workbook,'timeline',sheet)
         xl.saveWorkbook(workbook,'timeline');
     }
     
     
-    _createCell(value='', color=null, textColor=null, rightBorder=false, leftBorder=false){
+    _cell(value='', color=null, textColor=null, rightBorder=false, leftBorder=false, center=false){
         var cell = {
             t: 's',
             v: value,
@@ -83,18 +99,15 @@ export default class cardTitleAndOptions extends Component {
                 border: {
                     right: {},
                     left: {},
-                    top: {
-                        style: 'medium',
-                        color: {
-                            rgb: 'FFFFE37A'
-                        }
-                    },
                     bottom: {
                         style: 'medium',
                         color: {
-                            rgb: 'FFFFE37A'
+                            rgb: 'FFFFFFFF'
                         }
                     }
+                },
+                alignment: {
+                    horizontal: 'bottom'
                 }
             }
         };
@@ -109,7 +122,7 @@ export default class cardTitleAndOptions extends Component {
             cell.s.border.right = {
                 style: 'medium',
                 color: {
-                    rgb: 'FFFFE37A'
+                    rgb: 'FFFFFFFF'
                 }
             }
         }
@@ -117,8 +130,13 @@ export default class cardTitleAndOptions extends Component {
             cell.s.border.left = {
                 style: 'medium',
                 color: {
-                    rgb: 'FFFFE37A'
+                    rgb: 'FFFFFFFF'
                 }
+            }
+        }
+        if (center == true) {
+            cell.s.alignment = {
+                horizontal: 'center'
             }
         }
         return cell;
