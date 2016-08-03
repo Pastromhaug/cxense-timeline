@@ -57,4 +57,7 @@ export default class Utils {
         window.open("https://jira.cxense.com/browse/" + issueId,'_blank');
     }
 
+    static getDate(utc_milliseconds) {
+        return moment.utc(utc_milliseconds).format('M/D');
+    }
 }

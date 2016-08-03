@@ -36,7 +36,7 @@ export default class ChartStateController extends Component {
                 const timeBegin = Utils.timeBegin(issues);
                 const timeEnd = Utils.timeEnd(issues);
                 const sprints = this._buildSprintIntervals(timeBegin, timeEnd);
-                const quarters = this._buildQuarterIntervals(timeBegin, timeEnd, sprints);
+                const quarters = this._buildQuarterIntervals(sprints);
 
                 this.props.dispatchSetAllChartState(issues, sprints, quarters, timeBegin, timeEnd)
             });
@@ -100,12 +100,12 @@ export default class ChartStateController extends Component {
     }
 
 
-    _buildQuarterIntervals(timeBegin, timeEnd, sprints) {
+    _buildQuarterIntervals(sprints) {
         var quarters = [];
         var prev_start = sprints[0].start;
         for (let i = 0; i < sprints.length; i++) {
             let curr_sprint = sprints[i];
-            let curr_end = moment.utc(curr_sprint.end);
+            let curr_end = moment.utc(curr_sprint.end).subtract(1,'day');
             let end_month = curr_end.clone().month();
             let dayOfMonth = (curr_end.clone().dayOfYear() - curr_end.clone().startOf('month').dayOfYear());
             if ( (end_month) % 3 === 0 && dayOfMonth < 14) {
@@ -113,7 +113,7 @@ export default class ChartStateController extends Component {
                 if (quarter_num === 0) quarter_num = 4;
                 let new_quarter = {
                     start: prev_start,
-                    end: curr_sprint.end,
+                    end: curr_sprint.start,
                     quarter_num: quarter_num
                 };
                 prev_start = new_quarter.end;

@@ -27,11 +27,10 @@ class MainChart extends React.Component {
         this._updateIssueLabels.bind(this);
         this._updateIssueClipPaths.bind(this);
         this._svg_h.bind(this);
-        this._timeScale.bind(this);
-        this._mainAxis.bind(this);
         this._axis.bind(this);
         this._sprints.bind(this);
         this._updateSprints.bind(this);
+        this._updateAxis.bind(this);
         this._quarters.bind(this);
         this._updateQuarters.bind(this);
         this._updateTodayLine.bind(this);
@@ -44,25 +43,8 @@ class MainChart extends React.Component {
             width: 0
         };
     }
-    _axis() { return d3.select('#mainAxis')}
     _quarters() {return d3.select('#quartersMain')}
     _sprints() { return  d3.select('#sprintsMain')}
-    _timeScale() {
-        return  (
-            d3.time.scale.utc()
-                .domain([new Date(this.props.chart.timeBegin), new Date(this.props.chart.timeEnd)] )
-                .range([0, this._w()])
-        )}
-    _mainAxis() { return (
-        d3.svg.axis()
-            .orient('top')
-            .scale(this._timeScale())
-            .ticks(10)
-            .tickFormat(d3.time.format("%d %b"))
-            .tickSize(2)
-            .innerTickSize(4)
-            .tickPadding(3))
-    }
 
     _lane_num() {
         var max = d3.max(this.props.chart.issues, (issue) => issue.lane + 1);
@@ -86,6 +68,7 @@ class MainChart extends React.Component {
     _issueRects() { return  d3.select('#issueRects')}
     _issueLabels() { return d3.select('#issueLabels')}
     _issueClipPaths() { return d3.select('#issueClipPaths')}
+    _axis() { return d3.select('#axisMain')}
 
     componentDidMount() {
         this._updateDimensions();
@@ -96,6 +79,7 @@ class MainChart extends React.Component {
         this._svg().append('rect').attr('id','background').attr('height', this._svg_h()).attr('width','100%').attr('fill','white');
         this._svg().append('g').attr('class','sprintsMain').attr('id', 'sprintsMain');
         this._svg().append('g').attr('class','quartersMain').attr('id', 'quartersMain');
+        this._svg().append('g').attr('class','axisMain').attr('id','axisMain');
 
         this._sprints().append('g').attr('id','sprintRectsMain');
         this._sprints().append('g').attr('id','sprintLabelsMain');
@@ -105,10 +89,8 @@ class MainChart extends React.Component {
         this._quarters().append('g').attr('id', 'quarterLabelsMain');
         this._quarters().attr('transform', 'translate(0,' + this.axis_pad + ')');
 
-        this._svg().append('g').attr('id', 'mainAxis').attr('class', 'x axis').attr('fill','grey');
-
-        this._svg().select('#mainAxis').attr('transform', 'translate(0, ' + 50  + ')');
-        this._svg().select('#mainAxis2').attr('transform', 'translate(0, ' + 50  + ')');
+        this._axis().append('g').attr('id', 'axisLabels');
+        this._axis().attr('transform','translate(0,' + (this.axis_pad - 4) + ')');
 
         this._svg().append("g")
             .attr("class", "main")
@@ -138,13 +120,11 @@ class MainChart extends React.Component {
             .attr("height", this._svg_h() )
             .attr('fill', 'white');
 
-        this._axis()
-            .call(this._mainAxis());
-
         this._main()
             .attr("width", this._w() )
             .attr("height", this._chart_h() )
 
+        this._updateAxis();
         this._updateSprints();
         this._updateQuarters();
         this._updateIssueRects();
@@ -201,6 +181,19 @@ class MainChart extends React.Component {
         quarterLabels.exit().remove();
     }
 
+    _updateAxis() {
+        var axisLabels = this._axis().select('#axisLabels').selectAll('text')
+            .data(this.props.chart.sprints, d => d.start)
+            .attr('x', d => (this._x1()(d.start)));
+
+        axisLabels.enter().append('text')
+            .text(d => Utils.getDate(d.start))
+            .attr('class','sprintTextMain')
+            .attr('x', d => this._x1()(d.start))
+            .attr('y', 0)
+            .attr('text-anchor', 'middle');
+        axisLabels.exit().remove();
+    }
 
     _updateSprints() {
         var sprintRects = this._sprints().select('#sprintRectsMain').selectAll('.sprintRectMain')
@@ -225,7 +218,7 @@ class MainChart extends React.Component {
         sprintLabels.enter().append('text')
             .text(d => 'T'+d.sprint_num)
             .attr('class', 'sprintTextMain')
-            .attr('x', (d) => (this._x1()(d.start) + this._x1()(d.end))/2)
+            .attr('x', (d) => (this._x1()(d.start)+ this._x1()(d.end))/2)
             .attr('y', (d) => this._y1()(0) + this.sprint_height)
             .attr('dy', -6)
             .attr("text-anchor", "middle");
