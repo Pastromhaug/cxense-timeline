@@ -103,6 +103,7 @@ export default class ChartStateController extends Component {
     _buildQuarterIntervals(sprints) {
         var quarters = [];
         var prev_start = sprints[0].start;
+        console.log('prev_start: ' + Utils.getDate(prev_start));
         for (let i = 0; i < sprints.length; i++) {
             let curr_sprint = sprints[i];
             let curr_end = moment.utc(curr_sprint.end);
