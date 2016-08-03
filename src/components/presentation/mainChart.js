@@ -150,7 +150,7 @@ class MainChart extends React.Component {
 
     _updateQuarters() {
         var quarterRects = this._quarters().select('#quarterRectsMain').selectAll('.quarterRectMain')
-            .data(this.props.chart.quarters, d => d.start)
+            .data(this.props.chart.quarters, d => d.start + '' + d.end)
             .attr('x', (d) =>  this._x1()(d.start))
             .attr('width', d => this._x1()(d.end) - this._x1()(d.start));
 
@@ -165,7 +165,7 @@ class MainChart extends React.Component {
         quarterRects.exit().remove();
 
         var quarterLabels = this._quarters().select('#quarterLabelsMain').selectAll('text')
-            .data(this.props.chart.quarters, d => d.start)
+            .data(this.props.chart.quarters, d => d.start + '' + d.end)
             .attr('x', (d) => (this._x1()(d.start) + this._x1()(d.end))/2);
 
         quarterLabels.enter().append('text')
@@ -183,7 +183,7 @@ class MainChart extends React.Component {
 
     _updateAxis() {
         var axisLabels = this._axis().select('#axisLabels').selectAll('text')
-            .data(this.props.chart.sprints, d => d.start)
+            .data(this.props.chart.sprints, d => d.start + '' + d.end)
             .attr('x', d => (this._x1()(d.start)));
 
         axisLabels.enter().append('text')
@@ -197,7 +197,7 @@ class MainChart extends React.Component {
 
     _updateSprints() {
         var sprintRects = this._sprints().select('#sprintRectsMain').selectAll('.sprintRectMain')
-            .data(this.props.chart.sprints, d => d.start)
+            .data(this.props.chart.sprints, d => d.start + '' + d.end)
             .attr('x', (d) =>  this._x1()(d.start))
             .attr('width', d => this._x1()(d.end) - this._x1()(d.start));
 
@@ -212,7 +212,7 @@ class MainChart extends React.Component {
         sprintRects.exit().remove();
 
         var sprintLabels = this._sprints().select('#sprintLabelsMain').selectAll('text')
-            .data(this.props.chart.sprints, d => d.start)
+            .data(this.props.chart.sprints, d => d.start + '' + d.end)
             .attr('x', (d) => (this._x1()(d.start) + this._x1()(d.end))/2);
 
         sprintLabels.enter().append('text')
