@@ -61,7 +61,8 @@ export default class cardTitleAndOptions extends Component {
         console.log('eyy');
         var xl = new XL();
         var workbook = xl.createWorkbook();
-        var data = [[this.props.query],[this._createCell('hey',"FF4682B4", "FF808080", true)]];
+        var data = [[{t: 's', v: this.props.query}],[{t: 's', v: ''},
+            this._createCell('hey',"FF4682B4", "FF808080", true)]];
         var sheet = xl.createSheet2(data);
         workbook = xl.addSheetToWorkbook(workbook,'timeline',sheet)
         xl.saveWorkbook(workbook,'timeline');
@@ -80,11 +81,19 @@ export default class cardTitleAndOptions extends Component {
                     color: {}
                 },
                 border: {
-                    right: {
-                        color: {}
+                    right: {},
+                    left: {},
+                    top: {
+                        style: 'medium',
+                        color: {
+                            rgb: 'FFFFE37A'
+                        }
                     },
-                    left: {
-                        color: {}
+                    bottom: {
+                        style: 'medium',
+                        color: {
+                            rgb: 'FFFFE37A'
+                        }
                     }
                 }
             }
@@ -97,12 +106,20 @@ export default class cardTitleAndOptions extends Component {
             cell.s.font.color.rgb = textColor;
         }
         if (rightBorder == true) {
-            cell.s.border.right.style = 'medium';
-            cell.s.border.right.color.rbg = 'FFFFAA00';
+            cell.s.border.right = {
+                style: 'medium',
+                color: {
+                    rgb: 'FFFFE37A'
+                }
+            }
         }
         if (leftBorder == true) {
-            cell.s.border.left.style = 'medium';
-            cell.s.border.left.color.rgb = 'FFFFFFFF';
+            cell.s.border.left = {
+                style: 'medium',
+                color: {
+                    rgb: 'FFFFE37A'
+                }
+            }
         }
         return cell;
     }
