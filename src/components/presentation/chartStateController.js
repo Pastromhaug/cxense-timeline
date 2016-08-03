@@ -123,6 +123,9 @@ export default class ChartStateController extends Component {
                     end: end,
                     quarter_num: quarter_num
                 };
+                console.log('new_quarter: start='+ Utils.getDate(new_quarter.start)
+                    + ' end=' + Utils.getDate(new_quarter.end) + ' quarter_num='
+                    + new_quarter.quarter_num);
                 prev_start = new_quarter.end;
                 quarters = quarters.concat([new_quarter])
             }
