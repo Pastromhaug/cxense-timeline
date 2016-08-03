@@ -110,6 +110,8 @@ export default class ChartStateController extends Component {
             let end_month = curr_end.clone().month();
             let dayOfMonth = (curr_end.clone().dayOfYear() - curr_end.clone().startOf('month').dayOfYear());
             if ( (end_month) % 3 === 0 && dayOfMonth < 14) {
+                console.log('curr_sprint: ' + Utils.getDate(curr_sprint.start)
+                    + " - " + Utils.getDate(curr_sprint.end));
                 let quarter_num = (end_month)/3;
                 if (quarter_num === 0) quarter_num = 4;
                 var end = curr_sprint.start;
