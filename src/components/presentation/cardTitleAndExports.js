@@ -193,7 +193,7 @@ export default class cardTitleAndOptions extends Component {
     }
 
     _generateQuarterCells() {
-        var quarterCells = [];
+        var quarterCells = this._generateBlankCells();
         for (let i = 0; i < this.props.chart.quarters.length; i++){
             let quarter = this.props.chart.quarters[i];
             // let sprintsInQuarter = Math.ceil((quarter.end - quarter.start)/this.msIn2Weeks);
@@ -202,35 +202,20 @@ export default class cardTitleAndOptions extends Component {
             let end_idx = idxs.end_idx;
 
             let year = moment.utc(quarter.end).year();
-            let text =  'Q' + quarter.quarter_num + '  ' + year;
 
-            if (start_idx == end_idx) { // quarter is 1 sprint long
-                let onlyCell = this._firstQuarterCellText(text);
-                quarterCells = quarterCells.concat([onlyCell]);
-            }
-            else { // quarter is at least 2 sprints long
-                let textCellIdx = Math.floor((end_idx - start_idx)/2+1); // id of cell to put text. ideally middle
-                let firstCell = this._firstQuarterCell();
-                quarterCells = quarterCells.concat([firstCell]);
+            let backgroundColor = 'FFb5cde3';
+            let textColor = 'FF585858';
 
-                for (let j = 1; j < (end_idx - start_idx); j++) {
-                    if (j == textCellIdx) {
-                        let middleTextCell = this._middleQuarterCellText(text);
-                        quarterCells = quarterCells.concat([middleTextCell]);
-                    }
-                    else {
-                        let middleCell = this._middleQuarterCell();
-                        quarterCells = quarterCells.concat([middleCell]);
-                    }
-                }
-                if (textCellIdx == (end_idx - start_idx)) {
-                    let lastCellText = this._lastQuarterCellText(text);
-                    quarterCells = quarterCells.concat([lastCellText]);
-                }
-                else {
-                    let lastCell = this._lastQuarterCell();
-                    quarterCells = quarterCells.concat([lastCell]);
-                }
+            let textCellIdx = Math.floor((end_idx - start_idx)/2+1 + start_idx);
+            for (let j = start_idx; j <= end_idx; j++) {
+                let text =  '';
+                let leftBorder = false;
+                let rightBorder = false;
+                if (j == start_idx) leftBorder = true;
+                if (j == end_idx) rightBorder = true;
+                if (j == textCellIdx) text = 'Q' + quarter.quarter_num + '  ' + year;
+                var cell = this._cell(text, backgroundColor, textColor,leftBorder,rightBorder,false);
+                quarterCells[j] = cell;
             }
         }
         return quarterCells;
