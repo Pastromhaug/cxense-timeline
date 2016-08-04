@@ -8,7 +8,8 @@ import Loader from '../presentation/loader';
 
 function mapStateToProps(state) {
     return {
-        loading: state.loading
+        loading: state.loading,
+        issues: state.chart.issues
     }
 }
 

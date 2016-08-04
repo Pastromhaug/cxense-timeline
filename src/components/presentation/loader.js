@@ -15,7 +15,12 @@ export default class Loader extends Component {
         console.log('this.props.loading');
         console.log(this.props.loading);
         if (!this.props.loading) {
-            content = <div/>
+            if (this.props.issues.length == 0){
+                content = <h2 style={{color:'grey'}}>query returned no issues</h2>
+            } else {
+                content = <div/>
+            }
+
         }
         return (
             <div style={{height: '4px'}}>{content}</div>
