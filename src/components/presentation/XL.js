@@ -113,22 +113,19 @@ class XL {
     /* jshint bitwise:false */
 
     saveWorkbook(workbook, name, writeOptions = {}) {
-        require(["jszip"], function (jszip) {
-            window.JSZip = jszip;
-            const opts = _.defaults({
-                bookType: "xlsx",
-                bookSST: true,
-                type: "binary",
-                cellDate: true
-            }, writeOptions);
-            const wbout = XLSX.write(workbook, opts);
-            let buffer = new ArrayBuffer(wbout.length);
-            let view = new Uint8Array(buffer);
-            for (var i = 0; i !== wbout.length; ++i) {
-                view[i] = wbout.charCodeAt(i) & 0xFF;
-            }
-            fileSaver.saveAs(new Blob([buffer], {type: "application/octet-stream"}), name + '.xlsx');
-        });
+        const opts = _.defaults({
+            bookType: "xlsx",
+            bookSST: true,
+            type: "binary",
+            cellDate: true
+        }, writeOptions);
+        const wbout = XLSX.write(workbook, opts);
+        let buffer = new ArrayBuffer(wbout.length);
+        let view = new Uint8Array(buffer);
+        for (var i = 0; i !== wbout.length; ++i) {
+            view[i] = wbout.charCodeAt(i) & 0xFF;
+        }
+        fileSaver.saveAs(new Blob([buffer], {type: "application/octet-stream"}), name + '.xlsx');
     }
 
     /* jshint bitwise:true */
