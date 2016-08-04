@@ -249,7 +249,7 @@ export default class cardTitleAndOptions extends Component {
         return this._cell('', "FFb5cde3", "FF585858",true,false,false);
     }
     _firstQuarterCellText(text) {
-        this._cell(text, "FFb5cde3", "FF585858",true,true,true);
+        return this._cell(text, "FFb5cde3", "FF585858",true,true,true);
     }
     _middleQuarterCell() {
         return this._cell('', "FFb5cde3", "FF585858", false, false, false);
