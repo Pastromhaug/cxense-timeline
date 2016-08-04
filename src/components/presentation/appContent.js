@@ -57,7 +57,7 @@ class AppContent extends React.Component {
                         backgroundColor: 'rgb(70,77,91)', textAlign: 'center',
                         display: 'flex', justifyContent: 'center'
                         }}>
-                        <h3>Saved Queries </h3>
+                        <h3 style={{fontSize: '1.17em',fontWeight: 'bold', marginBottom: '12px', marginTop: '12px'}}>Saved Queries </h3>
                     </div>
                     <div style = {{height: '32px'}}></div>
                     {
@@ -71,6 +71,9 @@ class AppContent extends React.Component {
                                     <MenuItem style={{width: '210px'}} id={loc.name}
                                               onClick={() => {
                                                 this.props.dispatchLoadingStart();
+                                                if (query === this.props.query) {
+                                                    this.props.dispatchLoadingStop();
+                                                }
                                                 this.props.dispatchApplyQueryCustom(query);
                                               }}
                                     > {loc.name} </MenuItem>

@@ -10,7 +10,7 @@ import {actionOpenQueryDialog, actionCloseQueryDialog,
     actionSetEditMode, actionSetQueryName} from '../../actions/queryDialog';
 import {actionTempQuery, actionApplyQueryCustom} from '../../actions/query';
 import {actionApplyColumns, actionAddColumnsCustom} from '../../actions/columns';
-import {actionLoadingStart} from '../../actions/loading';
+import {actionLoadingStart,actionLoadingStop} from '../../actions/loading';
 
 const mapStateToProps = (state) => {
     return {
@@ -54,6 +54,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         dispatchLoadingStart() {
             dispatch(actionLoadingStart())
+        },
+        dispatchLoadingStop() {
+            dispatch(actionLoadingStop())
         }
     }
 };
