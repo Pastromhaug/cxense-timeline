@@ -3,7 +3,7 @@
  */
 import React from 'react';
 import { connect } from 'react-redux';
-import CardTitleAndOptions from '../presentation/cardTitleAndOptions';
+import CardTitleAndOptions from '../presentation/cardTitleAndExports';
 import {actionApplyQuery, actionTempQuery} from '../../actions/query';
 
 const mapStateToProps = (state) => {
