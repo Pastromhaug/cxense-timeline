@@ -112,7 +112,6 @@ class MainChart extends React.Component {
 
 
     componentDidUpdate() {
-        this.props.dispatchLoadingStop();
 
         d3.select('#background').attr('height', this._svg_h())
             .attr('width','100%').attr('fill','white');
@@ -132,16 +131,23 @@ class MainChart extends React.Component {
         this._updateIssueClipPaths();
         this._updateIssueLabels();
         this._updateTodayLine();
+        this.props.dispatchLoadingStop();
     }
 
 
     _updateTodayLine() {
         var today = moment.utc().valueOf();
+        var x1 = this._x1()(today);
+        var x2 = this._x1()(today);
+        if (this.props.chart.issues.length  == 0){
+            x1 = -10;
+            x2 = -10;
+        }
         this._main().select("line")
             .attr('class', 'todayLineMain')
-            .attr("x1", this._x1()(today))  //<<== change your code here
+            .attr("x1", x1)  //<<== change your code here
             .attr("y1", -100)
-            .attr("x2", this._x1()(today))  //<<== and here
+            .attr("x2", x2)  //<<== and here
             .attr("y2", this._chart_h() + 200)
             .style("stroke-width", 2)
             .style("stroke", "steelblue")
