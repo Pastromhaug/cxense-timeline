@@ -357,7 +357,7 @@ class MainChart extends React.Component {
     render() {
 
         return(
-            <div id="mainChart" style={chartStyle}>
+            <div id="mainChart" style={{width: '100%'}}>
                 <svg id="svg"></svg>
             </div>
         )
