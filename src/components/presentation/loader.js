@@ -14,16 +14,18 @@ export default class Loader extends Component {
         var content = <div><ProgressBar indeterminate style={{width:'100%'}}/></div>;
         console.log('this.props.loading');
         console.log(this.props.loading);
+        var height= '4px';
         if (!this.props.loading) {
             if (this.props.issues.length == 0){
-                content = <h2 style={{color:'grey'}}>no issues to display</h2>
+                height = '200px';
+                content = <h2 style={{color:'grey', height:'200px'}}>no issues to display</h2>
             } else {
                 content = <div/>
             }
 
         }
         return (
-            <div style={{height: '4px'}}>{content}</div>
+            <div style={{height: height}}>{content}</div>
         )
     }
 
