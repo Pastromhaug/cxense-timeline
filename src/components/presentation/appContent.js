@@ -70,6 +70,7 @@ class AppContent extends React.Component {
                                     <Link to={'/timeline/'+ query} style={{textDecoration: 'none'}}>
                                     <MenuItem style={{width: '210px'}} id={loc.name}
                                               onClick={() => {
+                                                this.props.dispatchLoadingStart();
                                                 this.props.dispatchApplyQueryCustom(query);
                                               }}
                                     > {loc.name} </MenuItem>

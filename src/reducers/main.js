@@ -8,6 +8,7 @@ import columns from './columns';
 import table from './table';
 import queryDialog from './queryDialog';
 import chart from './chart';
+import loading from './loading';
 import {routerReducer} from 'react-router-redux';
 
 const mainReducer = combineReducers({
@@ -16,6 +17,7 @@ const mainReducer = combineReducers({
     table,
     queryDialog,
     chart,
+    loading,
     routing: routerReducer
 });
 

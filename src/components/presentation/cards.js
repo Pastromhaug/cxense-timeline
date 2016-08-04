@@ -8,6 +8,7 @@ import {Card} from 'material-ui/Card';
 import VisibleTimelineTable from './../logic/visibleTimelineTable';
 import VisibleMainChart from '../logic/visibleMainChart';
 import VisibleCardTitleAndOptions from '../logic/visibleCardTitleAndOptions';
+import VisibleLoader from '../logic/visibleLoader';
 
 
 class  Cards extends React.Component {
@@ -17,6 +18,7 @@ class  Cards extends React.Component {
             <div>
                 <Card style={cardStyles.container}>
                     <VisibleCardTitleAndOptions/>
+                    <VisibleLoader/>
                     <div style={{padding: '16px'}}>
                         <VisibleMainChart/>
                     </div>

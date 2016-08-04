@@ -112,6 +112,7 @@ class MainChart extends React.Component {
 
 
     componentDidUpdate() {
+        this.props.dispatchLoadingStop();
 
         d3.select('#background').attr('height', this._svg_h())
             .attr('width','100%').attr('fill','white');
@@ -354,8 +355,9 @@ class MainChart extends React.Component {
 
 
     render() {
+
         return(
-            <div id="mainChart" style={{width:'100%'}}>
+            <div id="mainChart" style={chartStyle}>
                 <svg id="svg"></svg>
             </div>
         )
