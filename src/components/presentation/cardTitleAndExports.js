@@ -206,13 +206,14 @@ export default class cardTitleAndOptions extends Component {
             let backgroundColor = 'FFb5cde3';
             let textColor = 'FF585858';
 
-            let textCellIdx = Math.floor((end_idx - start_idx)/2+1 + start_idx);
+            let textCellIdx = Math.floor((end_idx - start_idx)/2 + start_idx);
             for (let j = start_idx; j <= end_idx; j++) {
                 let text =  '';
                 let leftBorder = false;
                 let rightBorder = false;
                 if (j == start_idx) leftBorder = true;
                 if (j == end_idx) rightBorder = true;
+                if (end_idx == start_idx) text = 'Q' + quarter.quarter_num + '  ' + year;
                 if (j == textCellIdx) text = 'Q' + quarter.quarter_num + '  ' + year;
                 var cell = this._cell(text, backgroundColor, textColor,leftBorder,rightBorder,false);
                 quarterCells[j] = cell;
