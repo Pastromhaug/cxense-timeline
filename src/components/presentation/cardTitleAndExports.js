@@ -129,7 +129,7 @@ export default class cardTitleAndOptions extends Component {
                 else if (j == end_idx) {
                     rightBorder = true
                 }
-                currLaneCells[j] = this._cell(text, backgroundColor, textColor, leftBorder, rightBorder,false,false);
+                currLaneCells[j] = this._cell(text, backgroundColor, textColor, leftBorder, rightBorder,false);
             }
             lanes[issueLaneKey] = currLaneCells;
 
@@ -138,7 +138,7 @@ export default class cardTitleAndOptions extends Component {
         for (let k = 0; k < Object.keys(lanes).length; k++) {
             let currLaneCells = lanes[k.toString()];
             issueCells = issueCells.concat([currLaneCells]);
-            issueCells = issueCells.concat([this._generateBlankCells()])
+            // issueCells = issueCells.concat([this._generateBlankCells()])
         }
         return issueCells;
     }
