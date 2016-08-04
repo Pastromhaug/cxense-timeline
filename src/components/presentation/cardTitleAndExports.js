@@ -196,21 +196,24 @@ export default class cardTitleAndOptions extends Component {
         var quarterCells = [];
         for (let i = 0; i < this.props.chart.quarters.length; i++){
             let quarter = this.props.chart.quarters[i];
-            let sprintsInQuarter = Math.ceil((quarter.end - quarter.start)/this.msIn2Weeks);
+            // let sprintsInQuarter = Math.ceil((quarter.end - quarter.start)/this.msIn2Weeks);
+            let idxs = this._findIndexes(quarter.start, quarter.end, this.props.chart.sprints);
+            let start_idx = idxs.start_idx;
+            let end_idx = idxs.end_idx;
 
             let year = moment.utc(quarter.end).year();
             let text =  'Q' + quarter.quarter_num + '  ' + year;
 
-            if (sprintsInQuarter == 1) { // quarter is 1 sprint long
+            if (start_idx == end_idx) { // quarter is 1 sprint long
                 let onlyCell = this._firstQuarterCellText(text);
                 quarterCells = quarterCells.concat([onlyCell]);
             }
             else { // quarter is at least 2 sprints long
-                let textCellIdx = Math.floor(sprintsInQuarter/2); // id of cell to put text. ideally middle
+                let textCellIdx = Math.floor((end_idx - start_idx)/2+1); // id of cell to put text. ideally middle
                 let firstCell = this._firstQuarterCell();
                 quarterCells = quarterCells.concat([firstCell]);
 
-                for (let j = 1; j < sprintsInQuarter-1; j++) {
+                for (let j = 1; j < (end_idx - start_idx); j++) {
                     if (j == textCellIdx) {
                         let middleTextCell = this._middleQuarterCellText(text);
                         quarterCells = quarterCells.concat([middleTextCell]);
@@ -220,7 +223,7 @@ export default class cardTitleAndOptions extends Component {
                         quarterCells = quarterCells.concat([middleCell]);
                     }
                 }
-                if (textCellIdx == sprintsInQuarter) {
+                if (textCellIdx == (end_idx - start_idx)) {
                     let lastCellText = this._lastQuarterCellText(text);
                     quarterCells = quarterCells.concat([lastCellText]);
                 }
