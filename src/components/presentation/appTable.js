@@ -4,12 +4,13 @@
 
 import React from 'react';
 import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow} from 'material-ui/Table';
-import VisibleTimelineRow from '../logic/visibleTimelineRow';
+import AppTableRow from './appTableRow';
 import {COLUMNS} from '../../constants/columnConstants';
+import {connect} from 'react-redux';
 var moment = require('moment');
 
 
-class TimelineTable extends React.Component {
+class _AppTable extends React.Component {
 
     render() {
         var col_info = COLUMNS.filter( (COL) => this.props.columns.indexOf(COL.name) !== -1);
@@ -28,7 +29,7 @@ class TimelineTable extends React.Component {
                     </TableRow>
                 </TableHeader>
                 <TableBody displayRowCheckbox={false}>
-                    {this.props.issues.map( (issue) => <VisibleTimelineRow key={moment.utc().valueOf() + issue.name}
+                    {this.props.issues.map( (issue) => <AppTableRow key={moment.utc().valueOf() + issue.name}
                                                                            col_info={col_info} issue={issue} />)}
                 </TableBody>
             </Table>
@@ -39,4 +40,15 @@ class TimelineTable extends React.Component {
 
 
 
-export default TimelineTable;
+const mapStateToProps = (state) => {
+    return {
+        columns: state.columns.columns,
+        issues: state.chart.issues
+    }
+};
+
+const AppTable = connect (
+    mapStateToProps
+)(_AppTable);
+
+export default AppTable;

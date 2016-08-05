@@ -8,7 +8,7 @@ import FIREBASE from '../../constants/firebase';
 
 import {actionApplyColumns, actionAddColumnsCustom} from '../../actions/columns';
 
-class TableColumnsStateController extends Component {
+class _ColumnsStateController extends Component {
     render() {
         return <div></div>
     }
@@ -42,9 +42,9 @@ function mapDispatcToProps(dispatch) {
 }
 
 
-const VisibleTableColumnsStateController = connect (
+const ColumnsStateController = connect (
     mapStateToProps,
     mapDispatcToProps
-)(TableColumnsStateController);
+)(_ColumnsStateController);
 
-export default VisibleTableColumnsStateController;
+export default ColumnsStateController;

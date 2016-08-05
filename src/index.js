@@ -15,7 +15,7 @@ import Columns from './components/presentation/columns';
 import mainReducer from './reducers/main';
 import AppContent from './components/presentation/appContent';
 import ChartStateController from './components/presentation/chartStateController';
-import VisibleTableColumnsStateController from './components/logic/visibleTableColumnsStateController';
+import ColumnsStateController from './components/presentation/columnStateController';
 import { syncHistoryWithStore } from 'react-router-redux';
 
 var injectTapEventPlugin = require("react-tap-event-plugin");
@@ -37,7 +37,7 @@ class App extends React.Component {
                     <div>
                         <AppContent children={this.props.children}/>
                         <ChartStateController/>
-                        <VisibleTableColumnsStateController/>
+                        <ColumnsStateController/>
                     </div>
                 </MuiThemeProvider>
             </Provider>

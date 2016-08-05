@@ -10,7 +10,7 @@ import {actionOpenQueryDialog,
 import {actionTempQuery, actionApplyQueryCustom} from '../../actions/query';
 
 
-class SaveQueryButton extends Component {
+class _SaveQueryButton extends Component {
     render() {
         return (
             <div style={{width:'100%', marginTop: '32px', display:'flex', justifyContent:'center'}}>
@@ -51,9 +51,9 @@ function mapDispatchToProps(dispatch) {
 }
 
 
-const VisibleSaveQueryButton = connect (
+const SaveQueryButton = connect (
     mapStateToProps,
     mapDispatchToProps
-)(SaveQueryButton);
+)(_SaveQueryButton);
 
-export default VisibleSaveQueryButton;
+export default SaveQueryButton;

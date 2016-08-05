@@ -4,7 +4,7 @@
 
 import React, {Component} from 'react';
 import FIREBASE from '../../constants/firebase';
-import VisibleSaveQueryButton from '../logic/visibleSaveQueryButton';
+import SaveQueryButton from './saveQueryButton';
 import SavedQueriesListItem from '../presentation/savedQueriesListItem';
 var _ = require('lodash');
 
@@ -45,7 +45,7 @@ class _SavedQueriesList extends Component {
                                                      savedQuery = {saved_query} />
                     }
                 )}
-                <VisibleSaveQueryButton query={this.props.query}/>
+                <SaveQueryButton query={this.props.query}/>
             </div>
         )
     }

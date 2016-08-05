@@ -4,11 +4,12 @@
 
 import React from 'react';
 import { TableRow, TableRowColumn} from 'material-ui/Table';
+import {connect} from 'react-redux';
 var moment = require('moment');
 var _ = require('lodash');
 
 
-class TimelineRow extends React.Component {
+class _AppTableRow extends React.Component {
 
     shouldComponentUpdate(nextProps) {
         if ( !(((this.props.hover == this.props.issue.id) && (nextProps.hover != this.props.issue.id)) ||
@@ -54,5 +55,15 @@ class TimelineRow extends React.Component {
 };
 
 
+const mapStateToProps = (state) => {
+    return {
+        issues: state.issues,
+        hover: state.table
+    }
+};
 
-export default TimelineRow;
+const AppTableRow = connect (
+    mapStateToProps
+)(_AppTableRow);
+
+export default AppTableRow;

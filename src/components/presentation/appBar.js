@@ -8,7 +8,7 @@ import {appbarStyles, headerButton} from '../../styles/componentStyles';
 import FlatButton from 'material-ui/FlatButton';
 import {Link} from 'react-router';
 
-class AppBar extends Component {
+class _AppBar extends Component {
 
     render() {
         return (
@@ -38,8 +38,8 @@ const mapStateToProps = (state) => {
 };
 
 
-const VisibleAppContent = connect (
+const AppBar = connect (
     mapStateToProps
-)(AppBar);
+)(_AppBar);
 
-export default VisibleAppContent;
+export default AppBar;
