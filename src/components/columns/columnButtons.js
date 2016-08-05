@@ -20,28 +20,39 @@ class _ColumnButtons extends Component {
     }
 
     render(){
-        return (
-            <div style={{ width: '250px', float: 'left', textAlign:'center'}}>
-                <RaisedButton style={colButton} label="Add All"
-                              onClick={ () => this.props.dispatchAddAllColumns()}/>
-                <RaisedButton style={colButton} label="Add"
-                              onClick={ () => this.props.dispatchAddColumns()}/>
-                <RaisedButton style={colButton} label="Remove"
-                              onClick={ () => this.props.dispatchRemoveColumns()}/>
-                <RaisedButton style={colButton} label="Remove All"
-                              onClick={ () => this.props.dispatchRemoveAllColumns()}/>
-                <Link to={"/timeline/" + this.props.query}>
-                    <RaisedButton style={colButton} label="Apply"
-                                  onClick={ () => this.props.dispatchApplyColumns()}/>
-                </Link>
+        let AddAllButton = () =>  <RaisedButton style={colButton} label="Add All"
+                                   onClick={ () => this.props.dispatchAddAllColumns()}/>;
+        let AddButton = () => <RaisedButton style={colButton} label="Add"
+                                            onClick={ () => this.props.dispatchAddColumns()}/>;
+        let RemoveButton = () => <RaisedButton style={colButton} label="Remove"
+                                               onClick={ () => this.props.dispatchRemoveColumns()}/>;
+        let RemoveAllButton = () => <RaisedButton style={colButton} label="Remove All"
+                                                  onClick={ () => this.props.dispatchRemoveAllColumns()}/>;
+        let ApplyButton = () => (
+            <Link to={"/timeline/" + this.props.query}>
+                <RaisedButton style={colButton} label="Apply"
+                              onClick={ () => this.props.dispatchApplyColumns()}/>
+            </Link>
+        );
 
-                <Link to={"/timeline/" + this.props.query}>
-                    <RaisedButton style={colButton} label="Set As Defaults"
-                                  onClick={ () => {
+        let SetAsDefaultsButton = () => (
+            <Link to={"/timeline/" + this.props.query}>
+                <RaisedButton style={colButton} label="Set As Defaults"
+                              onClick={ () => {
                                   this.props.dispatchApplyColumns();
                                   this._pushColsToFirebase();
                                   }}/>
-                </Link>
+            </Link>
+        );
+
+        return (
+            <div style={{ width: '250px', float: 'left', textAlign:'center'}}>
+                <AddAllButton/>
+                <AddButton/>
+                <RemoveButton/>
+                <RemoveAllButton/>
+                <ApplyButton/>
+                <SetAsDefaultsButton/>
             </div>
         )
     }

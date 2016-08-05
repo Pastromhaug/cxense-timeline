@@ -5,7 +5,7 @@
 
 import React, {Component} from 'react';
 import Drawer from 'material-ui/Drawer';
-import SavedQueriesList from '../presentation/savedQueriesList';
+import SavedQueriesList from './savedQueriesList';
 
 
 export default class AppDrawer extends Component {

@@ -4,7 +4,7 @@
 
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {appbarStyles, headerButton} from '../../styles/componentStyles';
+import {appbarStyles, headerButton} from '../styles/componentStyles';
 import FlatButton from 'material-ui/FlatButton';
 import {Link} from 'react-router';
 
@@ -13,7 +13,6 @@ class _AppBar extends Component {
     render() {
         return (
             <div  style={appbarStyles.container}>
-
                 <Link className="MyLink" to={"/timeline/" + this.props.query}  >
                     <FlatButton style={headerButton.container}>Timeline</FlatButton>
                 </Link>
@@ -25,7 +24,6 @@ class _AppBar extends Component {
                 <Link className="MyLink" to="/columns" >
                     <FlatButton style={headerButton.container}>Configure Columns</FlatButton>
                 </Link>
-
             </div>
         )
     }

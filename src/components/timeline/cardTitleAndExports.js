@@ -8,14 +8,14 @@ import MenuItem from 'material-ui/MenuItem';
 import IconMenu from 'material-ui/IconMenu';
 import IconButton from 'material-ui/IconButton/IconButton';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
-import XL from './XL';
+import XL from '../../js/xl';
 
 import { connect } from 'react-redux';
 import {actionApplyQuery, actionTempQuery} from '../../actions/query';
 
 import {cardHeaderStyles} from '../../styles/componentStyles';
 import {CardTitle} from 'material-ui/Card';
-import Utils from './utils';
+import Utils from '../../js/utils';
 
 var savesvg = require('save-svg-as-png');
 var moment = require('moment');

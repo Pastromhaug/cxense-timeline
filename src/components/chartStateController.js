@@ -4,11 +4,11 @@
 
 import React, {Component} from 'react';
 
-import Utils from './utils';
+import Utils from '../js/utils';
 
 import {connect} from 'react-redux';
-import {actionSetAllChartState} from '../../actions/chart';
-import {actionApplyQuery, actionTempQuery} from '../../actions/query';
+import {actionSetAllChartState} from '../actions/chart';
+import {actionApplyQuery, actionTempQuery} from '../actions/query';
 
 var moment = require('moment');
 var _ = require('lodash');

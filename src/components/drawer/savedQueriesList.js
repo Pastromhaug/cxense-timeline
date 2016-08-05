@@ -5,7 +5,7 @@
 import React, {Component} from 'react';
 import FIREBASE from '../../constants/firebase';
 import SaveQueryButton from './saveQueryButton';
-import SavedQueriesListItem from '../presentation/savedQueriesListItem';
+import SavedQueriesListItem from './savedQueriesListItem';
 var _ = require('lodash');
 
 import { connect } from 'react-redux';

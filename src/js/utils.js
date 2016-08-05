@@ -1,7 +1,7 @@
 /**
  * Created by perandre on 02.08.16.
  */
-import {COLORS} from '../../constants/colorCode';
+import {COLORS} from '../constants/colorCode';
 var moment = require('moment');
 var d3 = require('d3');
 

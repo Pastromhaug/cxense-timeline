@@ -3,7 +3,7 @@
  */
 import React from 'react';
 import ReactDOM from 'react-dom'
-import Utils from './utils';
+import Utils from '../../js/utils';
 var d3 = require('d3');
 var moment = require('moment');
 require('../../styles/chartStyles.css');

@@ -4,9 +4,9 @@
 
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import FIREBASE from '../../constants/firebase';
+import FIREBASE from '../constants/firebase';
 
-import {actionApplyColumns, actionAddColumnsCustom} from '../../actions/columns';
+import {actionApplyColumns, actionAddColumnsCustom} from '../actions/columns';
 
 class _ColumnsStateController extends Component {
     render() {

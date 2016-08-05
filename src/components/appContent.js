@@ -3,8 +3,8 @@
  */
 
 import React from 'react';
-import QueryDialog from '../presentation/queryDialog';
-import AppDrawer from '../presentation/appDrawer';
+import QueryDialog from './timeline/queryDialog';
+import AppDrawer from './drawer/appDrawer';
 import AppBar from './appBar';
 
 
