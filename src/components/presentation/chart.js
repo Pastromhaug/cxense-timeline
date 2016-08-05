@@ -367,7 +367,7 @@ class _Chart extends React.Component {
     render() {
 
         return(
-            <div id="mainChart" style={{width: '100%', padding: '16px'}}>
+            <div id="mainChart" style={{width: '100%'}}>
                 <svg id="svg"></svg>
             </div>
         )

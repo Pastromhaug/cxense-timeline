@@ -22,7 +22,9 @@ class  _Cards extends React.Component {
                 <Card style={cardStyles.container}>
                     <CardTitleAndExports/>
                     <Loader/>
-                    <Chart/>
+                    <div style={{padding: '16px'}}>
+                        <Chart />
+                    </div>
                 </Card>
                 <Card style={cardStyles.container}>
                     <VisibleTimelineTable/>
