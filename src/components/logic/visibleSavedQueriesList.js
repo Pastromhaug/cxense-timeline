@@ -6,7 +6,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import SavedQueriesList from '../presentation/savedQueriesList';
 import {actionSetSavedQueries} from '../../actions/queryDialog';
-import {actionApplyColumns, actionAddColumnsCustom} from '../../actions/columns';
 
 const mapStateToProps = (state) => {
     return {
@@ -21,12 +20,6 @@ const mapDispatchToProps = (dispatch) => {
         
         dispatchSetSavedQueries(saved_queries) {
             dispatch(actionSetSavedQueries(saved_queries))
-        },
-        dispatchApplyColumns: () => {
-            dispatch(actionApplyColumns())
-        },
-        dispatchAddColumnsCustom(columns_list) {
-            dispatch(actionAddColumnsCustom(columns_list))
         }
     }
 };

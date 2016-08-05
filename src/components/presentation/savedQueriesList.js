@@ -4,8 +4,6 @@
 
 import React, {Component} from 'react';
 import FIREBASE from '../../constants/firebase';
-var moment = require('moment');
-var d3 = require('d3');
 var _ = require('lodash');
 import VisibleSaveQueryButton from '../logic/visibleSaveQueryButton';
 
@@ -16,7 +14,6 @@ export default class savedQueriesList extends Component {
     constructor() {
         super();
         this.queriesRef = FIREBASE.database().ref('queries/');
-        this.columnsRef = FIREBASE.database().ref('columns/');
         this.queriesListener = null;
     }
 
@@ -27,15 +24,10 @@ export default class savedQueriesList extends Component {
             });
             this.props.dispatchSetSavedQueries(ordered_saved_queries)
         });
-        this.columnsListener = this.columnsRef.on('value', (data) => {
-            this.props.dispatchAddColumnsCustom(data.val());
-            this.props.dispatchApplyColumns()
-        })
     }
 
     componentWillUnmount() {
         this.queriesListener.off();
-        this.columnsListener.off();
     }
 
     render() {

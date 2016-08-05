@@ -14,7 +14,8 @@ import VisibleQuery from './components/logic/visibleQuery';
 import VisibleColumns from './components/logic/visibleColumns';
 import mainReducer from './reducers/main';
 import VisibleAppContent from './components/logic/visibleAppContent';
-import VisibleSetIssuesSprintsQuarters from './components/logic/visiblechartStateController';
+import VisibleChartStateController from './components/logic/visiblechartStateController';
+import VisibleTableColumnsStateController from './components/logic/visibleTableColumnsStateController';
 import { syncHistoryWithStore } from 'react-router-redux';
 
 var injectTapEventPlugin = require("react-tap-event-plugin");
@@ -35,7 +36,8 @@ class App extends React.Component {
                 <MuiThemeProvider muiTheme={getMuiTheme()}>
                     <div>
                         <VisibleAppContent children={this.props.children}/>
-                        <VisibleSetIssuesSprintsQuarters/>
+                        <VisibleChartStateController/>
+                        <VisibleTableColumnsStateController/>
                     </div>
                 </MuiThemeProvider>
             </Provider>
