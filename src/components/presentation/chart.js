@@ -8,8 +8,12 @@ var d3 = require('d3');
 var moment = require('moment');
 require('../../styles/chartStyles.css');
 
+import { connect } from 'react-redux';
+import {actionHoverOnIssue} from '../../actions/table';
+import {actionLoadingStop} from '../../actions/loading';
 
-class MainChart extends React.Component {
+
+class _Chart extends React.Component {
 
     constructor() {
         super();
@@ -363,11 +367,34 @@ class MainChart extends React.Component {
     render() {
 
         return(
-            <div id="mainChart" style={{width: '100%'}}>
+            <div id="mainChart" style={{width: '100%', padding: '16px'}}>
                 <svg id="svg"></svg>
             </div>
         )
     }
 }
 
-export default MainChart
+const mapStateToProps = (state) => {
+    return {
+        chart: state.chart
+    }
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        dispatchHoverOnIssue: (id) => {
+            dispatch( actionHoverOnIssue(id))
+        },
+        dispatchLoadingStop: () => {
+            dispatch( actionLoadingStop())
+        }
+    }
+};
+
+const Chart = connect (
+    mapStateToProps,
+    mapDispatchToProps
+)(_Chart);
+
+export default Chart
+

@@ -6,7 +6,7 @@ import React from 'react';
 import {cardStyles} from '../../styles/componentStyles';
 import {Card} from 'material-ui/Card';
 import VisibleTimelineTable from './../logic/visibleTimelineTable';
-import VisibleMainChart from '../logic/visibleMainChart';
+import Chart from './chart';
 import CardTitleAndExports from './cardTitleAndExports';
 import Loader from './loader';
 
@@ -22,9 +22,7 @@ class  _Cards extends React.Component {
                 <Card style={cardStyles.container}>
                     <CardTitleAndExports/>
                     <Loader/>
-                    <div style={{padding: '16px'}}>
-                        <VisibleMainChart/>
-                    </div>
+                    <Chart/>
                 </Card>
                 <Card style={cardStyles.container}>
                     <VisibleTimelineTable/>
