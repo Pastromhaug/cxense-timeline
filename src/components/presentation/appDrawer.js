@@ -22,8 +22,8 @@ export default class AppDrawer extends Component {
                         Saved Queries
                     </h3>
                 </div>
+                <div style = {{height: '12px'}}></div>
                 <VisibleSavedQueriesList/>
-                <div style = {{height: '32px'}}></div>
             </Drawer>
         )
     }
