@@ -1,8 +1,15 @@
-colors - done
-timeline should always include now, - done
-need quarters and sprints at top always - done
-don't need date picker anymore - done
-code everything into URL - mostly done
+Timeline
+    move repo to GitLab
+    comment code
+    refactor/clean up
+    add documentation?
+    remove personal credentials from Jira requests
+    move app to a cxense firebase account
+    add authentication to firebase
 
 
-
+Alerts Dashboard
+    comment code
+    add documentation?
+    make repeat messages actuall taken into account
+    maybe replace socket.io with firebase to allow for better resilience in case of connection dropped?
