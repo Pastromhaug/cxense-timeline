@@ -10,7 +10,7 @@ import { Router, Route, Link, browserHistory, IndexRoute } from 'react-router';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import Cards from './components/presentation/cards';
-import VisibleQuery from './components/logic/visibleQuery';
+import Query from './components/presentation/query';
 import Columns from './components/presentation/columns';
 import mainReducer from './reducers/main';
 import AppContent from './components/presentation/appContent';
@@ -54,7 +54,7 @@ class Routing extends React.Component {
                 <Route path="/" component = {App}>
                     <IndexRoute component={Cards}/>
                     <Route path="/timeline/:query" component={Cards}/>
-                    <Route path="/query" component={VisibleQuery}/>
+                    <Route path="/query" component={Query}/>
                     <Route path="/columns" component={Columns}/>
                 </Route>
             </Router>

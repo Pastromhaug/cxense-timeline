@@ -7,14 +7,16 @@ import FlatButton from 'material-ui/FlatButton';
 import Dialog from 'material-ui/Dialog';
 import TextField from 'material-ui/TextField';
 import FIREBASE from '../../constants/firebase';
+import {connect} from 'react-redux';
+import {actionOpenQueryDialog, actionCloseQueryDialog,
+    actionSetQueryName} from '../../actions/queryDialog';
+import {actionTempQuery} from '../../actions/query';
 var md5 = require('md5');
 var moment = require('moment');
 
 
 
-
-
-class QueryDialog extends React.Component {
+class _QueryDialog extends React.Component {
     render() {
         const actions = [
             <FlatButton
@@ -79,5 +81,39 @@ class QueryDialog extends React.Component {
         );
     }
 }
+
+
+const mapStateToProps = (state) => {
+    return {
+        queryDialog: state.queryDialog.open,
+        query_temp : state.query.query_temp.query,
+        query: state.query.query.query,
+        name: state.queryDialog.name,
+        is_edit: state.queryDialog.is_edit,
+        edit_json: state.queryDialog.edit_json
+    }
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        dispatchOpenQueryDialog() {
+            dispatch(actionOpenQueryDialog())
+        },
+        dispatchCloseQueryDialog() {
+            dispatch(actionCloseQueryDialog())
+        },
+        dispatchTempQuery(temp_query) {
+            dispatch(actionTempQuery(temp_query))
+        },
+        dispatchSetQueryName(name) {
+            dispatch(actionSetQueryName(name))
+        }
+    }
+};
+
+const QueryDialog = connect (
+    mapStateToProps,
+    mapDispatchToProps
+)(_QueryDialog);
 
 export default QueryDialog

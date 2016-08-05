@@ -15,8 +15,12 @@ import RaisedButton from 'material-ui/RaisedButton';
 import {button, queryField} from '../../styles/componentStyles';
 import {Link} from 'react-router'
 
+import { connect } from 'react-redux';
+import {actionTempQuery,
+    actionApplyQuery, actionCancelQuery} from '../../actions/query';
 
-const Query = ({query_temp, start_day, end_day,
+
+const _Query = ({query_temp, start_day, end_day,
     dispatchTempQuery, dispatchApplyQuery, dispatchCancelQuery}) => (
 
     <div>
@@ -41,5 +45,34 @@ const Query = ({query_temp, start_day, end_day,
         </Card>
     </div>
 );
+
+const mapStateToProps = (state) => {
+    return {
+        query_temp : state.query.query_temp.query,
+        start_day : state.query.query_temp.start_day,
+        end_day : state.query.query_temp.end_day
+    }
+};
+
+const mapDispatchToPRops = (dispatch) => {
+    return {
+        dispatchTempQuery(temp_query) {
+            dispatch(actionTempQuery(temp_query))
+        },
+
+        dispatchApplyQuery() {
+            dispatch(actionApplyQuery())
+        },
+
+        dispatchCancelQuery() {
+            dispatch(actionCancelQuery())
+        }
+    }
+};
+
+const Query = connect (
+    mapStateToProps,
+    mapDispatchToPRops
+)(_Query);
 
 export default Query

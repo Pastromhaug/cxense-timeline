@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import VisibleQueryDialog from '../logic/visibleQueryDialog'
+import QueryDialog from '../presentation/queryDialog';
 import AppDrawer from '../presentation/appDrawer';
 import VisibleAppBar from '../logic/visibleAppBar';
 
@@ -15,7 +15,7 @@ class AppContent extends React.Component {
 
         return (
             <div>
-                <VisibleQueryDialog/>
+                <QueryDialog/>
                 <AppDrawer/>
                 <div style={{marginLeft: 256}}>
                     <VisibleAppBar/>
