@@ -5,7 +5,7 @@
 
 import React, {Component} from 'react';
 import Drawer from 'material-ui/Drawer';
-import VisibleSavedQueriesList from '../logic/visibleSavedQueriesList';
+import SavedQueriesList from '../presentation/savedQueriesList';
 
 
 export default class AppDrawer extends Component {
@@ -23,7 +23,7 @@ export default class AppDrawer extends Component {
                     </h3>
                 </div>
                 <div style = {{height: '12px'}}></div>
-                <VisibleSavedQueriesList/>
+                <SavedQueriesList/>
             </Drawer>
         )
     }

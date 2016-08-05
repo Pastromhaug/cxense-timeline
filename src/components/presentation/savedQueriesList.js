@@ -4,12 +4,15 @@
 
 import React, {Component} from 'react';
 import FIREBASE from '../../constants/firebase';
-var _ = require('lodash');
 import VisibleSaveQueryButton from '../logic/visibleSaveQueryButton';
-
 import VisibleSavedQueriesItemList from '../logic/visibleSavedQueriesListItem';
+var _ = require('lodash');
 
-export default class savedQueriesList extends Component {
+import { connect } from 'react-redux';
+import {actionSetSavedQueries} from '../../actions/queryDialog';
+
+
+class _SavedQueriesList extends Component {
 
     constructor() {
         super();
@@ -47,6 +50,30 @@ export default class savedQueriesList extends Component {
         )
     }
 }
+
+const mapStateToProps = (state) => {
+    return {
+        query: state.query.query.query,
+        queryDialog: state.queryDialog.open,
+        saved_queries: state.queryDialog.saved_queries
+    }
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+
+        dispatchSetSavedQueries(saved_queries) {
+            dispatch(actionSetSavedQueries(saved_queries))
+        }
+    }
+};
+
+const SavedQueriesList = connect (
+    mapStateToProps,
+    mapDispatchToProps
+)(_SavedQueriesList);
+
+export default SavedQueriesList;
 
 
 
