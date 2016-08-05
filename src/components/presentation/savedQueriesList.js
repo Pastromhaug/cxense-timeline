@@ -42,7 +42,7 @@ export default class savedQueriesList extends Component {
                                                             savedQuery = {saved_query} />
                     }
                 )}
-                <VisibleSaveQueryButton/>
+                <VisibleSaveQueryButton query={this.props.query}/>
             </div>
         )
     }
