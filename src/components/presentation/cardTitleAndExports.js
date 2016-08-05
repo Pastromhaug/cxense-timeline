@@ -10,6 +10,9 @@ import IconButton from 'material-ui/IconButton/IconButton';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import XL from './XL';
 
+import { connect } from 'react-redux';
+import {actionApplyQuery, actionTempQuery} from '../../actions/query';
+
 import {cardHeaderStyles} from '../../styles/componentStyles';
 import {CardTitle} from 'material-ui/Card';
 import Utils from './utils';
@@ -17,7 +20,7 @@ import Utils from './utils';
 var savesvg = require('save-svg-as-png');
 var moment = require('moment');
 
-export default class cardTitleAndOptions extends Component {
+class _CardTitleAndExports extends Component {
 
     constructor() {
         super();
@@ -29,16 +32,11 @@ export default class cardTitleAndOptions extends Component {
         this._blankCell.bind(this);
         this._middleQuarterCell.bind(this);
         this._middleQuarterCellText.bind(this);
-        this._firstQuarterCell.bind(this);
-        this._firstQuarterCellText.bind(this);
-        this._lastQuarterCell.bind(this);
-        this._lastQuarterCellText.bind(this);
         this._generateAxisCells.bind(this);
         this._generateTitleCells.bind(this);
         this._generateBlankCells.bind(this);
         this._generateIssueCells.bind(this);
         this._findIndexes.bind(this);
-        this.msIn2Weeks = 1210000000;
         this.msIn5days =  432000000;
     }
 
@@ -225,18 +223,6 @@ export default class cardTitleAndOptions extends Component {
     _blankCell() {
         return this._cell('', "FFFFFFFF", "FFFFFFFF", false,false,false);
     }
-    _lastQuarterCell() {
-        return this._cell('', "FFb5cde3", "FF585858",false,true,false);
-    }
-    _lastQuarterCellText(text) {
-        return this._cell(text, "FFb5cde3", "FF585858",false,true,false);
-    }
-    _firstQuarterCell() {
-        return this._cell('', "FFb5cde3", "FF585858",true,false,false);
-    }
-    _firstQuarterCellText(text) {
-        return this._cell(text, "FFb5cde3", "FF585858",true,true,true);
-    }
     _middleQuarterCell() {
         return this._cell('', "FFb5cde3", "FF585858", false, false, false);
     }
@@ -316,6 +302,30 @@ export default class cardTitleAndOptions extends Component {
         }
         return cell;
     }
-    
-    
 }
+
+
+const mapStateToProps = (state) => {
+    return {
+        query: state.query.query.query,
+        chart: state.chart
+    }
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        dispatchApplyQuery: () => {
+            dispatch(actionApplyQuery())
+        },
+        dispatchTempQuery: (query) => {
+            dispatch(actionTempQuery(query))
+        }
+    }
+};
+
+const CardTitleAndExports = connect (
+    mapStateToProps,
+    mapDispatchToProps
+)(_CardTitleAndExports);
+
+export default CardTitleAndExports

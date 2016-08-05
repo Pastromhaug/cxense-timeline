@@ -7,17 +7,20 @@ import {cardStyles} from '../../styles/componentStyles';
 import {Card} from 'material-ui/Card';
 import VisibleTimelineTable from './../logic/visibleTimelineTable';
 import VisibleMainChart from '../logic/visibleMainChart';
-import VisibleCardTitleAndOptions from '../logic/visibleCardTitleAndOptions';
+import CardTitleAndExports from './cardTitleAndExports';
 import VisibleLoader from '../logic/visibleLoader';
 
+import {connect} from 'react-redux';
+import {actionApplyQuery, actionTempQuery} from '../../actions/query';
 
-class  Cards extends React.Component {
+
+class  _Cards extends React.Component {
 
     render() {
         return(
             <div>
                 <Card style={cardStyles.container}>
-                    <VisibleCardTitleAndOptions/>
+                    <CardTitleAndExports/>
                     <VisibleLoader/>
                     <div style={{padding: '16px'}}>
                         <VisibleMainChart/>
@@ -41,5 +44,23 @@ class  Cards extends React.Component {
         this.props.dispatchApplyQuery();
     }
 }
+
+
+function mapStateToProps() {return {}}
+function mapDispatchToProps(dispatch) {
+    return {
+        dispatchApplyQuery: () => {
+            dispatch(actionApplyQuery())
+        },
+        dispatchTempQuery: (query) => {
+            dispatch(actionTempQuery(query))
+        }
+    }
+}
+
+const Cards = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(_Cards);
 
 export default Cards

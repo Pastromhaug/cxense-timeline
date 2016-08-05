@@ -9,7 +9,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { Router, Route, Link, browserHistory, IndexRoute } from 'react-router';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
-import VisibleCards from './components/logic/visibleCards';
+import Cards from './components/presentation/cards';
 import VisibleQuery from './components/logic/visibleQuery';
 import VisibleColumns from './components/logic/visibleColumns';
 import mainReducer from './reducers/main';
@@ -52,8 +52,8 @@ class Routing extends React.Component {
         return (
             <Router history = {history}>
                 <Route path="/" component = {App}>
-                    <IndexRoute component={VisibleCards}/>
-                    <Route path="/timeline/:query" component={VisibleCards}/>
+                    <IndexRoute component={Cards}/>
+                    <Route path="/timeline/:query" component={Cards}/>
                     <Route path="/query" component={VisibleQuery}/>
                     <Route path="/columns" component={VisibleColumns}/>
                 </Route>
