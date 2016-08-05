@@ -13,7 +13,7 @@ import VisibleCards from './components/logic/visibleCards';
 import VisibleQuery from './components/logic/visibleQuery';
 import VisibleColumns from './components/logic/visibleColumns';
 import mainReducer from './reducers/main';
-import VisibleAppContent from './components/logic/visibleAppContent';
+import AppContent from './components/presentation/appContent';
 import VisibleChartStateController from './components/logic/visiblechartStateController';
 import VisibleTableColumnsStateController from './components/logic/visibleTableColumnsStateController';
 import { syncHistoryWithStore } from 'react-router-redux';
@@ -35,7 +35,7 @@ class App extends React.Component {
             <Provider store={store}>
                 <MuiThemeProvider muiTheme={getMuiTheme()}>
                     <div>
-                        <VisibleAppContent children={this.props.children}/>
+                        <AppContent children={this.props.children}/>
                         <VisibleChartStateController/>
                         <VisibleTableColumnsStateController/>
                     </div>

@@ -3,11 +3,9 @@
  */
 
 import React from 'react';
-import {appbarStyles, headerButton} from '../../styles/componentStyles';
-import FlatButton from 'material-ui/FlatButton';
 import VisibleQueryDialog from '../logic/visibleQueryDialog'
-import {Link} from 'react-router';
 import AppDrawer from '../presentation/appDrawer';
+import VisibleAppBar from '../logic/visibleAppBar';
 
 
 class AppContent extends React.Component {
@@ -20,24 +18,10 @@ class AppContent extends React.Component {
                 <VisibleQueryDialog/>
                 <AppDrawer/>
                 <div style={{marginLeft: 256}}>
-                    <div  style={appbarStyles.container}>
-
-                        <Link className="MyLink" to={"/timeline/" + this.props.query}  >
-                            <FlatButton style={headerButton.container}>Timeline</FlatButton>
-                        </Link>
-
-                        <Link className="MyLink" to="/query">
-                            <FlatButton style={headerButton.container}>Edit Query</FlatButton>
-                        </Link>
-
-                        <Link className="MyLink" to="/columns" >
-                            <FlatButton style={headerButton.container}>Configure Columns</FlatButton>
-                        </Link>
-
+                    <VisibleAppBar/>
+                    <div style={{padding: '16px'}}>
+                        {this.props.children}
                     </div>
-                <div style={{padding: '16px'}}>
-                    {this.props.children}
-                </div>
                 </div>
             </div>
         )
