@@ -7,7 +7,7 @@ import {appbarStyles, headerButton} from '../../styles/componentStyles';
 import FlatButton from 'material-ui/FlatButton';
 import VisibleQueryDialog from '../logic/visibleQueryDialog'
 import {Link} from 'react-router';
-import VisibleAppDrawer from '../logic/visibleAppDrawer';
+import AppDrawer from '../presentation/appDrawer';
 
 
 class AppContent extends React.Component {
@@ -18,7 +18,7 @@ class AppContent extends React.Component {
         return (
             <div>
                 <VisibleQueryDialog/>
-                <VisibleAppDrawer/>
+                <AppDrawer/>
                 <div style={{marginLeft: 256}}>
                     <div  style={appbarStyles.container}>
 

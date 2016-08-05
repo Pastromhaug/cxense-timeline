@@ -4,7 +4,7 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
-import AppDrawer from '../presentation/appDrawer';
+import SavedQueriesList from '../presentation/savedQueriesList';
 import {actionOpenQueryDialog,
     actionSetSavedQueries, actionSetEditJson,
     actionSetEditMode, actionSetQueryName} from '../../actions/queryDialog';
@@ -58,9 +58,9 @@ const mapDispatchToProps = (dispatch) => {
     }
 };
 
-const VisibleAppDrawer = connect (
+const VisibleSavedQueriesList = connect (
     mapStateToProps,
     mapDispatchToProps
-)(AppDrawer);
+)(SavedQueriesList);
 
-export default VisibleAppDrawer;
+export default VisibleSavedQueriesList;
