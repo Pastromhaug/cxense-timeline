@@ -11,10 +11,10 @@ import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import Cards from './components/presentation/cards';
 import VisibleQuery from './components/logic/visibleQuery';
-import VisibleColumns from './components/logic/visibleColumns';
+import Columns from './components/presentation/columns';
 import mainReducer from './reducers/main';
 import AppContent from './components/presentation/appContent';
-import VisibleChartStateController from './components/logic/visiblechartStateController';
+import ChartStateController from './components/presentation/chartStateController';
 import VisibleTableColumnsStateController from './components/logic/visibleTableColumnsStateController';
 import { syncHistoryWithStore } from 'react-router-redux';
 
@@ -36,7 +36,7 @@ class App extends React.Component {
                 <MuiThemeProvider muiTheme={getMuiTheme()}>
                     <div>
                         <AppContent children={this.props.children}/>
-                        <VisibleChartStateController/>
+                        <ChartStateController/>
                         <VisibleTableColumnsStateController/>
                     </div>
                 </MuiThemeProvider>
@@ -55,7 +55,7 @@ class Routing extends React.Component {
                     <IndexRoute component={Cards}/>
                     <Route path="/timeline/:query" component={Cards}/>
                     <Route path="/query" component={VisibleQuery}/>
-                    <Route path="/columns" component={VisibleColumns}/>
+                    <Route path="/columns" component={Columns}/>
                 </Route>
             </Router>
         )

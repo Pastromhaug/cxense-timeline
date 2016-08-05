@@ -6,11 +6,15 @@ import React, {Component} from 'react';
 
 import Utils from './utils';
 
+import {connect} from 'react-redux';
+import {actionSetAllChartState} from '../../actions/chart';
+import {actionApplyQuery, actionTempQuery} from '../../actions/query';
+
 var moment = require('moment');
 var _ = require('lodash');
 var d3 = require('d3');
 
-export default class ChartStateController extends Component {
+class _ChartStateController extends Component {
     render() {return (<div></div>)}
 
     constructor() {
@@ -259,3 +263,30 @@ export default class ChartStateController extends Component {
         return tempjson;
     }
 }
+
+function mapStateToProps(state) {
+    return {
+        query: state.query.query.query
+    }
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        dispatchSetAllChartState: (issues, sprints, quarters, timeBegin, timeEnd) => {
+            dispatch(actionSetAllChartState(issues, sprints, quarters, timeBegin, timeEnd))
+        },
+        dispatchApplyQuery: () => {
+            dispatch(actionApplyQuery())
+        },
+        dispatchTempQuery: (query) => {
+            dispatch(actionTempQuery(query))
+        }
+    }
+}
+
+const ChartStateController = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(_ChartStateController);
+
+export default ChartStateController

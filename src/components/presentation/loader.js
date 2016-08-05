@@ -3,12 +3,12 @@
  */
 
 import React, {Component} from 'react';
-// const Loading = require('react-loading-animation');
 import {ProgressBar} from 'react-mdl/lib'
 import '../../../node_modules/react-mdl/extra/material.js';
 import '../../../node_modules/react-mdl/extra/material.css';
+import {connect} from 'react-redux';
 
-export default class Loader extends Component {
+class _Loader extends Component {
     render() {
 
         var content = <div><ProgressBar indeterminate style={{width:'100%'}}/></div>;
@@ -28,5 +28,17 @@ export default class Loader extends Component {
             <div style={style}>{content}</div>
         )
     }
-
 }
+
+function mapStateToProps(state) {
+    return {
+        loading: state.loading,
+        issues: state.chart.issues
+    }
+}
+
+const Loader = connect(
+    mapStateToProps
+)(_Loader);
+
+export default Loader;
