@@ -37,8 +37,6 @@ class _QueryDialog extends React.Component {
                         FIREBASE.database().ref('queries/' + key).set({
                             query: this.props.query,
                             name: this.props.name,
-                            start_time: this.props.start_time,
-                            end_time: this.props.end_time,
                             created_at: moment.utc().valueOf(),
                             key: key
                         });

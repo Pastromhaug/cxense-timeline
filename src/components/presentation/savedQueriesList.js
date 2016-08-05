@@ -5,7 +5,7 @@
 import React, {Component} from 'react';
 import FIREBASE from '../../constants/firebase';
 import VisibleSaveQueryButton from '../logic/visibleSaveQueryButton';
-import VisibleSavedQueriesItemList from '../logic/visibleSavedQueriesListItem';
+import SavedQueriesListItem from '../presentation/savedQueriesListItem';
 var _ = require('lodash');
 
 import { connect } from 'react-redux';
@@ -38,11 +38,11 @@ class _SavedQueriesList extends Component {
             <div>
                 {this.props.saved_queries.map(
                     saved_query => {
-                        let key = saved_query.key;
-                        let query_item = this.props.saved_queries.filter(d => d.key == key)[0];
-                        return <VisibleSavedQueriesItemList key={saved_query.key}
-                                                            queryItemQuery={query_item.query}
-                                                            savedQuery = {saved_query} />
+                        let query_item = this.props.saved_queries.filter(d => d.key == saved_query.key)[0];
+                        return <SavedQueriesListItem key={saved_query.key}
+                                                     queryKey={saved_query.key}
+                                                     queryItemQuery={query_item.query}
+                                                     savedQuery = {saved_query} />
                     }
                 )}
                 <VisibleSaveQueryButton query={this.props.query}/>
