@@ -32,7 +32,7 @@ const Query = ({query_temp, start_day, end_day,
                 value={query_temp}
             /><br />
 
-            <RaisedButton style={button} lassName="MyButton" label="Cancel"
+            <RaisedButton style={button} className="MyButton" label="Cancel"
                 onClick={ () => dispatchCancelQuery()}/>
             <Link to={'/timeline/'+ query_temp}>
                 <RaisedButton style={button} label="Apply"
