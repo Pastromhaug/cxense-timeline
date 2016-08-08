@@ -50,7 +50,6 @@ class _ChartStateController extends Component {
      * Is called each time the query is updated in the redux store.
      */
     componentDidUpdate() {
-        console.log('setIssuesSprintsQuarters updated');
         this._computeAndUpdateChartDataStructs(this.props.query)
     }
 
@@ -65,6 +64,12 @@ class _ChartStateController extends Component {
         jiraRequest(query, this._setAndUpdateChartStateFromData.bind(this));
     }
 
+
+    /**
+     * creates all the data and updates the state
+     * @param data - the json data returned from a jira web api request
+     * @private
+     */
     _setAndUpdateChartStateFromData(data) {
         const issues = this._formatIssues(data);
         const timeBegin = Utils.timeBegin(issues);
