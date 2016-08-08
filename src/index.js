@@ -14,8 +14,8 @@ import Query from './components/query/query';
 import Columns from './components/columns/columns';
 import mainReducer from './reducers/main';
 import AppContent from './components/appContent';
-import ChartStateController from './components/chartStateController';
-import ColumnsStateController from './components/columnStateController';
+import ChartStateController from 'components/controllers/chartStateController';
+import ColumnsStateController from 'components/controllers/columnStateController';
 import { syncHistoryWithStore } from 'react-router-redux';
 
 var injectTapEventPlugin = require("react-tap-event-plugin");
@@ -35,9 +35,9 @@ class App extends React.Component {
             <Provider store={store}>
                 <MuiThemeProvider muiTheme={getMuiTheme()}>
                     <div>
-                        <AppContent children={this.props.children}/>
-                        <ChartStateController/>
-                        <ColumnsStateController/>
+                        <AppContent children={this.props.children}/> {/*all the view is in here*/}
+                        <ChartStateController/> {/* doesn't display anything, just helps manage state for the chart */}
+                        <ColumnsStateController/> {/*dosn't display anything, helpe manage state for columns of the table*/}
                     </div>
                 </MuiThemeProvider>
             </Provider>
@@ -53,6 +53,7 @@ class Routing extends React.Component {
             <Router history = {history}>
                 <Route path="/" component = {App}>
                     <IndexRoute component={Cards}/>
+                    {/*These 3 routes correspond to the 3 tabs at the top of the application*/}
                     <Route path="/timeline/:query" component={Cards}/>
                     <Route path="/query" component={Query}/>
                     <Route path="/columns" component={Columns}/>

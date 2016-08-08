@@ -14,24 +14,52 @@ var moment = require('moment');
 var _ = require('lodash');
 var d3 = require('d3');
 
+/**
+ * This is a non-UI component.
+ *
+ * Listents to: the selected query (state.query.query.query)
+ * Computes: from the selected query, this component computes all the data structures
+ *      that the chart uses to render the svg:
+ *          issues, sprints, quarters, timeBegin, timeEnd
+ *      It then updates the redux store contained in the  './reducers/chart' reducer.
+ *
+ * The point of this component is that other components can just update the query in the store,
+ * and the rest of the work is done automatically by this component, that listens to the query
+ * and then updates the chart state accordingly with the computed information.
+ *
+ * I could have just put this functionality in another component like AppContent, but I
+ * found it cleaner and less cluttered to separate out this computational work.
+ */
+
 class _ChartStateController extends Component {
     render() {return (<div></div>)}
 
     constructor() {
         super();
-        this._initIssuesSprintsAndQuarters.bind(this);
+        this._computeAndUpdateChartDataStructs.bind(this);
         this._buildQuarterIntervals.bind(this);
         this._buildSprintIntervals.bind(this);
 
         this.sprintOrigin = moment.utc("2016-01-01");
     }
 
+
+    /**
+     * Is called each time the query is updated in the redux store.
+     */
     componentDidUpdate() {
         console.log('setIssuesSprintsQuarters updated');
-        this._initIssuesSprintsAndQuarters(this.props.query)
+        this._computeAndUpdateChartDataStructs(this.props.query)
     }
 
-    _initIssuesSprintsAndQuarters(query) {
+    /**
+     *
+     * @param query - the query which's data should be displayed in the chart
+     *
+     * Query's Jira for the issues described the argument 'query'.
+     * Uses the retrieved Jira data to compute and update data structures
+     */
+    _computeAndUpdateChartDataStructs(query) {
         var url = 'http://localhost:8001/sample';
         fetch(url).then((data) => data.json())
             .then( (data) => {
@@ -152,8 +180,17 @@ class _ChartStateController extends Component {
         return quarters
     }
 
-    
+
+    /**
+     *
+     * @param data - the raw json data returned by a jira query
+     * @returns {Array} of properly formatted Issues (jsons) that the chart can directly use as input to display
+     * the issues to the user
+     */
     _formatIssues(data) {
+
+        // filter out the issues that don't have a planned start and a planned end field.
+        // These fields are represented in the jira response as 'custom fields'
         data = data.issues.filter( (d) => {
             return _.has(d.fields, 'customfield_10651') && _.has(d.fields, 'customfield_10652');});
         data = data.filter( (d) => {
@@ -162,12 +199,14 @@ class _ChartStateController extends Component {
                 && d.fields.customfield_10652 != null && typeof d.fields.customfield_10652 !== 'undefined'
             )});
 
-
+        // This map function goes through each issue, and formats the json data
         var items = data.map( (d) => {
-            let start = moment.utc(d.fields.customfield_10651).valueOf();
-            let end = moment.utc(d.fields.customfield_10652).valueOf();
+            // get fields planned_start and planned_end
+            let planned_start = moment.utc(d.fields.customfield_10651).valueOf();
+            let planned_end = moment.utc(d.fields.customfield_10652).valueOf();
+            // calculate how much time is left in the issue, this will be field 'remaining_estimate'
             let time_left = 0;
-            if (end > moment.utc().valueOf()) time_left = end - moment.utc().valueOf();
+            if (planned_end > moment.utc().valueOf()) time_left = planned_end - moment.utc().valueOf();
 
             var resolution = d.fields.resolution;
             var resname = null;
@@ -207,8 +246,8 @@ class _ChartStateController extends Component {
             return {
                 lane: 0,
                 name: summary + " (" + name + ")",
-                start: start,
-                end: end,
+                start: planned_start,
+                end: planned_end,
                 id: id,
                 status: status,
                 remaining_estimate: time_left,
