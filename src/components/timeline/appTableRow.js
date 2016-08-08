@@ -9,11 +9,26 @@ var moment = require('moment');
 var _ = require('lodash');
 
 
+/**
+ * This component is a single row in the body of the table in the '/timeline/:query' page
+ */
+
 class _AppTableRow extends React.Component {
 
+
+    /**
+     * When you hover over a chart issue, the corresponding row got highlighted. This was causing noticably
+     * bad performance because each row takes 'state.table' as a prop, causing each row to update every time
+     * you hovered over or off a new rectangle.
+     *
+     * To fix this I added this shouldComponentUpdate function.
+     *
+     * @param nextProps
+     * @returns {boolean}
+     */
     shouldComponentUpdate(nextProps) {
-        if ( !(((this.props.hover == this.props.issue.id) && (nextProps.hover != this.props.issue.id)) ||
-             ((this.props.hover != this.props.issue.id) && (nextProps.hover == this.props.issue.id)))){
+        if ( !((this.props.hover == this.props.issue.id) ||
+               (nextProps.hover == this.props.issue.id)) ){
             return false
         }
         return true

@@ -19,9 +19,18 @@ import { connect } from 'react-redux';
 import {actionTempQuery,
     actionApplyQuery, actionCancelQuery} from '../../actions/query';
 
+/**
+ * 
+ * @param query_temp - contains the string that is being typed or edited in the 'Query' text field.
+ * @param dispatchTempQuery - function that takes the changes to the query text field and 
+ * stores them in the redux store, and becomes the query_temp prop
+ * @param dispatchApplyQuery - makes query_temp the query that is to be displayed in the timeline,
+ * changing the route to /timeline/:query. This changes the chart and the table to reflect the new query
+ * @param dispatchCancelQuery - reverts the query in query_temp to the query that is currently applied
+ * @private
+ */
 
-const _Query = ({query_temp, start_day, end_day,
-    dispatchTempQuery, dispatchApplyQuery, dispatchCancelQuery}) => (
+const _Query = ({query_temp, dispatchTempQuery, dispatchApplyQuery, dispatchCancelQuery}) => (
 
     <div>
         <Card style={cardStyles.container} >
@@ -48,9 +57,7 @@ const _Query = ({query_temp, start_day, end_day,
 
 const mapStateToProps = (state) => {
     return {
-        query_temp : state.query.query_temp.query,
-        start_day : state.query.query_temp.start_day,
-        end_day : state.query.query_temp.end_day
+        query_temp : state.query.query_temp.query
     }
 };
 

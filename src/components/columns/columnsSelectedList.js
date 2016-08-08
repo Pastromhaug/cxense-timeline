@@ -8,6 +8,12 @@ import ColumnsList from './columnsList';
 import { connect } from 'react-redux';
 import {actionRemoveGroup} from '../../actions/columns';
 
+/**
+ * The list of columns names displayed on the right side of the buttons in the
+ * '/columns' route. This list contains the columns that are selected for viewing
+ * on the table once the user hits 'APPLY' or 'SET AS DEFAULTS'
+ */
+
 class _ColumnsSelectedList extends Component {
     render() {
         return (

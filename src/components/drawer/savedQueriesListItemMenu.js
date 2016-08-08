@@ -14,6 +14,11 @@ import {actionOpenQueryDialog,actionSetEditJson,
     actionSetEditMode, actionSetQueryName} from '../../actions/queryDialog';
 import {actionTempQuery,} from '../../actions/query';
 
+/**
+ * A subcomponent of a single row of the list of saved queries in the left drawer.
+ * This component is the menu to the right of the name of each saved query.
+ * The menu contains an 'Edit' and a 'Delete' button
+ */
 
 class _SavedQueriesListItemMenu extends Component {
     render() {
@@ -25,14 +30,18 @@ class _SavedQueriesListItemMenu extends Component {
                 style={{marginLeft: 'auto'}}>
                 <MenuItem primaryText="Delete"
                           onClick={() => {
-                             FIREBASE.database().ref('/queries/'+this.props.queryKey).remove()
+                             // remove this item from the list of saved queries in firebase,
+                             // causing it to be removed from the list
+                             FIREBASE.database().ref('/queries/'+this.props.saved_query.key).remove()
                           }}/>
                 <MenuItem primaryText="Edit"
                           onClick={() => {
-                              this.props.dispatchTempQuery(this.props.savedQuery.query);
-                              this.props.dispatchSetQueryName(this.props.savedQuery.name);
+                              // prepares and opens the popup screen that allows you to change
+                              // the query and the query name
+                              this.props.dispatchTempQuery(this.props.saved_query.query);
+                              this.props.dispatchSetQueryName(this.props.saved_query.name);
                               this.props.dispatchSetEditMode(true);
-                              this.props.dispatchSetEditJson(this.props.savedQuery);
+                              this.props.dispatchSetEditJson(this.props.saved_query);
                               this.props.dispatchOpenQueryDialog()
                           }}/>
             </IconMenu>

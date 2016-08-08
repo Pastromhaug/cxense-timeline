@@ -9,6 +9,9 @@ import {actionOpenQueryDialog,
     actionSetEditMode, actionSetQueryName} from '../../actions/queryDialog';
 import {actionTempQuery, actionApplyQueryCustom} from '../../actions/query';
 
+/**
+ * This component is the button below the list of saved queries in the left drawer
+ */
 
 class _SaveQueryButton extends Component {
     render() {
@@ -16,6 +19,8 @@ class _SaveQueryButton extends Component {
             <div style={{width:'100%', marginTop: '32px', display:'flex', justifyContent:'center'}}>
                 <RaisedButton label="Save Query"
                               onClick={() => {
+                                    // opens the popup window that allows you to edit the query,
+                                    // query name, and save the query to firebase
                                     this.props.dispatchTempQuery(this.props.query);
                                     this.props.dispatchSetQueryName("");
                                     this.props.dispatchSetEditMode(false);

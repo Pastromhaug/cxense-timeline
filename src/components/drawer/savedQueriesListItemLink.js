@@ -9,20 +9,34 @@ import {connect} from 'react-redux';
 import {actionApplyQueryCustom} from '../../actions/query';
 import {actionLoadingStart,actionLoadingStop} from '../../actions/loading';
 
+/**
+ * A subcomponent of a single row in the list of saved queriesin the left drawer.
+ * The box containing the name of the query which when clicked
+ * on changes the route to /timeline/:query for the selected query and changes the chart content
+ * accordingly
+ */
 
 class _SavedQueriesListItemLink extends Component {
     render() {
+        let query = this.props.saved_query.query;
+        let name = this.props.saved_query.name;
         return (
-            <Link to={'/timeline/'+ this.props.queryItemQuery} style={{textDecoration: 'none'}}>
-                <MenuItem style={{width: '210px'}} id={this.props.savedQuery.name}
+            <Link to={'/timeline/'+ query} style={{textDecoration: 'none'}}>
+                <MenuItem style={{width: '210px'}} id={name}
                           onClick={() => {
+                                // Start the loading bar animation right above the chart
                                 this.props.dispatchLoadingStart();
-                                if (this.props.queryItemQuery === this.props.query) {
+                                if (query === this.props.query) {
+                                    // if it's the same query which is aleady on the chart,
+                                    // stop the loading animation.
                                     this.props.dispatchLoadingStop();
                                 }
-                                this.props.dispatchApplyQueryCustom(this.props.queryItemQuery);
-                          }}
-                > {this.props.savedQuery.name} </MenuItem>
+                                // Change the selected query to that of the clicked saved query,
+                                // causing the route to change and the chart/table to update.
+                                this.props.dispatchApplyQueryCustom(query);
+                          }}>
+                    {name}
+                </MenuItem>
             </Link>
         )
     }

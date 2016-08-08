@@ -97,9 +97,24 @@ class _ChartStateController extends Component {
         // xhr.send();
     }
 
+    /**
+     *
+     * @param timeBegin - utc unix time in milliseconds that the 1st sprint should start before
+     * @param timeEnd - utc unix time in milliseconds that the last sprint should end after
+     * @returns {Array} of jsons - time interval for each sprint.
+     * Contains fields 'start', 'end', and 'sprint_num'.
+     * Each sprint is exactly 2 weeks long. Sprints are numbered every year, from 1-27ish.
+     * @private
+     */
     _buildSprintIntervals(timeBegin, timeEnd) {
         var sprints = [];
+        // since sprints happen exactly ever 2 weeks, I need a starting point.
+        // I stored this starting point in this.sprintOrigin. This is
+        // a date that I know a sprint started on.
         var forwardOrigin = this.sprintOrigin.clone();
+
+        // first loop forward from the origin until timeEnd is passed,
+        // adding sprints to the 'sprints' array
         while (forwardOrigin.isBefore(timeEnd)) {
             let begin = forwardOrigin.clone();
             let end = forwardOrigin.add(14, 'days').clone();
@@ -114,6 +129,9 @@ class _ChartStateController extends Component {
             }
 
         }
+
+        // loop backwards in time from the origin until timeBegin is passed
+        // adding sprints to the 'sprints' array
         var backwardOrigin = this.sprintOrigin.clone();
         while(backwardOrigin.isAfter(timeBegin)) {
             let end = backwardOrigin.clone();
@@ -131,20 +149,28 @@ class _ChartStateController extends Component {
         return sprints;
     }
 
-
+    /**
+     *
+     * @param sprints - the sprint intervals calculated by _buildSprintIntervals
+     * @returns {Array} of jsons - similar to the sprints input, the output is the intervals of
+     * the quarters that overlap with the sprints. Sprints are needed to compute the quarters
+     * because a quarter begins on the start date of the first sprint that has an end date within that
+     * quarter of the year
+     * @private
+     */
     _buildQuarterIntervals(sprints) {
         if (sprints.length == 0) return [];
         var quarters = [];
+
+        // loop through the sprints from start to finish (since the sprints are in order)
+        // and create the quarter intervals
         var prev_start = sprints[0].start;
-        console.log('prev_start: ' + Utils.getDate(prev_start));
         for (let i = 0; i < sprints.length; i++) {
             let curr_sprint = sprints[i];
             let curr_end = moment.utc(curr_sprint.end);
             let end_month = curr_end.clone().month();
             let dayOfMonth = (curr_end.clone().dayOfYear() - curr_end.clone().startOf('month').dayOfYear());
             if ( (end_month) % 3 === 0 && dayOfMonth < 14) {
-                console.log('curr_sprint: ' + Utils.getDate(curr_sprint.start)
-                    + " - " + Utils.getDate(curr_sprint.end));
                 let quarter_num = (end_month)/3;
                 if (quarter_num === 0) quarter_num = 4;
                 var end = curr_sprint.start;
@@ -156,14 +182,13 @@ class _ChartStateController extends Component {
                     end: end,
                     quarter_num: quarter_num
                 };
-                console.log('new_quarter: start='+ Utils.getDate(new_quarter.start)
-                    + ' end=' + Utils.getDate(new_quarter.end) + ' quarter_num='
-                    + new_quarter.quarter_num);
                 prev_start = new_quarter.end;
                 quarters = quarters.concat([new_quarter])
             }
         }
 
+        // The last quarter must be computed separately due to the methodology I used to calculate
+        // quarters 1 - (end-1) not working correctly for the last one.
         var last_quarter = quarters[quarters.length-1];
         var last_num = last_quarter.quarter_num;
         var new_last = last_num % 4  +1;

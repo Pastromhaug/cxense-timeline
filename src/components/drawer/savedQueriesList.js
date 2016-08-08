@@ -12,6 +12,11 @@ import { connect } from 'react-redux';
 import {actionSetSavedQueries} from '../../actions/queryDialog';
 
 
+/**
+ * Ths list of saved queries in the left drawer, as well as the 'SAVE QUERY' button
+ * right below the list
+ */
+
 class _SavedQueriesList extends Component {
 
     constructor() {
@@ -21,6 +26,8 @@ class _SavedQueriesList extends Component {
     }
 
     componentDidMount() {
+        // gets the saved queries from firebase.
+        // listens for changes on firebase, and updates the redux state when they change.
         this.queriesListener = this.queriesRef.on('value', (data) => {
             const ordered_saved_queries = _.values(data.val()).sort( (a,b) => {
                 return a.created_at > b.created_at
@@ -36,15 +43,11 @@ class _SavedQueriesList extends Component {
     render() {
         return (
             <div>
+                {/*A SavedQueriesListItem for every saved query in the redux store*/}
                 {this.props.saved_queries.map(
                     saved_query => {
-                        let query_item = this.props.saved_queries.filter(d => d.key == saved_query.key)[0];
                         return <SavedQueriesListItem key={saved_query.key}
-                                                     queryKey={saved_query.key}
-                                                     queryItemQuery={query_item.query}
-                                                     savedQuery = {saved_query} />
-                    }
-                )}
+                                                     saved_query = {saved_query} />})}
                 <SaveQueryButton query={this.props.query}/>
             </div>
         )
@@ -61,7 +64,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-
         dispatchSetSavedQueries(saved_queries) {
             dispatch(actionSetSavedQueries(saved_queries))
         }
