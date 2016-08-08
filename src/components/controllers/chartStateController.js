@@ -4,11 +4,11 @@
 
 import React, {Component} from 'react';
 
-import Utils from '../js/utils';
+import Utils from '../../js/utils';
 
 import {connect} from 'react-redux';
-import {actionSetAllChartState} from '../actions/chart';
-import {actionApplyQuery, actionTempQuery} from '../actions/query';
+import {actionSetAllChartState} from '../../actions/chart';
+import {actionApplyQuery, actionTempQuery} from '../../actions/query';
 
 var moment = require('moment');
 var _ = require('lodash');
@@ -185,7 +185,11 @@ class _ChartStateController extends Component {
      *
      * @param data - the raw json data returned by a jira query
      * @returns {Array} of properly formatted Issues (jsons) that the chart can directly use as input to display
-     * the issues to the user
+     * the issues to the user, and that the table can use to display info about each issue.
+     * Each issue in the returned array is 1 level deep json. Each field contains information used either
+     * in drawing the svg (position, colors, labels etc.), or information
+     * that is displayed in the table about the issue
+     * @private
      */
     _formatIssues(data) {
 
@@ -200,7 +204,7 @@ class _ChartStateController extends Component {
             )});
 
         // This map function goes through each issue, and formats the json data
-        var items = data.map( (d) => {
+        var formattedIssues = data.map( (d) => {
             // get fields planned_start and planned_end
             let planned_start = moment.utc(d.fields.customfield_10651).valueOf();
             let planned_end = moment.utc(d.fields.customfield_10652).valueOf();
@@ -208,28 +212,9 @@ class _ChartStateController extends Component {
             let time_left = 0;
             if (planned_end > moment.utc().valueOf()) time_left = planned_end - moment.utc().valueOf();
 
-            var resolution = d.fields.resolution;
-            var resname = null;
-            if (resolution !== null && typeof resolution !== 'undefined') {
-                resname = resolution.name;
-            }
-
-            var resolution2 = d.fields.customfield_10955;
-            var resname2 = null;
-            if (resolution2 !== null && typeof resolution2 !== 'undefined') {
-                resname2 = resolution2.value;
-            }
-            var labels = ""
-            if (_.has(d.fields, 'labels')){
-                for (let i = 0; i < d.fields.labels.length; i++){
-                    let label = d.fields.labels[i];
-                    if (labels !== "") {
-                        labels = labels + ", ";
-                    }
-                    labels = labels + label;
-                }
-            }
-
+            // gets various fields from each jira issue, or null if the fields don't exist
+            var resolution_name = this._getJsonFieldOrNull(d.fields,['resolution','name']);
+            var resolution_name2 = this._getJsonFieldOrNull(d.fields,['customfield_10955','value']);
             var priority = this._getJsonFieldOrNull(d.fields, ['priority','name']);
             var security = this._getJsonFieldOrNull(d.fields, ['security','name']);
             var security_description = this._getJsonFieldOrNull(d.fields, ['security', 'description']);
@@ -243,6 +228,21 @@ class _ChartStateController extends Component {
             var summary = this._getJsonFieldOrNull(d.fields, ['summary']);
             var name = this._getJsonFieldOrNull(d.fields, ['issuetype','name']);
 
+            // calculating the 'labels' field.
+            // Each issue can have multipel labels, so here they are looped through and strung
+            // together with separating commas.
+            var labels = "";
+            if (_.has(d.fields, 'labels')){
+                for (let i = 0; i < d.fields.labels.length; i++){
+                    let label = d.fields.labels[i];
+                    if (labels !== "") {
+                        labels = labels + ", ";
+                    }
+                    labels = labels + label;
+                }
+            }
+
+            // The basic structure of each issue in the returned array
             return {
                 lane: 0,
                 name: summary + " (" + name + ")",
@@ -252,8 +252,8 @@ class _ChartStateController extends Component {
                 status: status,
                 remaining_estimate: time_left,
                 planning_status: planning_status,
-                resolution: resname,
-                resolution2: resname2,
+                resolution: resolution_name,
+                resolution2: resolution_name2,
                 reporter: reporter,
                 reporter_email: reporter_email,
                 created_at: created_at,
@@ -264,11 +264,18 @@ class _ChartStateController extends Component {
                 security_description: security_description
             };});
 
-        items = items.sort( (a,b) => d3.ascending(a.start, b.start));
-        items = items.sort( (a,b) => d3.ascending(a.end, b.end));
+        // sorting the issues by their planned_start and planned_end dates. This order impacts
+        // how the lanes will be calculated below, so it's important they they are sorted optimally.
+        // first I sort by the start data. Then by end date. This results in the issues being sorted
+        // primarily by end date, but all issues that have the same end date are sorted by start date.
+        formattedIssues = formattedIssues.sort( (a,b) => d3.ascending(a.start, b.start));
+        formattedIssues = formattedIssues.sort( (a,b) => d3.ascending(a.end, b.end));
 
+        // calculating the 'lane' field for each issue. Lane determines which row in the svg that the
+        // issue is drawn on. It's important to not have overlapping issues in the chart, and to instead
+        // move an issue which would overlap with another issue to another lane.
         var laneData = [];
-        items = items.map( (new_item) => {
+        formattedIssues = formattedIssues.map( (new_item) => {
             var laneDataLength = laneData.length;
             for (let i = 0; i <= laneDataLength; i++){
                 if (i == laneData.length) {
@@ -286,10 +293,19 @@ class _ChartStateController extends Component {
                         return new_item;}
                 }
             }});
-        return items;
+        // return the formatted issues
+        return formattedIssues;
     }
 
-
+    /**
+     *
+     * @param json - any json
+     * @param fields - a list of strings. Each string represents a nested field in the json, nested
+     * from left to right
+     * @returns {*} whatever is contained at the desired nested field of the json, or null if the field
+     * doesn't exist
+     * @private
+     */
     _getJsonFieldOrNull(json, fields){
         var tempjson = json;
         for (let i = 0; i < fields.length; i++) {

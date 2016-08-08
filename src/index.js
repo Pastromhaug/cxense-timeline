@@ -14,8 +14,8 @@ import Query from './components/query/query';
 import Columns from './components/columns/columns';
 import mainReducer from './reducers/main';
 import AppContent from './components/appContent';
-import ChartStateController from 'components/controllers/chartStateController';
-import ColumnsStateController from 'components/controllers/columnStateController';
+import ChartStateController from './components/controllers/chartStateController';
+import ColumnsStateController from './components/controllers/columnStateController';
 import { syncHistoryWithStore } from 'react-router-redux';
 
 var injectTapEventPlugin = require("react-tap-event-plugin");
