@@ -244,7 +244,7 @@ class _Chart extends React.Component {
 
         axisLabels.enter().append('text')
             .text(d => Utils.getDate(d.start))
-            .attr('class','sprintTextMain')
+            .attr('class','sprintText')
             .attr('x', d => this._x1()(d.start))
             .attr('y', 0)
             .attr('text-anchor', 'middle');
