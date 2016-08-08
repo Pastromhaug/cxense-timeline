@@ -5,6 +5,7 @@
 import React, {Component} from 'react';
 
 import Utils from '../../js/utils';
+import jiraRequest from '../../js/jiraRequest';
 
 import {connect} from 'react-redux';
 import {actionSetAllChartState} from '../../actions/chart';
@@ -39,6 +40,7 @@ class _ChartStateController extends Component {
         this._computeAndUpdateChartDataStructs.bind(this);
         this._buildQuarterIntervals.bind(this);
         this._buildSprintIntervals.bind(this);
+        this._setAndUpdateChartStateFromData.bind(this);
 
         this.sprintOrigin = moment.utc("2016-01-01");
     }
@@ -60,41 +62,17 @@ class _ChartStateController extends Component {
      * Uses the retrieved Jira data to compute and update data structures
      */
     _computeAndUpdateChartDataStructs(query) {
-        var url = 'http://localhost:8001/sample';
-        fetch(url).then((data) => data.json())
-            .then( (data) => {
+        jiraRequest(query, this._setAndUpdateChartStateFromData.bind(this));
+    }
 
-                const issues = this._formatIssues(data);
-                const timeBegin = Utils.timeBegin(issues);
-                const timeEnd = Utils.timeEnd(issues);
-                const sprints = this._buildSprintIntervals(timeBegin, timeEnd);
-                const quarters = this._buildQuarterIntervals(sprints);
+    _setAndUpdateChartStateFromData(data) {
+        const issues = this._formatIssues(data);
+        const timeBegin = Utils.timeBegin(issues);
+        const timeEnd = Utils.timeEnd(issues);
+        const sprints = this._buildSprintIntervals(timeBegin, timeEnd);
+        const quarters = this._buildQuarterIntervals(sprints);
 
-                this.props.dispatchSetAllChartState(issues, sprints, quarters, timeBegin, timeEnd)
-            });
-        // var stem = 'https://jira.cxense.com/rest/api/2/search?jql='
-        // var url = stem + this.props.query;
-        // console.log(url);
-        // var method = 'GET';
-        //
-        // var createCORSRequest = function(method, url) {
-        //     var xhr = new XMLHttpRequest();
-        //     xhr.open(method, url, true);
-        //     xhr.setRequestHeader("Authorization", "Basic " + btoa("per.stromhaug:Qmkg9awn"));
-        //     return xhr;
-        // };
-        //
-        // var xhr = createCORSRequest(method, url);
-        // xhr.onload = (data) => {
-        //     console.log(JSON.parse(data.srcElement.response));
-        //     data = JSON.parse(data.srcElement.response);
-        //     data = this._formatIssues(data);
-        //     this.props.dispatchAddIssues(data);
-        // };
-        // xhr.onerror = function() {
-        //     window.alert("Not work");
-        // };
-        // xhr.send();
+        this.props.dispatchSetAllChartState(issues, sprints, quarters, timeBegin, timeEnd)
     }
 
     /**

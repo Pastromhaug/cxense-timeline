@@ -28,8 +28,6 @@ app.get('/*', function (req, res) {
     res.sendFile(__dirname + '/index.html');
 });
 
-
-
 server.listen(8001, function () {
     console.log('Cxense-timeline listening on port 8001');
 });

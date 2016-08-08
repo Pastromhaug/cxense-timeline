@@ -3,3 +3,4 @@ node_modules/*
 *bundle.js
 dist/*
 npm-debug.log
+src/js/jiraRequest.js
