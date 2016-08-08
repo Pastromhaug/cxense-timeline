@@ -5,7 +5,7 @@
 
 import {LOADING_START, LOADING_STOP} from '../actions/loading';
 
-const initial_state = true;
+const initial_state = true; // if true, the loading animation displays above the chart
 
 function loading(state = initial_state, action) {
     switch (action.type) {

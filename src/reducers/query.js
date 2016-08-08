@@ -14,10 +14,10 @@ end_date.setHours(0, 0, 0, 0);
 
 const initial_state = {
     query_temp: {
-        query: ''//project IN (CXANA) AND issuetype = epic &startAt=0&maxResults=1000'// AND status in (resolved)&fields=id,key,status,project&maxResults=5'
+        query: '' // query that hasn't been applied yet
     },
     query: {
-        query: ''
+        query: '' // query that has been applied, and is the one showing in the chart
     }
 };
 

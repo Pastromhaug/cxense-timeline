@@ -6,11 +6,9 @@ var moment = require('moment');
 
 
 /* Purpose: Convert 2-dimensional arrays into XLSX workbook. */
-
 /**
- * Create a new workbook.
- *
- * @returns {Object} with 2 keys: { Sheets, SheetNames }
+ * Library of functions designed to help convert 2 dimentional arrays
+ * into xlsx spreadsheets for download
  */
 
 class XL {

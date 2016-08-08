@@ -10,10 +10,10 @@ import {REMOVE_ALL_COLUMNS, ADD_ALL_COLUMNS,
 
 
 const initial_state = {
-    columns_temp: DEFAULT_COLUMNS,
-    to_add: [],
-    to_remove: [],
-    columns: DEFAULT_COLUMNS
+    columns_temp: DEFAULT_COLUMNS, // cols in the right side list on the columns page that haven't been applied yet
+    to_add: [], // cols on the left list that are selected by the user
+    to_remove: [], // cols on the right list that are selected by the user
+    columns: DEFAULT_COLUMNS // columns that have been applied and are displaying in the table
 };
 
 const columns_temp = (state = initial_state, action) => {

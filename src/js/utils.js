@@ -5,7 +5,9 @@ import {COLORS} from '../constants/colorCode';
 var moment = require('moment');
 var d3 = require('d3');
 
-
+/**
+ * functions that might be useful throughout the code
+ */
 export default class Utils {
     
     static timeBegin(issues) {

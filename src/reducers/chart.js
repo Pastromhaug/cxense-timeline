@@ -7,11 +7,11 @@ import {SET_ALL_CHART_STATE} from '../actions/chart';
 var moment = require('moment');
 
 const initial_state = {
-    issues: [],
-    sprints: [],
-    quarters: [],
-    timeBegin: moment.utc().valueOf(),
-    timeEnd: moment.utc().valueOf()
+    issues: [], // array of jsons containing information about each issue
+    sprints: [], // array of jsons containing date ranges for all the sprints that overlap with timeBegin - timeEnd
+    quarters: [], // array of jsons containing date ranges for all the quarters that overlap with timeBegin - timeEnd
+    timeBegin: moment.utc().valueOf(), // the earliest time to be displayed in the svg
+    timeEnd: moment.utc().valueOf() // the latest time to be displayed in the svg
 };
 
 

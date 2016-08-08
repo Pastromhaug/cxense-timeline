@@ -8,10 +8,10 @@ import {OPEN_QUERY_DIALOG, CLOSE_QUERY_DIALOG,
     SET_EDIT_MODE, SET_EDIT_JSON} from '../actions/queryDialog';
 
 const initial_state = {
-    open: false,
-    name: "",
-    saved_queries: [],
-    is_edit: false,
+    open: false, // when true, the popup appears
+    name: "", // the display name of the query to be saved
+    saved_queries: [], 
+    is_edit: false, // if true, popup is in edit mode, and will only edit the existing query upon submit. else, new query will be created
     edit_key: {}
 };
 
