@@ -45,6 +45,11 @@ class _Chart extends React.Component {
         this._updateTodayLine.bind(this);
         this._updateWidth.bind(this);
         this._updateBackground.bind(this);
+        this._quarterLabels.bind(this);
+        this._quarterRects.bind(this);
+        this._sprintLabels.bind(this);
+        this._sprintRects.bind(this);
+        this._axisLabels.bind(this);
         this.axis_pad = 50;
         this.sprint_height = 25;
         this.quarter_height = 25;
@@ -79,7 +84,12 @@ class _Chart extends React.Component {
     _svg() { return d3.select('#svg')}
     _issueRects() { return  d3.select('#issueRects')}
     _issueLabels() { return d3.select('#issueLabels')}
+    _quarterRects() {return d3.select('#quarterRects')}
+    _quarterLabels() {return d3.select('#quarterLabels')}
+    _sprintRects() {return d3.select('#sprintRects')}
+    _sprintLabels() {return d3.select('#sprintLabels')}
     _todayLine() {return d3.select('#todayLine')}
+    _axisLabels() {return d3.select('#axisLabels')}
 
     componentDidMount() {
         this._updateWidth();
@@ -104,14 +114,14 @@ class _Chart extends React.Component {
         this._axis().attr('transform','translate(0,' + (this.axis_pad - 4) + ')');
 
         // add groups to hold the rectangles and the labels for the sprints
-        this._quarters().append('g').attr('id', 'quarterRectsMain');
-        this._quarters().append('g').attr('id', 'quarterLabelsMain');
+        this._quarters().append('g').attr('id', 'quarterRects');
+        this._quarters().append('g').attr('id', 'quarterLabels');
         // shift the quarters down below the axis
         this._quarters().attr('transform', 'translate(0,' + this.axis_pad + ')');
 
         // add groups to hold the rectangles and the labels for the sprints
-        this._sprints().append('g').attr('id','sprintRectsMain');
-        this._sprints().append('g').attr('id','sprintLabelsMain');
+        this._sprints().append('g').attr('id','sprintRects');
+        this._sprints().append('g').attr('id','sprintLabels');
         // shift the sprints down below the axis and quarters
         this._sprints().attr('transform', 'translate(0,' + (this.axis_pad + this.quarter_height) + ')');
 
@@ -186,17 +196,18 @@ class _Chart extends React.Component {
     }
 
     /**
-     * 
+     * update the x, y position, width, and labels of each quarter
+     * as well as adding and removing quarters
      * @private
      */
     _updateQuarters() {
-        var quarterRects = this._quarters().select('#quarterRectsMain').selectAll('.quarterRectMain')
+        var quarterRects = this._quarterRects().selectAll('rect')
             .data(this.props.chart.quarters, d => d.start + '' + d.end)
             .attr('x', (d) =>  this._x1()(d.start))
             .attr('width', d => this._x1()(d.end) - this._x1()(d.start));
 
         quarterRects.enter().append('rect')
-            .attr('class', "quarterRectMain")
+            .attr('class', "quarterRect")
             .attr('x', (d) => {
                 return this._x1()(d.start)
             })
@@ -205,7 +216,7 @@ class _Chart extends React.Component {
             .attr('height', this.quarter_height);
         quarterRects.exit().remove();
 
-        var quarterLabels = this._quarters().select('#quarterLabelsMain').selectAll('text')
+        var quarterLabels = this._quarterLabels().selectAll('text')
             .data(this.props.chart.quarters, d => d.start + '' + d.end)
             .attr('x', (d) => (this._x1()(d.start) + this._x1()(d.end))/2);
 
@@ -214,7 +225,7 @@ class _Chart extends React.Component {
                 let year = moment.utc(d.end).year();
                 return 'Q' + d.quarter_num + '  ' + year;
             })
-            .attr('class', 'quarterTextMain')
+            .attr('class', 'quarterText')
             .attr('x', (d) => (this._x1()(d.start) + this._x1()(d.end))/2)
             .attr('y', (d) => this.quarter_height)
             .attr('dy', -7)
@@ -222,9 +233,12 @@ class _Chart extends React.Component {
         quarterLabels.exit().remove();
     }
 
-
+    /**
+     * update the x, y position, and the dates of the axis labels
+     * @private
+     */
     _updateAxis() {
-        var axisLabels = this._axis().select('#axisLabels').selectAll('text')
+        var axisLabels = this._axisLabels().selectAll('text')
             .data(this.props.chart.sprints, d => d.start + '' + d.end)
             .attr('x', d => (this._x1()(d.start)));
 
@@ -238,14 +252,19 @@ class _Chart extends React.Component {
     }
 
 
+    /**
+     * update the x, y positions, width and labels of each sprint
+     * as well as adding and removing sprints
+     * @private
+     */
     _updateSprints() {
-        var sprintRects = this._sprints().select('#sprintRectsMain').selectAll('.sprintRectMain')
+        var sprintRects = this._sprintRects().selectAll('rect')
             .data(this.props.chart.sprints, d => d.start + '' + d.end)
             .attr('x', (d) =>  this._x1()(d.start))
             .attr('width', d => this._x1()(d.end) - this._x1()(d.start));
 
         sprintRects.enter().append('rect')
-            .attr('class', "sprintRectMain")
+            .attr('class', "sprintRect")
             .attr('x', (d) => {
                 return this._x1()(d.start)
             })
@@ -254,21 +273,26 @@ class _Chart extends React.Component {
             .attr('height', this.sprint_height);
         sprintRects.exit().remove();
 
-        var sprintLabels = this._sprints().select('#sprintLabelsMain').selectAll('text')
+        var sprintLabels = this._sprintLabels().selectAll('text')
             .data(this.props.chart.sprints, d => d.start + '' + d.end)
             .attr('x', (d) => (this._x1()(d.start) + this._x1()(d.end))/2);
 
         sprintLabels.enter().append('text')
             .text(d => 'T'+d.sprint_num)
-            .attr('class', 'sprintTextMain')
+            .attr('class', 'sprintText')
             .attr('x', (d) => (this._x1()(d.start)+ this._x1()(d.end))/2)
             .attr('y', (d) => this._y1()(0) + this.sprint_height)
             .attr('dy', -6)
             .attr("text-anchor", "middle");
         sprintLabels.exit().remove();
     }
-    
 
+
+    /**
+     * update the x, y positions, colors, widths, of each issue rectangle
+     * as well as adding and removing issues
+     * @private
+     */
     _updateIssueRects() {
         this._issues()
             .attr("width", this._w() )
@@ -318,7 +342,11 @@ class _Chart extends React.Component {
         rects.exit().remove();
     }
 
-
+    /**
+     * update the x, y positions, colors, widths, text of each issue label
+     * as well as adding and removing labels
+     * @private
+     */
     _updateIssueLabels() {
 
         //update the item labels
@@ -371,6 +399,12 @@ class _Chart extends React.Component {
     }
 
 
+    /**
+     * update the x, y positions, widths of each clipPath
+     * as well as adding and removing clip paths. We need these clip paths
+     * to keep the text for each issue confined within their rectangle
+     * @private
+     */
     _updateIssueClipPaths() {
         var clippaths = this._issueRects().selectAll('clipPath')
             .data(this.props.chart.issues, d => d.name);

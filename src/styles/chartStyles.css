@@ -3,25 +3,25 @@
 }
 
 
-.sprintRectMain {
+.sprintRect {
     fill: steelblue;
     fill-opacity: .3;
     stroke-width: 2;
     stroke: white;
 }
 
-.sprintTextMain {
+.sprintText {
     fill: grey;
     /*font-size: large;*/
 }
 
 
-.quarterTextMain {
+.quarterText {
     fill: rgb(88,88,88);
     /*font-size: large;*/
 }
 
-.quarterRectMain {
+.quarterRect {
     fill: steelblue;
     fill-opacity: .5;
     stroke-width: 2;
