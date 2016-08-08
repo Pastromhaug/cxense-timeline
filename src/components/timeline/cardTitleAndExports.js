@@ -20,6 +20,15 @@ import Utils from '../../js/utils';
 var savesvg = require('save-svg-as-png');
 var moment = require('moment');
 
+
+/**
+ *  This component is the grey bar above the chart that shows the query
+ *  and the dropdown menu with the export options.
+ *
+ *  Has the all the functionaity and computation invovled in exporting
+ *  to png and exporting to excel.
+ */
+
 class _CardTitleAndExports extends Component {
 
     constructor() {
@@ -30,8 +39,6 @@ class _CardTitleAndExports extends Component {
         this._generateQuarterCells.bind(this);
         this._cell.bind(this);
         this._blankCell.bind(this);
-        this._middleQuarterCell.bind(this);
-        this._middleQuarterCellText.bind(this);
         this._generateAxisCells.bind(this);
         this._generateTitleCells.bind(this);
         this._generateBlankCells.bind(this);
@@ -64,11 +71,20 @@ class _CardTitleAndExports extends Component {
         )
     }
 
+    /**
+     * Downloads the chart svg as a png. Uses a node module 'save-svg-as-png'
+     * to do all the work :)
+     * @private
+     */
     _downloadSvgAsPng() {
         savesvg.saveSvgAsPng(document.getElementById("svg"), "timeline.png");
     }
 
-    
+    /**
+     * Downoads the chart svg as an xlsx spreadsheet. All the computation is done
+     * on page and using the functions in '../../js/xl.js'
+     * @private
+     */
     _downloadSvgAsXLSX() {
 
         var xl = new XL();
@@ -95,7 +111,12 @@ class _CardTitleAndExports extends Component {
         xl.saveWorkbook(workbook,'timeline');
     }
 
-
+    /**
+     * For all the issues in this.props.chart.issues, create the
+     * 2 dimentional array of jsons that represents the rows for those issues
+     * in the exported excel document.
+     * @private
+     */
     _generateIssueCells() {
         var issueCells = [];
         var lanes = {};
@@ -141,6 +162,15 @@ class _CardTitleAndExports extends Component {
         return issueCells;
     }
 
+    /**
+     *
+     * @param start - utc unix milliseconds representing the start of the range
+     * @param end - utc unix millisecons representing end of the range
+     * @param sprints - The array of the all the sprints
+     * @returns {{start_idx: number, end_idx: number}} - the column numbers that the
+     * time interval corresponds to on the xlsx spreadsheet for the export
+     * @private
+     */
     _findIndexes(start, end, sprints) {
         var i = 0;
         while ((sprints[i].start + this.msIn5days) < start) {
@@ -158,7 +188,10 @@ class _CardTitleAndExports extends Component {
     }
 
 
-
+    /**
+     * @returns {Array} of jsons - representing the row above the chart containing the query
+     * @private
+     */
     _generateTitleCells() {
         var titleCells = [];
         for (let i = 0; i < this.props.chart.sprints.length; i++) {
@@ -171,6 +204,11 @@ class _CardTitleAndExports extends Component {
         return titleCells;
     }
 
+    /**
+     * @returns {Array} of jsons - representing a row of blank cells with no grid,
+     * so it appears completely white like paper.
+     * @private
+     */
     _generateBlankCells() {
         var blankCells = [];
         for (let i = 0; i < this.props.chart.sprints.length; i++) {
@@ -180,6 +218,11 @@ class _CardTitleAndExports extends Component {
         return blankCells;
     }
 
+    /**
+     * @returns {Array} of jsons - row containing the dates of all the sprints to display
+     * above the sprints.
+     * @private
+     */
     _generateAxisCells() {
         var axisCells = [];
         for (let i = 0; i < this.props.chart.sprints.length; i++) {
@@ -190,6 +233,10 @@ class _CardTitleAndExports extends Component {
         return axisCells;
     }
 
+    /**
+     * @returns {Array} of jsons - the row of the dark blue cells containing the quarters
+     * @private
+     */
     _generateQuarterCells() {
         var quarterCells = this._generateBlankCells();
         for (let i = 0; i < this.props.chart.quarters.length; i++){
@@ -220,17 +267,21 @@ class _CardTitleAndExports extends Component {
         return quarterCells;
     }
 
+    /**
+     *
+     * @returns json - representing a blank cell with no outline
+     * @private
+     */
     _blankCell() {
         return this._cell('', "FFFFFFFF", "FFFFFFFF", false,false,false);
     }
-    _middleQuarterCell() {
-        return this._cell('', "FFb5cde3", "FF585858", false, false, false);
-    }
-    _middleQuarterCellText(text) {
-        return this._cell(text, "FFb5cde3", "FF585858", false, false, false);
-    }
 
 
+    /**
+     *
+     * @returns {Array} of jsons - row of the light blue sprints
+     * @private
+     */
     _generateSprintCells() {
         var sprintCells = [];
         for (let i = 0; i < this.props.chart.sprints.length; i++) {
@@ -240,8 +291,21 @@ class _CardTitleAndExports extends Component {
         }
         return sprintCells;
     }
-    
-    
+
+    /**
+     *
+     * @param value - the text to display in the cel, '' by default
+     * @param color - the background color of the cell, white by default
+     * @param textColor - the color of the text, black by default
+     * @param leftBorder - bool of whether to display a white border on the left side of the cell.
+     * false by default
+     * @param rightBorder - bool of whether to display a white border on the right side of the cell.
+     * false by default
+     * @param center - bool of whether to center the text. false by default
+     * @param bottomBorder - bool of whether to have white border on the bottom, true by default
+     * @returns {{t: string, v: string, s: {fill: {fgColor: {}}, font: {color: {}}, border: {right: {}, left: {}, bottom: {style: string, color: {rgb: string}}}, alignment: {horizontal: string, vertical: string}}}}
+     * @private
+     */
     _cell(value='', color=null, textColor=null, leftBorder=false, rightBorder=false, center=false, bottomBorder=true){
         var cell = {
             t: 's',

@@ -13,6 +13,10 @@ import {actionHoverOnIssue} from '../../actions/table';
 import {actionLoadingStop} from '../../actions/loading';
 
 
+/**
+ * This component is the chart svg, which is sort of the whole point of this app.
+ */
+
 class _Chart extends React.Component {
 
     constructor() {
@@ -22,10 +26,10 @@ class _Chart extends React.Component {
         this._lane_num.bind(this);
         this._x1.bind(this);
         this._y1.bind(this);
-        this._main.bind(this);
+        this._issues.bind(this);
+        this._background.bind(this);
         this._svg.bind(this);
         this._issueRects.bind(this);
-        this._issueClipPaths.bind(this)
         this._issueLabels.bind(this);
         this._updateIssueRects.bind(this);
         this._updateIssueLabels.bind(this);
@@ -33,12 +37,14 @@ class _Chart extends React.Component {
         this._svg_h.bind(this);
         this._axis.bind(this);
         this._sprints.bind(this);
+        this._todayLine.bind(this);
         this._updateSprints.bind(this);
         this._updateAxis.bind(this);
         this._quarters.bind(this);
         this._updateQuarters.bind(this);
         this._updateTodayLine.bind(this);
-        this._updateDimensions.bind(this);
+        this._updateWidth.bind(this);
+        this._updateBackground.bind(this);
         this.axis_pad = 50;
         this.sprint_height = 25;
         this.quarter_height = 25;
@@ -47,8 +53,11 @@ class _Chart extends React.Component {
             width: 0
         };
     }
-    _quarters() {return d3.select('#quartersMain')}
-    _sprints() { return  d3.select('#sprintsMain')}
+    _quarters() {return d3.select('#quarters')}
+    _sprints() { return  d3.select('#sprints')}
+    _axis() { return d3.select('#axis')}
+    _issues() { return d3.select('#issues') }
+    _background() {return d3.select('#background')}
 
     _lane_num() {
         var max = d3.max(this.props.chart.issues, (issue) => issue.lane + 1);
@@ -67,67 +76,76 @@ class _Chart extends React.Component {
                     .domain([0, this._lane_num() ])
                     .range([0, this._chart_h() ])
         )}
-    _main() { return d3.select('#main_el') }
     _svg() { return d3.select('#svg')}
     _issueRects() { return  d3.select('#issueRects')}
     _issueLabels() { return d3.select('#issueLabels')}
-    _issueClipPaths() { return d3.select('#issueClipPaths')}
-    _axis() { return d3.select('#axisMain')}
+    _todayLine() {return d3.select('#todayLine')}
 
     componentDidMount() {
-        this._updateDimensions();
-        var elem = ReactDOM.findDOMNode(this);
-        d3.select('#svg')
-            .style('width', '100%');
+        this._updateWidth();
+        d3.select('#svg').style('width', '100%');
 
-        this._svg().append('rect').attr('id','background').attr('height', this._svg_h()).attr('width','100%').attr('fill','white');
-        this._svg().append('g').attr('class','sprintsMain').attr('id', 'sprintsMain');
-        this._svg().append('g').attr('class','quartersMain').attr('id', 'quartersMain');
-        this._svg().append('g').attr('class','axisMain').attr('id','axisMain');
+        // appending the groups for the white background, sprints, quarters, and axis, and issues
+        this._svg().append('rect').attr('id','background'); // background only necessary b/c of png export
+        this._svg().append('g').attr('id','axis');
+        this._svg().append('g').attr('id', 'quarters');
+        this._svg().append('g').attr('id', 'sprints');
+        this._svg().append("g").attr("id", "issues");
+        // add the vertical line representing the current date
+        this._svg().append("line").attr("id", "todayLine");
 
-        this._sprints().append('g').attr('id','sprintRectsMain');
-        this._sprints().append('g').attr('id','sprintLabelsMain');
-        this._sprints().attr('transform', 'translate(0,' + (this.axis_pad + this.quarter_height) + ')');
+        // change the background color of the background so that the pngs exports get
+        // a white background
+        this._background().attr('fill','white');
 
-        this._quarters().append('g').attr('id', 'quarterRectsMain');
-        this._quarters().append('g').attr('id', 'quarterLabelsMain');
-        this._quarters().attr('transform', 'translate(0,' + this.axis_pad + ')');
-
+        // add a group to hold the labels for the axis
         this._axis().append('g').attr('id', 'axisLabels');
+        // shift the axis down to the quarters
         this._axis().attr('transform','translate(0,' + (this.axis_pad - 4) + ')');
 
-        this._svg().append("g")
-            .attr("class", "main")
-            .attr("id", "main_el")
-            .attr('transform', 'translate(0,' + (this.axis_pad + this.sprint_height + this.quarter_height) + ')')
-            .attr("height", this._chart_h() );
+        // add groups to hold the rectangles and the labels for the sprints
+        this._quarters().append('g').attr('id', 'quarterRectsMain');
+        this._quarters().append('g').attr('id', 'quarterLabelsMain');
+        // shift the quarters down below the axis
+        this._quarters().attr('transform', 'translate(0,' + this.axis_pad + ')');
 
-        this._main().append("g").attr("id", "issueRects");
-        this._main().append("g").attr("id", "issueClipPaths");
-        this._main().append("g").attr("id", "issueLabels");
-        this._main().append("line");
-        window.addEventListener("resize", this._updateDimensions.bind(this));
+        // add groups to hold the rectangles and the labels for the sprints
+        this._sprints().append('g').attr('id','sprintRectsMain');
+        this._sprints().append('g').attr('id','sprintLabelsMain');
+        // shift the sprints down below the axis and quarters
+        this._sprints().attr('transform', 'translate(0,' + (this.axis_pad + this.quarter_height) + ')');
+
+        // add groups for the
+        this._issues().append("g").attr("id", "issueRects");
+        this._issues().append("g").attr("id", "issueLabels");
+        // shift the issues down below the axis, quarters, and sprints.
+        this._issues().attr('transform', 'translate(0,'+(this.axis_pad+this.sprint_height+this.quarter_height)+')');
+
+        this._todayLine()
+            .style("stroke-width", 2)
+            .style("stroke", "steelblue")
+            .style("fill", "none");
+        // listener to update the state whenever the width of the page changes so that
+        // the svg resizes its self properly.
+        window.addEventListener("resize", this._updateWidth.bind(this));
     }
 
-
-    _updateDimensions() {
+    /**
+     * changes this.state.width so that component updates
+     * @private
+     */
+    _updateWidth() {
         this.setState({width: document.getElementById('mainChart').offsetWidth});
     }
 
-
+    /**
+     * update all parts of the svg to fit the new data
+     */
     componentDidUpdate() {
-
-        d3.select('#background').attr('height', this._svg_h())
-            .attr('width','100%').attr('fill','white');
-
         this._svg().attr("id", "svg")
             .attr("height", this._svg_h() )
             .attr('fill', 'white');
-
-        this._main()
-            .attr("width", this._w() )
-            .attr("height", this._chart_h() );
-
+        this._updateBackground();
         this._updateAxis();
         this._updateSprints();
         this._updateQuarters();
@@ -138,7 +156,20 @@ class _Chart extends React.Component {
         this.props.dispatchLoadingStop();
     }
 
+    /**
+     * update the dimentions of the background
+     * @private
+     */
+    _updateBackground() {
+        this._background()
+            .attr('height', this._svg_h())
+            .attr('width','100%')
+    }
 
+    /**
+     * update the x and y positions of the line to reflect the current time and date
+     * @private
+     */
     _updateTodayLine() {
         var today = moment.utc().valueOf();
         var x1 = this._x1()(today);
@@ -147,18 +178,17 @@ class _Chart extends React.Component {
             x1 = -10;
             x2 = -10;
         }
-        this._main().select("line")
-            .attr('class', 'todayLineMain')
+        this._todayLine()
             .attr("x1", x1)  //<<== change your code here
             .attr("y1", -100)
             .attr("x2", x2)  //<<== and here
-            .attr("y2", this._chart_h() + 200)
-            .style("stroke-width", 2)
-            .style("stroke", "steelblue")
-            .style("fill", "none");
+            .attr("y2", this._chart_h() + 200);
     }
 
-
+    /**
+     * 
+     * @private
+     */
     _updateQuarters() {
         var quarterRects = this._quarters().select('#quarterRectsMain').selectAll('.quarterRectMain')
             .data(this.props.chart.quarters, d => d.start + '' + d.end)
@@ -240,6 +270,10 @@ class _Chart extends React.Component {
     
 
     _updateIssueRects() {
+        this._issues()
+            .attr("width", this._w() )
+            .attr("height", this._chart_h() );
+
         var rects = this._issueRects().selectAll("rect")
             .data(this.props.chart.issues, (d) => d.name)
             .attr("x", (d) => this._x1()(d.start))
