@@ -1,40 +1,40 @@
 /**
  * Created by perandre on 6/14/16.
+ *
+ * These are all of the columns that are available for viewing in the table, and
+ * can be selected at the /columns route.
+ *
+ * name: the string displayed as the title of the column in the table
+ * field_name: the name of the json field holding the information in the issues array
+ * width: some columns don't take up much space, so I restrict their width
  */
 
 export const COLUMNS = [
     {
         name: 'Name (Type)',
-        jira_name: 'Name (Type)',
         field_name: 'name'
     },{
         name: 'ID',
-        jira_name: 'ID',
         field_name: 'id',
         width: '100px'
     },{
         name: 'Status',
-        jira_name: 'status',
         field_name: 'status',
         width: '50px'
     },{
         name: 'Rem Est',
-        jira_name: 'Remaining Estimate',
         field_name: 'remaining_estimate',
         width: '50px'
     },{
         name: 'Planned Start',
-        jira_name: 'Planned Start',
         field_name: 'start',
         width: '100px'
     },{
         name: 'Planned End',
-        jira_name: 'Planned End',
         field_name: 'end',
         width: '100px'
     },{
         name: 'Planning Status',
-        jira_name: 'Planning Status',
         field_name: 'planning_status',
         width: '200px'
     },{

@@ -1,5 +1,7 @@
 /**
  * Created by perandre on 28.06.16.
+ *
+ * COLORS contains the color code for the issues displayed in the chart
  */
 
 export const COLORS = {
@@ -17,7 +19,7 @@ export const COLORS = {
     },
     d: {
         backgroundColor: 'FFE37A', // yellow
-            color: '585858' // black
+        color: '585858' // black
     },
     e: {
         backgroundColor: 'a4efa4', // light green

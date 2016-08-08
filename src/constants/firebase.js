@@ -1,5 +1,7 @@
 /**
  * Created by perandre on 26.07.16.
+ *
+ * Initializes firebase
  */
 
 var FIREBASE = require("firebase/app");

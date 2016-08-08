@@ -8,6 +8,10 @@ import {appbarStyles, headerButton} from '../styles/componentStyles';
 import FlatButton from 'material-ui/FlatButton';
 import {Link} from 'react-router';
 
+/**
+ * This component is the dark blue gray bar at the top of the app that is visible at all times.
+ * It contains three links, to the /timeline/:query route, /query route, and /columns route.
+ */
 class _AppBar extends Component {
 
     render() {
